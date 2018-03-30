@@ -10,26 +10,26 @@
 library(shiny)
 library(datasets)
 
-d <- read.csv('data/WorldPhones.csv')
+d <- read.csv('data/311_filtered.csv')
 df <- d[-1]
-row.names(result) <- d$X
+row.names(df) <- d$Complaint.New
 df
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(    
   
   # Give the page a title
-  titlePanel("Telephones by region"),
+  titlePanel("Complaints By Borough"),
   
   # Generate a row with a sidebar
   sidebarLayout(      
     
     # Define the sidebar with one input
     sidebarPanel(
-      selectInput("region", "Region:", 
+      selectInput("region", "Borough:", 
                   choices=colnames(df)),
       hr(),
-      helpText("Data from AT&T (1961) The World's Telephones.")
+      helpText("Different types of complaints by borough")
     ),
     
     # Create a spot for the barplot
@@ -48,11 +48,13 @@ server <- function(input, output) {
     # Render a barplot
     barplot(df[,input$region], 
             main=input$region,
-            ylab="Number of Telephones",
-            xlab="Year")
+            ylab="Number of Complaints",
+            xlab="February 2018")
    })
 }
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+
+# rsconnect::deployApp('/Users/olehdubno/Documents/columbia/NYC311Project/nyc311_shiny')
 
