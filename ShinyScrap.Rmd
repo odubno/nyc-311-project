@@ -1,0 +1,82 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+df <- read.csv("data/311_Feb01-08.csv")
+```
+
+```{r}
+noise <- c("Noise - Residential", "Noise - Street/Sidewalk", "Noise", "Noise - Commercial", "Noise - Vehicle", "Noise - Park", "Noise - Helicopter")
+building <- c("HEAT/HOT WATER", "Water System", "PLUMBING", "DOOR/WINDOW", "Sewer", "WATER LEAK", "General Construction/Plumbing", "Building/Use", "ELECTRIC", "FLOORING/STAIRS", "Maintenance or Facility", "Elevator", "Lead", "Plumbing", "Housing - Low Income Senior", "Indoor Air Quality", "Electrical", "Water Conservation", "School Maintenance", "Boilers", "Water Quality", "ELEVATOR", "OUTSIDE BUILDING", "Indoor Sewage", "Non-Residential Heat")
+parking <- c("Illegal Parking", "Blocked Driveway", "Derelict Vehicle", "Derelict Vehicles", "Vacant Lot", "Derelict Bicycle")
+traffic <- c("Traffic Signal Condition", "Traffic")
+street.condition <- c("Street Condition", "Street Light Condition", "Damaged Tree", "New Tree Request", "Overgrown Tree/Branches", "Snow", "Dead/Dying Tree", "Broken Muni Meter", "Root/Sewer/Sidewalk Condition", "Air Quality", "Street Sign - Damaged", "Sidewalk Condition","Street Sign - Missing", "Highway Condition", "Illegal Tree Damage", "Standing Water", "Curb Condition", "Violation of Park Rules", "Street Sign - Dangling", "Broken Parking Meter", "Overflowing Litter Baskets")
+unsanitary.condition <- c("UNSANITARY CONDITION", "Sanitation Condition", "Missed Collection (All Materials)", "Dirty Conditions")
+graffiti <- c("PAINT/PLASTER", "Graffiti")
+rodent <- c("Rodent")
+general <- c("GENERAL", "Benefit Card Replacement", "Other Enforcement", "Agency Issues", "Opinion for the Mayor", "Housing Options", "Request Xmas Tree Collection", "DRIE", "Request Large Bulky Item Collection",  "Electronics Waste", "APPLIANCE", "Special Projects Inspection Team (SPIT)", "Litter Basket / Request", "Asbestos")
+homeless <- c("Homeless Person Assistance", "Homeless Encampment")
+consumer.complaint <- c("Consumer Complaint", "Food Establishment", "Vending", "Cable Complaint")
+taxi.complaint <- c("Taxi Complaint", "Taxi Report")
+non.emergency.matter <- c("Non-Emergency Police Matter", "Special Enforcement")
+animal.concern <- c("Animal Abuse", "Unsanitary Animal Pvt Property", "Animal in a Park")
+safety <- c("SAFETY")
+rental.car <- c("For Hire Vehicle Complaint")
+health.issues <- c("Food Poisoning", "Hazardous Materials", "Smoking", "Industrial Waste")
+drugs <- c("Drug Activity", "Drinking")
+dof <- c("DOF Literature Request", "SCRIE", "DOF Property - Reduction Issue", "DOF Property - Payment Issue", "DOF Property - Request Copy", "DOF Property - Update Account", "DOT Literature Request", "DOF Parking - Payment Issue", "HPD Literature Request", "DCA / DOH New License Application Request", "DOF Property - Owner Issue", "DPR Internal", "DOF Parking - Tax Exemption")
+```
+
+```{r}
+df$Complaint.New[df$Complaint.Type %in% noise] <- "Noise"
+df$Complaint.New[df$Complaint.Type %in% building] <- "Building"
+df$Complaint.New[df$Complaint.Type %in% parking] <- "Parking"
+df$Complaint.New[df$Complaint.Type %in% traffic] <- "Traffic"
+df$Complaint.New[df$Complaint.Type %in% street.condition] <- "Street Condition"
+df$Complaint.New[df$Complaint.Type %in% unsanitary.condition] <- "Unsanitary Condition"
+df$Complaint.New[df$Complaint.Type %in% graffiti] <- "Graffiti"
+df$Complaint.New[df$Complaint.Type %in% rodent] <- "Rodent"
+df$Complaint.New[df$Complaint.Type %in% general] <- "General"
+df$Complaint.New[df$Complaint.Type %in% homeless] <- "Homeless"
+df$Complaint.New[df$Complaint.Type %in% consumer.complaint] <- "Consumer Complaint"
+df$Complaint.New[df$Complaint.Type %in% taxi.complaint] <- "Taxi Complaint"
+df$Complaint.New[df$Complaint.Type %in% non.emergency.matter] <- "Non Emergency Matter"
+df$Complaint.New[df$Complaint.Type %in% animal.concern] <- "Animal Concern"
+df$Complaint.New[df$Complaint.Type %in% safety] <- "Safety"
+df$Complaint.New[df$Complaint.Type %in% rental.car] <- "Rental Car"
+df$Complaint.New[df$Complaint.Type %in% health.issues] <- "Health Issues"
+df$Complaint.New[df$Complaint.Type %in% drugs] <- "Drugs"
+df$Complaint.New[df$Complaint.Type %in% dof] <- "DOF"
+```
+```{r}
+df
+```
+```{r}
+df_select <- select(df, Borough, Complaint.New)
+df_filter <- dcast(df_select, Complaint.New ~ Borough)
+```
+
+
+```{r}
+colnames(df_filter)
+```
+
+
+```{r}
+library(datasets)
+df <- read.csv('nyc311_shiny/data/WorldPhones.csv', index=TRUE)
+```
+
+```{r}
+df
+WorldPhones
+```
+
+```{r}
+result <- df[-1]
+row.names(result) <- df$X
+result
+```
+

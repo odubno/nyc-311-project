@@ -1,0 +1,10 @@
+name: nyc311_shiny
+title:
+username:
+account: odubno
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 311992
+bundleId: 1295157
+url: https://odubno.shinyapps.io/nyc311_shiny/
+when: 1522430599.32705
