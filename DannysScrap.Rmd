@@ -32,12 +32,12 @@ positions
 ```
 
 ```{r}
-map.NY12 <- get_map(location=c(lon=coord$lon,lat=coord$lat+0.02),zoom=12, source = "stamen", maptype = "toner-lite")
+map.NY12 <- get_map(location=c(lon=coord$lon,lat=coord$lat+0.02),zoom=11, source = "stamen", maptype = "toner-lite")
 ggmap(map.NY12, extent = "device") +
   stat_density2d(data = positions,
                  aes(x = lon, y = lat, fill = ..level.., alpha = ..level..), size = 0.1,
                  bins = 100, geom = "polygon") +
-  geom_density2d(data = positions, aes(x = lon, y = lat), size = 0.1, alpha = 0.3) +
+  geom_density2d(data = positions, aes(x = lon, y = lat), size = 0.1, alpha = 0.8) +
   scale_fill_gradient(low = "green", high = "red") +
   scale_alpha(range = c(0.1, 0.4), guide = FALSE)
 ```
