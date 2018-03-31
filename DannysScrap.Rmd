@@ -1,6 +1,6 @@
 ---
 title: "Danny Scrap"
-#output: html_notebook
+output: html_notebook
 ---
 
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
@@ -8,130 +8,43 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
 
 ```{r}
-df <- read.csv("data/311_service_requests_2017.csv", nrow=1000)
-```
-
-```{r}
-df
-```
-
-```{r}
-install.packages("rworldmap")
-library(rworldmap)
-
-
-```
-```{r}
-# install.packages("rgdal")
-# install.packages("rgeos")
-# install.packages("ggthemes")
-# install.packages("ggmap")
-install.packages("nycmaps")
-
-```
-```{r}
-#library(ggmap)
-#mymap <- get_map(location = "New York", maptype = "roadmap")
-#ggmap(mymap)
-
-#gg  <- ggplot()
-#gg  <- gg + 
-         #geom_map(
-           #data=df, 
-           #map=nyc,
-           #aes(x=Longitude, y=Latitude, map_id=region))
-#gg
-```
-
-```{r}
-devtools::install_github("zachcp/nycmaps")
-library(nycmaps)
-library(maps)
-map(database="nyc")
-nyc <- map_data("nyc")
-
-
-
-ggplot(df, aes(x = Longitude, y = Latitude)) +
-  geom_point(aes(), alpha=.7) + 
-  scale_colour_gradient(low = "grey", high = "green") + 
-  ggtitle("Call ins by location") +
-  geom_map(
-           data=nyc, 
-           map=nyc,
-           aes(x=long, y=lat, map_id=region))
-
-```
-
-
-```{r}
-
-mapnyc <- data.frame(latitude = c(40.7032815,40.7082398),
-                     longitude = c(-74.0192166, -74.0054436),
-                     logprice = c(120,56))
-min_lat <- 40.5774
-max_lat <- 40.9176
-min_long <- -74.15
-max_long <- -73.7004
-
+library(ggplot2)
 library(ggmap)
-library(ggthemes)
-
-plot <- ggplot(mapnyc, aes(x=df$Longitude, y=df$Latitude,color =logprice),alpha =0.03) +
-            geom_point(size=0.8) +
-            scale_x_continuous(limits=c(min_long, max_long)) +
-            scale_y_continuous(limits=c(min_lat, max_lat)) 
-plot 
-
-
 ```
-
-
-
 ```{r}
-noise <- c("Noise - Residential", "Noise - Street/Sidewalk", "Noise", "Noise - Commercial", "Noise - Vehicle", "Noise - Park", "Noise - Helicopter")
-building <- c("HEAT/HOT WATER", "Water System", "PLUMBING", "DOOR/WINDOW", "Sewer", "WATER LEAK", "General Construction/Plumbing", "Building/Use", "ELECTRIC", "FLOORING/STAIRS", "Maintenance or Facility", "Elevator", "Lead", "Plumbing", "Housing - Low Income Senior", "Indoor Air Quality", "Electrical", "Water Conservation", "School Maintenance", "Boilers", "Water Quality", "ELEVATOR", "OUTSIDE BUILDING", "Indoor Sewage", "Non-Residential Heat")
-parking <- c("Illegal Parking", "Blocked Driveway", "Derelict Vehicle", "Derelict Vehicles", "Vacant Lot", "Derelict Bicycle")
-traffic <- c("Traffic Signal Condition", "Traffic")
-street.condition <- c("Street Condition", "Street Light Condition", "Damaged Tree", "New Tree Request", "Overgrown Tree/Branches", "Snow", "Dead/Dying Tree", "Broken Muni Meter", "Root/Sewer/Sidewalk Condition", "Air Quality", "Street Sign - Damaged", "Sidewalk Condition","Street Sign - Missing", "Highway Condition", "Illegal Tree Damage", "Standing Water", "Curb Condition", "Violation of Park Rules", "Street Sign - Dangling", "Broken Parking Meter", "Overflowing Litter Baskets")
-unsanitary.condition <- c("UNSANITARY CONDITION", "Sanitation Condition", "Missed Collection (All Materials)", "Dirty Conditions")
-graffiti <- c("PAINT/PLASTER", "Graffiti")
-rodent <- c("Rodent")
-general <- c("GENERAL", "Benefit Card Replacement", "Other Enforcement", "Agency Issues", "Opinion for the Mayor", "Housing Options", "Request Xmas Tree Collection", "DRIE", "Request Large Bulky Item Collection",  "Electronics Waste", "APPLIANCE", "Special Projects Inspection Team (SPIT)", "Litter Basket / Request", "Asbestos")
-homeless <- c("Homeless Person Assistance", "Homeless Encampment")
-consumer.complaint <- c("Consumer Complaint", "Food Establishment", "Vending", "Cable Complaint")
-taxi.complaint <- c("Taxi Complaint", "Taxi Report")
-non.emergency.matter <- c("Non-Emergency Police Matter", "Special Enforcement")
-animal.concern <- c("Animal Abuse", "Unsanitary Animal Pvt Property", "Animal in a Park")
-safety <- c("SAFETY")
-rental.car <- c("For Hire Vehicle Complaint")
-health.issues <- c("Food Poisoning", "Hazardous Materials", "Smoking", "Industrial Waste")
-drugs <- c("Drug Activity", "Drinking")
-dof <- c("DOF Literature Request", "SCRIE", "DOF Property - Reduction Issue", "DOF Property - Payment Issue", "DOF Property - Request Copy", "DOF Property - Update Account", "DOT Literature Request", "DOF Parking - Payment Issue", "HPD Literature Request", "DCA / DOH New License Application Request", "DOF Property - Owner Issue", "DPR Internal", "DOF Parking - Tax Exemption")
+df <- read.csv("data/311_Service_Requests_from_2010_to_Present.csv", nrow=1000)
 
 ```
 
 ```{r}
-df$Complaint.New[df$Complaint.Type %in% noise] <- "Noise"
-df$Complaint.New[df$Complaint.Type %in% building] <- "Building"
-df$Complaint.New[df$Complaint.Type %in% parking] <- "Parking"
-df$Complaint.New[df$Complaint.Type %in% traffic] <- "Traffic"
-df$Complaint.New[df$Complaint.Type %in% street.condition] <- "Street Condition"
-df$Complaint.New[df$Complaint.Type %in% unsanitary.condition] <- "Unsanitary Condition"
-df$Complaint.New[df$Complaint.Type %in% graffiti] <- "Graffiti"
-df$Complaint.New[df$Complaint.Type %in% rodent] <- "Rodent"
-df$Complaint.New[df$Complaint.Type %in% general] <- "General"
-df$Complaint.New[df$Complaint.Type %in% homeless] <- "Homeless"
-df$Complaint.New[df$Complaint.Type %in% consumer.complaint] <- "Consumer Complaint"
-df$Complaint.New[df$Complaint.Type %in% taxi.complaint] <- "Taxi Complaint"
-df$Complaint.New[df$Complaint.Type %in% non.emergency.matter] <- "Non Emergency Matter"
-df$Complaint.New[df$Complaint.Type %in% animal.concern] <- "Animal Concern"
-df$Complaint.New[df$Complaint.Type %in% safety] <- "Safety"
-df$Complaint.New[df$Complaint.Type %in% rental.car] <- "Rental Car"
-df$Complaint.New[df$Complaint.Type %in% health.issues] <- "Health Issues"
-df$Complaint.New[df$Complaint.Type %in% drugs] <- "Drugs"
-df$Complaint.New[df$Complaint.Type %in% dof] <- "DOF"
+head(df)
 ```
+
+```{r}
+coord <- geocode("New York City", output='latlon')
+```
+```{r}
+coord <- data.frame(lon = -74.00594, lat = 40.71278)
+```
+```{r}
+positions <- data.frame(lon=df$Longitude, lat=df$Latitude)
+positions
+```
+
+```{r}
+map.NY12 <- get_map(location=c(lon=coord$lon,lat=coord$lat+0.02),zoom=12, source = "stamen", maptype = "toner-lite")
+ggmap(map.NY12, extent = "device") +
+  stat_density2d(data = positions,
+                 aes(x = lon, y = lat, fill = ..level.., alpha = ..level..), size = 0.1,
+                 bins = 100, geom = "polygon") +
+  geom_density2d(data = positions, aes(x = lon, y = lat), size = 0.1, alpha = 0.3) +
+  scale_fill_gradient(low = "green", high = "red") +
+  scale_alpha(range = c(0.1, 0.4), guide = FALSE)
+```
+
+
+
+
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
 
