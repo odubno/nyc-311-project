@@ -9,6 +9,9 @@ library(reshape2)
 library(ggplot2)
 ```
 
+```{r}
+install.packages("shinyIncubator")
+```
 
 ```{r}
 df <- read.csv("data/311_feb.csv")
@@ -25,7 +28,7 @@ df_filtered$Closed.Date <- as.POSIXct(df_filtered$Closed.Date, format="%m/%d/%Y 
 df_filtered$Resolution.Minutes <- as.numeric(df_filtered$Closed.Date - df_filtered$Created.Date) / 60
 df_select <- df_filtered[,c("Borough","Complaint.Type", "Resolution.Minutes")]
 df_select$Borough <- chartr(" ", ".", df_select$Borough) # "Staten Island" should be "Staten.Island"
-write.csv(df_select, row.names=F, file = "311_resolution_time.csv")
+# write.csv(df_select, row.names=F, file = "311_resolution_time.csv")
 ```
 
 
@@ -38,9 +41,7 @@ ggplot(df_borough, aes(x=factor(Complaint.Type), y=Resolution.Minutes)) +
   coord_flip()
 ```
 
-```{r}
-df_agg
-```
+
 
 ```{r}
 ggplot(df_borough, aes(x=factor(Complaint.Type), y=Resolution.Minutes)) + 
