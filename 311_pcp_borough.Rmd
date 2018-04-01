@@ -23,10 +23,9 @@ df_complaints$Complaint.Date <- as.Date(as.POSIXct(df_complaints$Created.Date, f
 df_complaints$Complaint.Hour <- hour(as.POSIXct(df_complaints$Created.Date, format="%m/%d/%Y %I:%M:%S %p"))
 df_borough <- df_complaints[,c("Borough","Complaint.Hour")]
 df_borough <- dcast(df_borough, Borough~Complaint.Hour)
+names(df_borough) <- c("Borough", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23") 
 # write.csv(df_borough, row.names=F, file = "311_borough.csv")
 ```
-
-
 
 ```{r}
 ggparcoord(df_borough, columns = 2:25, groupColumn = "Borough", scale = "globalminmax")

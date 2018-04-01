@@ -1,0 +1,63 @@
+---
+title: "R Notebook"
+# output: html_notebook
+---
+```{r}
+library(lubridate)
+library(dplyr)
+library(reshape2)
+library(ggplot2)
+```
+
+
+```{r}
+df <- read.csv("data/311_feb.csv")
+```
+
+```{r}
+w = table(df$Complaint.Type)
+t = as.data.frame(w)
+names(t)[1] = 'Complaint.Type'
+ct <- head(t[order(t$Freq, decreasing = TRUE),c(1,2)], 15)$Complaint.Type
+df_filtered <- df[df$Complaint.Type %in% ct,]
+df_filtered$Created.Date <- as.POSIXct(df_filtered$Created.Date, format="%m/%d/%Y %I:%M:%S %p")
+df_filtered$Closed.Date <- as.POSIXct(df_filtered$Closed.Date, format="%m/%d/%Y %I:%M:%S %p")
+df_filtered$Resolution.Minutes <- as.numeric(df_filtered$Closed.Date - df_filtered$Created.Date) / 60
+df_select <- df_filtered[,c("Borough","Complaint.Type", "Resolution.Minutes")]
+df_select$Borough <- chartr(" ", ".", df_select$Borough) # "Staten Island" should be "Staten.Island"
+write.csv(df_select, row.names=F, file = "311_resolution_time.csv")
+```
+
+
+
+
+```{r}
+df_borough <- filter(df_select, Borough == "STATEN ISLAND")
+ggplot(df_borough, aes(x=factor(Complaint.Type), y=Resolution.Minutes)) + 
+  stat_summary(fun.y="mean", geom="bar") + 
+  coord_flip()
+```
+
+```{r}
+df_agg
+```
+
+```{r}
+ggplot(df_borough, aes(x=factor(Complaint.Type), y=Resolution.Minutes)) + 
+  stat_summary(fun.y="mean", geom="bar") + 
+  coord_flip()
+```
+
+```{r}
+df_filtered$Complaint.Created <- as.Date(as.POSIXct(df_filtered$Created.Date, format="%m/%d/%Y"))
+df_filtered$Complaint.Closed <- as.Date(as.POSIXct(df_filtered$Closed.Date, format="%m/%d/%Y"))
+```
+```{r}
+hour(as.POSIXct(df_filtered$Complaint.Created, format="%m/%d/%Y %I:%M:%S %p"))
+```
+
+```{r}
+head(df_filtered)
+```
+
+
