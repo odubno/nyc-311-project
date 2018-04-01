@@ -20,8 +20,7 @@ shinyServer(function(input, output) {
   df <- reactive(read.csv('data/311_filtered.csv'))
   df_filtered_top <- reactive(read.csv('data/311_filtered_top.csv'))
   df_borough <- reactive(read.csv('data/311_borough.csv'))
-  df_lat_lon <- reactive(read.csv("nyc311app/data/311_lat_lon.csv"))
-  
+
   my_theme <- theme(plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)), 
                     legend.title = element_text(colour = "midnightblue",  face = "bold.italic", family = "Helvetica", size=20), 
                     legend.text = element_text(face = "italic", colour="mediumpurple4",family = "Helvetica", size=13), 
@@ -66,14 +65,14 @@ shinyServer(function(input, output) {
     df_filtered_top()
   })
   
-  output$geoPlot <- renderImage({
+  output$heatMap <- renderImage({
     
     list(
       src = "images/311_heat_map.png",
       contentType = "image/png",
-      alt = "Face"
+      alt = "Borough Heat Map"
     )
     
-  })
+  }, deleteFile = FALSE)
   
 })

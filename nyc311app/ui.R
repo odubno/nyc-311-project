@@ -31,14 +31,16 @@ shinyUI(
                    h4('Code:'),
                    a(href="https://github.com/odubno/NYC311Project/blob/master/311_bar_plot_borough.Rmd", "Bar Plot"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_pcp_borough.Rmd", "Parallel Plot")
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_pcp_borough.Rmd", "Parallel Plot"),
+                   p(),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_heat_map_borough.Rmd", "Heat Map Plot")
                  ),
                  
                  mainPanel(
                    tabsetPanel(
                      tabPanel("Bar Plot", plotOutput("boroughPlot")), 
                      tabPanel("Parallel Plot", plotOutput("boroughPlot2")), 
-                     tabPanel("Geo Plot", imageOutput("geoPlot")),
+                     tabPanel("Geo Plot", imageOutput("heatMap")),
                      tabPanel("Analysis", htmlOutput("analysis")), 
                      # tabPanel("Summary", verbatimTextOutput("summary")), 
                      tabPanel("Table", tableOutput("table"))
