@@ -8,101 +8,38 @@ library(ggplot2)
 library(ggmap)
 ```
 
-
 ```{r}
 df <- read.csv("data/311_feb.csv")
 ```
 
 ```{r}
 df_geo_data <- df[, c("Latitude", "Longitude")]
-write.csv(df_geo_data, row.names=F, file = "311_geo_data.csv")
+# write.csv(df_geo_data, row.names=F, file = "311_geo_data.csv")
 ```
 
 ```{r}
 ny_plot <- ggmap(get_map('New York City', zoom=11, maptype='terrain'))
-ny_stat_density <- stat_density2d(data=df, aes(x = df$Longitude, y = df$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
-```
 
-```{r}
-ny_plot +
- ny_stat_density + 
-  guides(fill = guide_colorbar(barwidth = 1, barheight = 12)) +
-  scale_fill_gradient(low = "green", high = "red") +
-  scale_alpha(range = c(0, 0.5), guide = FALSE) + 
-  xlab('') +
-  ylab('') +
-  theme_bw() + 
-  ggtitle(
-    expression(
-      atop("Where Do Complaints Occur", 
-           atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
+ny_stat_density <- stat_density2d(data=df_heat_map(), aes(x = df$Longitude, y = df$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
+
+p <- ny_plot +
+      ny_stat_density + 
+      guides(fill = guide_colorbar(barwidth = 2, barheight = 20)) +
+      scale_fill_gradient(low = "green", high = "red") +
+      scale_alpha(range = c(0, 0.5), guide = FALSE) + 
+      xlab('') +
+      ylab('') +
+      theme_bw() +
+      theme(
+        plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (20))
+      ) + 
+      ggtitle(
+        expression(
+          atop("Where Do Complaints Occur", 
+               atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
+        )
       )
-    )
 
-  
-  # expression(atop("Where Do The Complaints Occur", 
-  #                         atop(italic("Some crucial note that has to be here"), "")))
-```
-
-
-```{r}
-stat_density2d(data=df, aes(x = df$Longitude, y = df$Latitude, alpha=.75,fill=..level..), bins = 10, geom = 'polygon')
-```
-
-
-
-```{r}
-coord <- geocode("New York City", output='latlon')
-```
-```{r}
-coord <- data.frame(lon = -74.00594, lat = 40.71278)
-```
-```{r}
-positions <- data.frame(lon=df$Longitude, lat=df$Latitude)
-positions
-```
-
-```{r}
-map.NY12 <- get_map(location=c(lon=coord$lon,lat=coord$lat+0.02),zoom=11, source = "stamen", maptype = "toner-lite")
-ggmap(map.NY12, extent = "device") +
-  stat_density2d(data = positions,
-                 aes(x = lon, y = lat, fill = ..level.., alpha = ..level..), size = 0.1,
-                 bins = 100, geom = "polygon") +
-  geom_density2d(data = positions, aes(x = lon, y = lat), size = 0.1, alpha = 0.8) +
-  scale_fill_gradient(low = "green", high = "red") +
-  scale_alpha(range = c(0.1, 0.4), guide = FALSE)
-```
-
-
-```{r}
-      ny_plot <- ggmap(get_map('New York City', zoom=11, maptype='terrain'))
-      incProgress(0.25)
-      
-      ny_stat_density <- stat_density2d(data=df_heat_map(), aes(x = df$Longitude, y = df$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
-      incProgress(0.5)
-      
-      p <- ny_plot +
-            ny_stat_density + 
-            guides(fill = guide_colorbar(barwidth = 2, barheight = 20)) +
-            scale_fill_gradient(low = "green", high = "red") +
-            scale_alpha(range = c(0, 0.5), guide = FALSE) + 
-            xlab('') +
-            ylab('') +
-            theme_bw() +
-            theme(
-              plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (20))
-            ) + 
-            ggtitle(
-              expression(
-                atop("Where Do Complaints Occur", 
-                     atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
-              )
-            )
-        setProgress(.75)
-        Sys.sleep(2)
-        setProgress(1)
-      })
-    
-      p
+p
 ```
 
