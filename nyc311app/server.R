@@ -14,6 +14,8 @@ library(ggplot2)
 library(gridExtra)
 library(ggmap)
 
+
+
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
    
@@ -21,7 +23,9 @@ shinyServer(function(input, output) {
   df_filtered_top <- reactive(read.csv('data/311_filtered_top.csv'))
   df_complaint_type <- reactive(read.csv('data/311_borough.csv'))
   df_resolution_time <- reactive(read.csv('data/311_resolution_time.csv'))
-
+  df_heat_map <- reactive(read.csv('data/311_geo_data.csv'))
+  
+  
   my_theme <- theme(plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)), 
                     axis.text.x = element_text(angle = 0, hjust = .5),
                     legend.title = element_text(colour = "midnightblue",  face = "bold.italic", family = "Helvetica", size=20), 
@@ -58,42 +62,76 @@ shinyServer(function(input, output) {
       my_theme
   })
   
-  output$analysis <- renderText({
-    paste(readLines("templates/analysis.html"), collapse = "\n")
+  output$boroughs_analysis <- renderText({
+    paste(readLines("templates/boroughs_analysis.html"), collapse = "\n")
   })
-  
-  # output$summary <- renderPrint({
-  #   summary(df_filtered_top())
-  # })
   
   output$table <- renderTable({
     df_filtered_top()
   })
   
-  output$heatMap <- renderImage({
+  output$heatMap <- renderPlot({
     
-    list(
-      src = "images/311_heat_map.png",
-      contentType = "image/png",
-      alt = "Borough Heat Map"
-    )
+    style <- isolate(input$style)
     
-  }, deleteFile = FALSE)
+    withProgress(message = 'Please Wait ~20 seconds... Generating the heat map.', style=style, value = 0, {
+      
+      # Initializing expensive commands
+      
+      ny_plot <- ggmap(get_map('New York City', zoom=11, maptype='terrain'))
+      incProgress(0.25)
+      
+      ny_stat_density <- stat_density2d(data=df_heat_map(), aes(x = df$Longitude, y = df$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
+      incProgress(0.5)
+      
+      p <- ny_plot +
+            ny_stat_density + 
+            guides(fill = guide_colorbar(barwidth = 2, barheight = 20)) +
+            scale_fill_gradient(low = "green", high = "red") +
+            scale_alpha(range = c(0, 0.5), guide = FALSE) + 
+            xlab('') +
+            ylab('') +
+            theme_bw() +
+            theme(
+              plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (20))
+            ) + 
+            ggtitle(
+              expression(
+                atop("Where Do Complaints Occur", 
+                     atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
+              )
+            )
+        setProgress(.75)
+        Sys.sleep(2)
+        setProgress(1)
+      })
+    
+      p
+    
+  }, height=550, width=550)
   
   output$resolutionTime <- renderPlot({
     
-    df_borough <- filter(df_resolution_time(), Borough == input$borough)
-    ggplot(df_borough, aes(x=factor(Complaint.Type), y=Resolution.Minutes)) +
-      labs(
-        title = "How Long Does It Take To Resolve A Complaint", 
-        subtitle = "THE TIME IT TAKES TO RESOLVE A COMPLAINT FOR EACH BOROUGH",
-        x = "Complaint Type", 
-        y = "Minutes"
-      ) + 
-      scale_y_continuous(limits=c(0, 5000)) +
-      my_theme + 
-      stat_summary(fun.y="mean", geom="bar") + 
-      coord_flip()
+    style <- isolate(input$style)
+    
+    withProgress(message = 'Runing GSVA', value = 0, {
+
+      df_borough <- filter(df_resolution_time(), Borough == input$borough)
+      ggplot(df_borough, aes(x=factor(Complaint.Type), y=Resolution.Minutes)) +
+        labs(
+          title = "How Long Does It Take To Resolve A Complaint", 
+          subtitle = "THE TIME IT TAKES TO RESOLVE A COMPLAINT FOR EACH BOROUGH",
+          x = "Complaint Type", 
+          y = "Minutes"
+        ) + 
+        scale_y_continuous(limits=c(0, 5000)) +
+        my_theme + 
+        stat_summary(fun.y="mean", geom="bar") + 
+        coord_flip()
+      
+    })
+    
+    
     
   })
   

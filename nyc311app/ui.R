@@ -17,12 +17,12 @@ library(ggmap)
 df <- read.csv('data/311_filtered.csv')
 
 shinyUI(
-  navbarPage("What Do New Yorkers Like to Complain About",
+  navbarPage("Do New Yorkers Like To Complain?",
              
              tabPanel(
                "Boroughs",
-               titlePanel("Complaints By Borough"),
-               "Exploring each borough and what they like to comlain about.",
+               titlePanel("Complaints By Borough For February 2018"),
+               "Exploring each borough and what they like to complain about for only February 2018.",
                
                # Generate a row with a sidebar
                sidebarLayout(      
@@ -31,23 +31,25 @@ shinyUI(
                  sidebarPanel(
                    selectInput("borough", "Borough:", choices=colnames(df[-1])),
                    hr(),
-                   helpText("Different types of complaints by borough"),
+                   helpText("We filtered the data by the top 15 most frequent complaints. Please use the drop down to filter by Borough."),
                    hr(),
-                   h4('Code:'),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_bar_plot_borough.Rmd", "Bar Plot"),
+                   h4('See Code:'),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_bar_plot_borough.Rmd", "What"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_pcp_borough.Rmd", "Parallel Plot"),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_pcp_borough.Rmd", "How"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_heat_map_borough.Rmd", "Heat Map Plot")
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_created_time.Rmd", "When"),
+                   p(),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_geo_plot.Rmd", "Where")
                  ),
                  
                  mainPanel(
                    tabsetPanel(
-                     tabPanel("Complaint Types", plotOutput("complaintType")), 
-                     tabPanel("Resolution Times", plotOutput("resolutionTime")),
-                     tabPanel("Complaint Times", plotOutput("boroughPlot2")), 
-                     tabPanel("Geo Plot", imageOutput("heatMap")),
-                     tabPanel("Analysis", htmlOutput("analysis")), 
+                     tabPanel("What", plotOutput("complaintType")), 
+                     tabPanel("How", plotOutput("resolutionTime")),
+                     tabPanel("When", plotOutput("boroughPlot2")), 
+                     tabPanel("Where", imageOutput("heatMap")),
+                     tabPanel("Analysis", htmlOutput("boroughs_analysis")), 
                      # tabPanel("Summary", verbatimTextOutput("summary")), 
                      tabPanel("Table", tableOutput("table"))
                    )
@@ -71,7 +73,8 @@ shinyUI(
                    mainPanel( plotOutput("distPlot") )
                  )
                ),
-              tabPanel("Component 3")
+              tabPanel(
+                "About", includeHTML("templates/about.html"))
   )
 )
 
