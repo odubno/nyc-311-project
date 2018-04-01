@@ -8,6 +8,11 @@
 #
 
 library(shiny)
+library(dplyr)
+library(GGally)
+library(ggplot2)
+library(gridExtra)
+library(ggmap)
 
 df <- read.csv('data/311_filtered.csv')
 
@@ -38,8 +43,9 @@ shinyUI(
                  
                  mainPanel(
                    tabsetPanel(
-                     tabPanel("Bar Plot", plotOutput("boroughPlot")), 
-                     tabPanel("Parallel Plot", plotOutput("boroughPlot2")), 
+                     tabPanel("Complaint Types", plotOutput("complaintType")), 
+                     tabPanel("Resolution Times", plotOutput("resolutionTime")),
+                     tabPanel("Complaint Times", plotOutput("boroughPlot2")), 
                      tabPanel("Geo Plot", imageOutput("heatMap")),
                      tabPanel("Analysis", htmlOutput("analysis")), 
                      # tabPanel("Summary", verbatimTextOutput("summary")), 
