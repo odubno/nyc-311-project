@@ -72,3 +72,37 @@ ggmap(map.NY12, extent = "device") +
   scale_fill_gradient(low = "green", high = "red") +
   scale_alpha(range = c(0.1, 0.4), guide = FALSE)
 ```
+
+
+```{r}
+      ny_plot <- ggmap(get_map('New York City', zoom=11, maptype='terrain'))
+      incProgress(0.25)
+      
+      ny_stat_density <- stat_density2d(data=df_heat_map(), aes(x = df$Longitude, y = df$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
+      incProgress(0.5)
+      
+      p <- ny_plot +
+            ny_stat_density + 
+            guides(fill = guide_colorbar(barwidth = 2, barheight = 20)) +
+            scale_fill_gradient(low = "green", high = "red") +
+            scale_alpha(range = c(0, 0.5), guide = FALSE) + 
+            xlab('') +
+            ylab('') +
+            theme_bw() +
+            theme(
+              plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (20))
+            ) + 
+            ggtitle(
+              expression(
+                atop("Where Do Complaints Occur", 
+                     atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
+              )
+            )
+        setProgress(.75)
+        Sys.sleep(2)
+        setProgress(1)
+      })
+    
+      p
+```
+

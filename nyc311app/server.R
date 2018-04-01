@@ -23,8 +23,6 @@ shinyServer(function(input, output) {
   df_filtered_top <- reactive(read.csv('data/311_filtered_top.csv'))
   df_complaint_type <- reactive(read.csv('data/311_borough.csv'))
   df_resolution_time <- reactive(read.csv('data/311_resolution_time.csv'))
-  df_heat_map <- reactive(read.csv('data/311_geo_data.csv'))
-  
   
   my_theme <- theme(plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)), 
                     axis.text.x = element_text(angle = 0, hjust = .5),
@@ -71,44 +69,18 @@ shinyServer(function(input, output) {
   })
   
   output$heatMap <- renderPlot({
+       
+      output$heatMap <- renderImage({
+        
+        list(
+          src = "images/311_heat_map.png",
+          contentType = "image/png",
+          alt = "Borough Heat Map"
+        )
+        
+      }, deleteFile = FALSE)
     
-    style <- isolate(input$style)
-    
-    withProgress(message = 'Please Wait ~20 seconds... Generating the heat map.', style=style, value = 0, {
-      
-      # Initializing expensive commands
-      
-      ny_plot <- ggmap(get_map('New York City', zoom=11, maptype='terrain'))
-      incProgress(0.25)
-      
-      ny_stat_density <- stat_density2d(data=df_heat_map(), aes(x = df$Longitude, y = df$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
-      incProgress(0.5)
-      
-      p <- ny_plot +
-            ny_stat_density + 
-            guides(fill = guide_colorbar(barwidth = 2, barheight = 20)) +
-            scale_fill_gradient(low = "green", high = "red") +
-            scale_alpha(range = c(0, 0.5), guide = FALSE) + 
-            xlab('') +
-            ylab('') +
-            theme_bw() +
-            theme(
-              plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (20))
-            ) + 
-            ggtitle(
-              expression(
-                atop("Where Do Complaints Occur", 
-                     atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
-              )
-            )
-        setProgress(.75)
-        Sys.sleep(2)
-        setProgress(1)
-      })
-    
-      p
-    
-  }, height=550, width=550)
+  })
   
   output$resolutionTime <- renderPlot({
     
@@ -130,8 +102,6 @@ shinyServer(function(input, output) {
         coord_flip()
       
     })
-    
-    
     
   })
   
