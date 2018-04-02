@@ -15,6 +15,8 @@ library(gridExtra)
 library(ggmap)
 
 df <- read.csv('data/311_filtered.csv')
+df_complaints <- read.csv('data/311_complaint_times.csv')
+myChoices <- df_complaints$Complaint.Type
 
 shinyUI(
   navbarPage("Do New Yorkers Like To Complain?",
@@ -57,21 +59,33 @@ shinyUI(
              ),
              
              tabPanel(
-               "Agencies",
-                 sidebarLayout(
-                   sidebarPanel(
-                     selectizeInput(
-                       'id', label="Year", choices=NULL, multiple=F, selected="X2015",
-                       options = list(create = TRUE,placeholder = 'Choose the year')
-                     ),
-                     # Make a list of checkboxes
-                     radioButtons("radio", label = h3("New Radio buttons"),
-                                  choices = list("Choice 1" = 1, "Choice 2" = 2)
-                     )
-                   ),
-                   mainPanel( plotOutput("distPlot") )
-                 )
+               "Complaints",
+               sidebarPanel(
+                   checkboxGroupInput('complaint_type', 'Select Complaint', myChoices),
+                   checkboxInput('bar', 'All/None')
                ),
+               mainPanel(
+                 tabsetPanel(
+                   tabPanel("When", plotOutput("complaintTimes"))
+                 )
+               )
+               ),
+             tabPanel(
+               "Agencies",
+               sidebarLayout(
+                 sidebarPanel(
+                   selectizeInput(
+                     'id', label="Year", choices=NULL, multiple=F, selected="X2015",
+                     options = list(create = TRUE,placeholder = 'Choose the year')
+                   ),
+                   # Make a list of checkboxes
+                   radioButtons("radio", label = h3("New Radio buttons"),
+                                choices = list("Choice 1" = 1, "Choice 2" = 2)
+                   )
+                 ),
+                 mainPanel( plotOutput("distPlot") )
+               )
+             ),
               tabPanel(
                 "Executive Summary", includeHTML("templates/executive_summary.html")
                 ),

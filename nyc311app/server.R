@@ -14,15 +14,17 @@ library(ggplot2)
 library(gridExtra)
 library(ggmap)
 
-
+df_complaints <- read.csv('data/311_complaint_times.csv')
+myChoices <- df_complaints$Complaint.Type
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
    
   df <- reactive(read.csv('data/311_filtered.csv'))
   df_filtered_top <- reactive(read.csv('data/311_filtered_top.csv'))
   df_complaint_type <- reactive(read.csv('data/311_borough.csv'))
   df_resolution_time <- reactive(read.csv('data/311_resolution_time.csv'))
+  # df_complaints <- reactive(read.csv('data/311_complaint_times.csv'))
   
   my_theme <- theme(plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)), 
                     axis.text.x = element_text(angle = 0, hjust = .5),
@@ -30,6 +32,15 @@ shinyServer(function(input, output) {
                     legend.text = element_text(face = "italic", colour="mediumpurple4",family = "Helvetica", size=13), 
                     axis.title = element_text(family = "Helvetica", size = (20), colour = "purple4"),
                     axis.text = element_text(family = "Courier", colour = "mediumpurple2", size = (13)))
+  
+  
+  observe({
+    updateCheckboxGroupInput(
+      session, 'complaint_type', choices = myChoices,
+      selected = if (input$bar) myChoices
+    )
+  })
+  
   
   output$complaintType <- renderPlot({
     
@@ -79,6 +90,16 @@ shinyServer(function(input, output) {
         )
         
       }, deleteFile = FALSE)
+    
+  })
+  
+  output$complaintTimes <- renderPlot({
+
+    df_complaints_2 <- reactive({ 
+      df_complaints[df_complaints$Complaint.Type %in% input$complaint_type, ]
+    })
+    
+    ggparcoord(df_complaints_2(), columns = 2:25, groupColumn = "Complaint.Type", scale = "globalminmax")
     
   })
   
