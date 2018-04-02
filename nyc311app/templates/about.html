@@ -2,6 +2,8 @@
 
 <b>This is the Final Project for STAT 5702, an Exploratory Data Analysis class at Columbia.</b>
 
+<br>
+
 <h3>Introduction</h3>
 
 	<ul>
@@ -29,20 +31,41 @@
 
 <h3>The Strugle Is Chill</h3>
 
-<p>We began with an ambitious idea of scraping real estate data and predicting where it's best to live in NYC. We quickly came to a realization that we wouldn't have enough enough time for exploratory data analysis or even the idea to use shiny to showcase our work.</p>
+	<ul>
+	<p>We began with an ambitious idea of scraping real estate data and predicting where it's best to live within NYC. We quickly came to a realization that we wouldn't have enough enough time for exploratory data analysis or even the idea to use shiny to showcase our work.</p>
 
-<p>After we got that out of our system and realized that we didn't have a lot of time, we settled on using clean data provided by NYC Open Data. We spent a good chunk of our time getting up to speed with shiny and displaying some of our exploratory results.</p>
+	<p>After we got that out of our system and realized that we didn't have a lot of time, we settled on using clean data provided by NYC Open Data. We spent a good chunk of our time getting up to speed with shiny, fighting github to get data uploaded, cleaning our data and displaying the exploratory results.</p>
 
-<h4>GitGub</h4>
-<ul>100 mb limit</ul>
+	<p>New Yorkers complain a lot. Just last Februrary 2018, there were ~200,000 comlaints filed. Initially, we wanted to do an anual analysis of the complaints. After downloading the 2GB file for 2017 and waiting ~10 minutes for R to load the data, we realized that we value our time and we need to focus on the analysis and not waiting for our data to load.</p>
 
-<h4>Shiny</h4>
-<ul>
-	<b>Server Errors</b>
-	<ul>We got kicked off of Shiny several times with a "Disconnected from the server", as a result of using up to much of our free resources.</ul>
+	<p>Our analysis is centered around complaints filed during February 2018. It takes R approximately ~30 seconds to load the 200,000 complaints. It's ok and it's better than ~10 minutes.</p>
+
+	<p>Cleaning the data wasn't much of an isses. "dcast" became our favorite tool in the beggining. Formatting date time took unecessarily long and we learned a lot about dealing with date and time in R using as.Date() and POSIXct().</p>
+
+	<p>We also learned that not everything needs to be interactive, especially when making the first plot.</p>
+
+	<p>Below we'll go over some of the struggles that we faced with the tools we used. Most of the struggles funnel down to memory issues and expensive processes due to data size.</p>
+
 </ul>
 
-<ul>Disconnected from the server</ul>
 
-<h4>R Studio</h4>
-<ul>Manually saving work</ul>
+<ul>
+	<h4>GitGub</h4>
+
+		<ul>GitHub limits the size of files allowed on their server to 100 mb. Our file is ~125MB.</ul>
+		<br>
+		<ul>We learned about <b>git LFS</b>, an extension that allows large files to exist on the repo. The large file shows up in github with text pointers on how to retrieve the data from a remote server. Not very helpful, since we're working with publicly available. That is why we provided a link at the top of this page to download the ~125MB file.</ul>
+		<br>
+		<ul>We chose to clean the large csv file locally and upload the clean versions of data. They were much smaller.</ul>
+
+	<h4>Shiny</h4>
+
+		<ul>Shiny is great and we were quick to deploy the app that you're looking at now. Getting up to speed with Navigation Tabs, structing the UI and Server did take some time, but not as much as we thought.</ul>
+		<br>
+		<ul>We got kicked off of Shiny, several times with a "Disconnected from the server", when using up too much of their free resources. We we're attempting to plot a heat map using ggmap. Running it locally took 10 seconds but the public server couldn't handle it. We settled on saving the image plot we created and sourcing the image locally instead of continuously crashing the server.</ul>
+
+	<h4>R Studio</h4>
+		<ul>R Studio is the best way to edit R code. Just remember to manually save your work time to time before the computer dies or something crashes. Otherwise, you might lose 2 hours of good work.</ul>
+		<br>
+		<ul>Time to time we'd like to substitue new code for old without deleting old code. We're in the habit of highlting the code and pressing <b>Cmnd ?</b>, to comment out code. Well R doesn't seem to support that.</ul>
+</ul>

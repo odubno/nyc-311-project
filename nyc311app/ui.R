@@ -49,8 +49,7 @@ shinyUI(
                      tabPanel("How", plotOutput("resolutionTime")),
                      tabPanel("When", plotOutput("boroughPlot2")), 
                      tabPanel("Where", imageOutput("heatMap")),
-                     tabPanel("Analysis", htmlOutput("boroughs_analysis")), 
-                     # tabPanel("Summary", verbatimTextOutput("summary")), 
+                     tabPanel("Main Analysis", htmlOutput("boroughs_analysis")), 
                      tabPanel("Table", tableOutput("table"))
                    )
                  )
@@ -58,7 +57,7 @@ shinyUI(
              ),
              
              tabPanel(
-               "Component 2",
+               "Agencies",
                  sidebarLayout(
                    sidebarPanel(
                      selectizeInput(
@@ -73,6 +72,9 @@ shinyUI(
                    mainPanel( plotOutput("distPlot") )
                  )
                ),
+              tabPanel(
+                "Executive Summary", includeHTML("templates/executive_summary.html")
+                ),
               tabPanel(
                 "About", includeHTML("templates/about.html"))
   )
