@@ -16,7 +16,7 @@ library(ggmap)
 
 df <- read.csv('data/311_filtered.csv')
 df_complaints <- read.csv('data/311_complaint_times.csv')
-myChoices <- df_complaints$Complaint.Type
+complaint_options <- df_complaints$Complaint.Type
 
 shinyUI(
   navbarPage("Do New Yorkers Like To Complain?",
@@ -32,7 +32,7 @@ shinyUI(
                  # Define the sidebar with one input
                  sidebarPanel(
                    checkboxGroupInput('select_borough', 'Select Borough', colnames(df[-1])),
-                   checkboxInput('bar', 'All/None'),
+                   checkboxInput('bar_borough', 'All/None'),
                    hr(),
                    helpText("We filtered the data by the top 15 most frequent complaints. Please use the drop down to filter by Borough."),
                    hr(),
@@ -62,8 +62,8 @@ shinyUI(
              tabPanel(
                "Complaints",
                sidebarPanel(
-                   checkboxGroupInput('complaint_type', 'Select Complaint', myChoices),
-                   checkboxInput('bar', 'All/None')
+                   checkboxGroupInput('complaint_type', 'Select Complaint', complaint_options),
+                   checkboxInput('bar_complaint', 'All/None')
                ),
                mainPanel(
                  tabsetPanel(

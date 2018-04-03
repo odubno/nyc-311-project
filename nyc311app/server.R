@@ -15,7 +15,7 @@ library(gridExtra)
 library(ggmap)
 
 df_complaints <- read.csv('data/311_complaint_times.csv')
-myChoices <- df_complaints$Complaint.Type
+complaint_options <- df_complaints$Complaint.Type
 
 df <- read.csv('data/311_filtered.csv')
 borough_choices <- colnames(df[-1])
@@ -27,8 +27,7 @@ shinyServer(function(input, output, session) {
   df_borough_bar_plot <- read.csv('data/311_borough_bar_plot.csv')
   df_complaint_type <- read.csv('data/311_borough_pcp.csv')
   df_resolution_time <- read.csv('data/311_resolution_time.csv')
-  # df_complaints <- reactive(read.csv('data/311_complaint_times.csv'))
-  
+
   my_theme <- theme(plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)), 
                     axis.text.x = element_text(angle = 0, hjust = .5),
                     legend.title = element_text(colour = "midnightblue",  face = "bold.italic", family = "Helvetica", size=20), 
@@ -36,13 +35,18 @@ shinyServer(function(input, output, session) {
                     axis.title = element_text(family = "Helvetica", size = (20), colour = "purple4"),
                     axis.text = element_text(family = "Courier", colour = "mediumpurple2", size = (13)))
   
+  default_plot <- ggplot(data.frame()) +
+    geom_point() + 
+    xlim(0, 23) + 
+    ylim(0, 1000) +
+    my_theme
   
   observe({
     updateCheckboxGroupInput(
       session, 
       'complaint_type', 
-      choices = myChoices,
-      selected = if (input$bar) myChoices,
+      choices = complaint_options,
+      selected = if (input$bar_complaint) complaint_options,
     )
   })
   
@@ -51,10 +55,9 @@ shinyServer(function(input, output, session) {
       session, 
       'select_borough', 
       choices = borough_choices,
-      selected = if (input$bar) borough_choices,
+      selected = if (input$bar_borough) borough_choices,
     )
   })
-  
   
   output$complaintType <- renderPlot({
     
@@ -91,27 +94,34 @@ shinyServer(function(input, output, session) {
         x = "Complaint Type", 
         y = "Minutes"
       ) + 
-      # scale_y_continuous(limits=c(0, 21000)) +
+      #scale_y_continuous(limits=c(0, 21000)) +
       coord_flip()
     
   })
   
   output$boroughPlot2 <- renderPlot({
     
-    df_complaint_type_reactive <- reactive({ 
-      df_complaint_type[df_complaint_type$Borough %in% input$select_borough, ]
-    })
-    
-    p2 <- ggparcoord(df_complaint_type_reactive(), columns = 2:25, groupColumn = "Borough", scale = "globalminmax")
-    
-    p2 + labs(
+    my_titles <- labs(
       title = "When Does Each Borough Complain", 
       subtitle = "COMPLAINTS OVER THE COURSE OF A FULL DAY",
       x = "Hours", 
       y = "Number of Complaints"
-    ) +
-      my_theme
+    )
     
+    if(length(input$select_borough) > 0) {
+      
+      df_complaint_type_reactive <- reactive({ 
+        df_complaint_type[df_complaint_type$Borough %in% input$select_borough, ]
+      })
+      
+      ggparcoord(df_complaint_type_reactive(), columns = 2:25, groupColumn = "Borough", scale = "globalminmax") + 
+        my_theme + 
+        my_titles
+      
+    } else {
+       default_plot + my_titles
+    }
+  
   })
   
   output$boroughs_analysis <- renderText({
@@ -137,15 +147,28 @@ shinyServer(function(input, output, session) {
   })
   
   output$complaintTimes <- renderPlot({
-
-    df_complaints_2 <- reactive({ 
-      df_complaints[df_complaints$Complaint.Type %in% input$complaint_type, ]
-    })
     
-    ggparcoord(df_complaints_2(), columns = 2:25, groupColumn = "Complaint.Type", scale = "globalminmax")
+    my_titles <- labs(
+      title = "WHEN DO COMPLAINTS HAPPEN", 
+      subtitle = "THE TIME COMPLAINTS HAPPEN OVER THE COURSE OF A DAY",
+      x = "Hours", 
+      y = "Complaint Type"
+    )
+    
+    if(length(input$complaint_type) > 0) {
+      
+      df_complaints_pcp <- reactive({ 
+        df_complaints[df_complaints$Complaint.Type %in% input$complaint_type, ]
+      })
+      
+      ggparcoord(df_complaints_pcp(), columns = 2:25, groupColumn = "Complaint.Type", scale = "globalminmax") + 
+        my_theme + 
+        my_titles
+      
+    } else {
+      default_plot +my_titles
+    }
     
   })
-  
-
   
 })
