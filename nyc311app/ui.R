@@ -31,7 +31,8 @@ shinyUI(
                  
                  # Define the sidebar with one input
                  sidebarPanel(
-                   selectInput("borough", "Borough:", choices=colnames(df[-1])),
+                   checkboxGroupInput('select_borough', 'Select Borough', colnames(df[-1])),
+                   checkboxInput('bar', 'All/None'),
                    hr(),
                    helpText("We filtered the data by the top 15 most frequent complaints. Please use the drop down to filter by Borough."),
                    hr(),
@@ -94,4 +95,6 @@ shinyUI(
   )
 )
 
+# TODO: update Boroughs to select multiple boroughs.
+# TODO: clean up the complaints selection options.
 # rsconnect::deployApp('/Users/olehdubno/Documents/columbia/NYC311Project/nyc311app')

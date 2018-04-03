@@ -17,13 +17,16 @@ library(ggmap)
 df_complaints <- read.csv('data/311_complaint_times.csv')
 myChoices <- df_complaints$Complaint.Type
 
+df <- read.csv('data/311_filtered.csv')
+borough_choices <- colnames(df[-1])
+
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
    
   df <- reactive(read.csv('data/311_filtered.csv'))
-  df_filtered_top <- reactive(read.csv('data/311_filtered_top.csv'))
-  df_complaint_type <- reactive(read.csv('data/311_borough.csv'))
-  df_resolution_time <- reactive(read.csv('data/311_resolution_time.csv'))
+  df_borough_bar_plot <- read.csv('data/311_borough_bar_plot.csv')
+  df_complaint_type <- read.csv('data/311_borough_pcp.csv')
+  df_resolution_time <- read.csv('data/311_resolution_time.csv')
   # df_complaints <- reactive(read.csv('data/311_complaint_times.csv'))
   
   my_theme <- theme(plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)), 
@@ -36,15 +39,31 @@ shinyServer(function(input, output, session) {
   
   observe({
     updateCheckboxGroupInput(
-      session, 'complaint_type', choices = myChoices,
-      selected = if (input$bar) myChoices
+      session, 
+      'complaint_type', 
+      choices = myChoices,
+      selected = if (input$bar) myChoices,
+    )
+  })
+  
+  observe({
+    updateCheckboxGroupInput(
+      session, 
+      'select_borough', 
+      choices = borough_choices,
+      selected = if (input$bar) borough_choices,
     )
   })
   
   
   output$complaintType <- renderPlot({
     
-    p <- ggplot(df_filtered_top(), aes_string(x="Complaint.Type", y=input$borough)) +
+    df_boroughs_2 <- reactive({ 
+      df_borough_bar_plot[df_borough_bar_plot$Borough %in% input$select_borough, ]
+    })
+    
+    ggplot(df_boroughs_2(), aes(x=factor(Complaint.Type), y=n, fill=Borough)) +
+      geom_bar(stat='identity', position='dodge') +
       labs(
         title = "What Does Each Borough Complain About",
         subtitle = "TOTAL COMPLAINTS BY BOROUGH",
@@ -52,15 +71,38 @@ shinyServer(function(input, output, session) {
         y = "Number of Complaints"
       ) +
       my_theme +
-      geom_bar(stat="identity") +
-      scale_y_continuous(limits=c(0,7000)) +  
+      # scale_y_continuous(limits=c(0,7000)) +
       coord_flip()
-    p
+    
+  })
+  
+  output$resolutionTime <- renderPlot({
+    
+    df_resolution_time_reactive <- reactive({ 
+      df_resolution_time[df_resolution_time$Borough %in% input$select_borough, ]
+    })
+    
+    ggplot(df_resolution_time_reactive(), aes(x=factor(Complaint.Type), y=Resolution.Mean, fill=Borough)) +
+      geom_bar(stat='identity', position='dodge') +
+      my_theme + 
+      labs(
+        title = "How Long Does It Take To Resolve A Complaint", 
+        subtitle = "THE TIME IT TAKES TO RESOLVE A COMPLAINT FOR EACH BOROUGH",
+        x = "Complaint Type", 
+        y = "Minutes"
+      ) + 
+      # scale_y_continuous(limits=c(0, 21000)) +
+      coord_flip()
+    
   })
   
   output$boroughPlot2 <- renderPlot({
     
-    p2 <- ggparcoord(df_complaint_type(), columns = 2:25, groupColumn = "Borough", scale = "globalminmax")
+    df_complaint_type_reactive <- reactive({ 
+      df_complaint_type[df_complaint_type$Borough %in% input$select_borough, ]
+    })
+    
+    p2 <- ggparcoord(df_complaint_type_reactive(), columns = 2:25, groupColumn = "Borough", scale = "globalminmax")
     
     p2 + labs(
       title = "When Does Each Borough Complain", 
@@ -69,6 +111,7 @@ shinyServer(function(input, output, session) {
       y = "Number of Complaints"
     ) +
       my_theme
+    
   })
   
   output$boroughs_analysis <- renderText({
@@ -76,7 +119,7 @@ shinyServer(function(input, output, session) {
   })
   
   output$table <- renderTable({
-    df_filtered_top()
+    df_borough_bar_plot()
   })
   
   output$heatMap <- renderPlot({
@@ -103,27 +146,6 @@ shinyServer(function(input, output, session) {
     
   })
   
-  output$resolutionTime <- renderPlot({
-    
-    style <- isolate(input$style)
-    
-    withProgress(message = 'Runing GSVA', value = 0, {
 
-      df_borough <- filter(df_resolution_time(), Borough == input$borough)
-      ggplot(df_borough, aes(x=factor(Complaint.Type), y=Resolution.Minutes)) +
-        labs(
-          title = "How Long Does It Take To Resolve A Complaint", 
-          subtitle = "THE TIME IT TAKES TO RESOLVE A COMPLAINT FOR EACH BOROUGH",
-          x = "Complaint Type", 
-          y = "Minutes"
-        ) + 
-        scale_y_continuous(limits=c(0, 5000)) +
-        my_theme + 
-        stat_summary(fun.y="mean", geom="bar") + 
-        coord_flip()
-      
-    })
-    
-  })
   
 })

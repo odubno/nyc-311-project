@@ -1,0 +1,79 @@
+"Borough","Complaint.Type","n"
+"BRONX","Blocked Driveway",1643
+"BRONX","HEAT/HOT WATER",6685
+"BRONX","Illegal Parking",1283
+"BRONX","Noise",186
+"BRONX","Noise - Commercial",236
+"BRONX","Noise - Residential",4473
+"BRONX","PAINT/PLASTER",1457
+"BRONX","PLUMBING",1187
+"BRONX","Request Large Bulky Item Collection",590
+"BRONX","Street Condition",1515
+"BRONX","Street Light Condition",1424
+"BRONX","Traffic Signal Condition",596
+"BRONX","UNSANITARY CONDITION",1611
+"BRONX","Water System",510
+"BROOKLYN","Blocked Driveway",3612
+"BROOKLYN","HEAT/HOT WATER",6111
+"BROOKLYN","Illegal Parking",4202
+"BROOKLYN","Noise",1158
+"BROOKLYN","Noise - Commercial",948
+"BROOKLYN","Noise - Residential",4239
+"BROOKLYN","PAINT/PLASTER",1574
+"BROOKLYN","PLUMBING",1455
+"BROOKLYN","Request Large Bulky Item Collection",4150
+"BROOKLYN","Street Condition",3217
+"BROOKLYN","Street Light Condition",1593
+"BROOKLYN","Traffic Signal Condition",1296
+"BROOKLYN","UNSANITARY CONDITION",1833
+"BROOKLYN","Water System",1427
+"MANHATTAN","Blocked Driveway",238
+"MANHATTAN","HEAT/HOT WATER",4264
+"MANHATTAN","Illegal Parking",1307
+"MANHATTAN","Noise",2321
+"MANHATTAN","Noise - Commercial",1352
+"MANHATTAN","Noise - Residential",3875
+"MANHATTAN","PAINT/PLASTER",886
+"MANHATTAN","PLUMBING",873
+"MANHATTAN","Request Large Bulky Item Collection",979
+"MANHATTAN","Street Condition",1893
+"MANHATTAN","Street Light Condition",842
+"MANHATTAN","Traffic Signal Condition",742
+"MANHATTAN","UNSANITARY CONDITION",1028
+"MANHATTAN","Water System",660
+"QUEENS","Blocked Driveway",3751
+"QUEENS","HEAT/HOT WATER",2821
+"QUEENS","Illegal Parking",3334
+"QUEENS","Noise",671
+"QUEENS","Noise - Commercial",532
+"QUEENS","Noise - Residential",2279
+"QUEENS","PAINT/PLASTER",414
+"QUEENS","PLUMBING",435
+"QUEENS","Request Large Bulky Item Collection",4596
+"QUEENS","Street Condition",4399
+"QUEENS","Street Light Condition",1721
+"QUEENS","Traffic Signal Condition",1261
+"QUEENS","UNSANITARY CONDITION",719
+"QUEENS","Water System",1695
+"STATEN.ISLAND","Blocked Driveway",254
+"STATEN.ISLAND","HEAT/HOT WATER",191
+"STATEN.ISLAND","Illegal Parking",604
+"STATEN.ISLAND","Noise",77
+"STATEN.ISLAND","Noise - Commercial",41
+"STATEN.ISLAND","Noise - Residential",441
+"STATEN.ISLAND","PAINT/PLASTER",111
+"STATEN.ISLAND","PLUMBING",97
+"STATEN.ISLAND","Request Large Bulky Item Collection",850
+"STATEN.ISLAND","Street Condition",1699
+"STATEN.ISLAND","Street Light Condition",494
+"STATEN.ISLAND","Traffic Signal Condition",192
+"STATEN.ISLAND","UNSANITARY CONDITION",144
+"STATEN.ISLAND","Water System",439
+"Unspecified","Blocked Driveway",35
+"Unspecified","DOF Literature Request",3886
+"Unspecified","Illegal Parking",17
+"Unspecified","Noise - Commercial",3
+"Unspecified","Noise - Residential",7
+"Unspecified","Street Condition",80
+"Unspecified","Street Light Condition",88
+"Unspecified","Traffic Signal Condition",28
