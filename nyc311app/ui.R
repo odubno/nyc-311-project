@@ -84,6 +84,7 @@ shinyUI(
                  
                  mainPanel(
                    tabsetPanel(
+                     tabPanel("How", plotOutput("plot_complaints_how")),
                      tabPanel("When", plotOutput("plot_complaints_when")),
                      tabPanel("Main Analysis", htmlOutput("complaints_analysis"))
                    )

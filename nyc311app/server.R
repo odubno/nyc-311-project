@@ -25,9 +25,10 @@ shinyServer(function(input, output, session) {
   df <- reactive(read.csv('data/311_filtered.csv'))
   df_boroughs_what <- read.csv('data/311_boroughs_what.csv')
   df_boroughs_when <- read.csv('data/311_boroughs_when.csv', check.names = FALSE)
-  df_boroughs_how <- read.csv('data/311_boroughs_how.csv')
+  df_boroughs_complaints_how <- read.csv('data/311_boroughs_complaints_how.csv')
 
   my_theme <- theme(plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)), 
+                    plot.subtitle=element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)),
                     axis.text.x = element_text(angle = 0, hjust = .5),
                     legend.title = element_text(colour = "midnightblue",  face = "bold.italic", family = "Helvetica", size=20), 
                     legend.text = element_text(face = "italic", colour="mediumpurple4",family = "Helvetica", size=13), 
@@ -68,7 +69,6 @@ shinyServer(function(input, output, session) {
       geom_bar(stat='identity', position='dodge') +
       labs(
         title = "What Does Each Borough Complain About",
-        subtitle = "TOTAL COMPLAINTS BY BOROUGH",
         x = "Complaint Type", 
         y = "Number of Complaints"
       ) +
@@ -79,16 +79,16 @@ shinyServer(function(input, output, session) {
   
   output$plot_boroughs_how <- renderPlot({
     
-    df_boroughs_how_reactive <- reactive({ 
-      df_boroughs_how[df_boroughs_how$Borough %in% input$select_borough, ]
+    df_boroughs_complaints_how_reactive <- reactive({ 
+      df_boroughs_complaints_how[df_boroughs_complaints_how$Borough %in% input$select_borough, ]
     })
     
-    ggplot(df_boroughs_how_reactive(), aes(x=factor(Complaint.Type), y=Resolution.Mean, fill=Borough)) +
+    ggplot(df_boroughs_complaints_how_reactive(), aes(x=factor(Complaint.Type), y=Resolution.Mean, fill=Borough)) +
       geom_bar(stat='identity', position='dodge') +
       my_theme + 
       labs(
-        title = "How Long Does It Take To Resolve A Complaint", 
-        subtitle = "THE TIME IT TAKES TO RESOLVE A COMPLAINT FOR EACH BOROUGH",
+        title = "How Long Does It Take", 
+        subtitle = "For A Complaint To Get Resolved",
         x = "Complaint Type", 
         y = "Minutes"
       ) + 
@@ -100,8 +100,7 @@ shinyServer(function(input, output, session) {
     
     my_titles <- labs(
       title = "When Does Each Borough Complain", 
-      subtitle = "COMPLAINTS OVER THE COURSE OF A FULL DAY",
-      x = "Hours", 
+      x = "Hours (00=Midnight)", 
       y = "Number of Complaints"
     )
     
@@ -147,12 +146,30 @@ shinyServer(function(input, output, session) {
     
   })
   
+  output$plot_complaints_how <- renderPlot({
+    
+    df_boroughs_complaints_how_reactive <- reactive({ 
+      df_boroughs_complaints_how[df_boroughs_complaints_how$Complaint.Type %in% input$complaint_type, ]
+    })
+    
+    ggplot(df_boroughs_complaints_how_reactive(), aes(x=factor(Borough), y=Resolution.Mean, fill=Complaint.Type)) +
+      geom_bar(stat='identity', position='dodge') +
+      my_theme + 
+      labs(
+        title = "How Long Does It Take", 
+        subtitle = "Each Borough To Resolve A Complaint",
+        x = "Complaint Type", 
+        y = "Minutes"
+      ) + 
+      coord_flip()
+    
+  })
+  
   output$plot_complaints_when <- renderPlot({
     
     my_titles <- labs(
       title = "When Do Complaints Occur", 
-      subtitle = "THE TIME COMPLAINTS HAPPEN OVER THE COURSE OF A DAY",
-      x = "Hours", 
+      x = "Hours (00=Midnight)", 
       y = "Complaint Type"
     )
     
