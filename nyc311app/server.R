@@ -14,7 +14,7 @@ library(ggplot2)
 library(gridExtra)
 library(ggmap)
 
-df_complaints <- read.csv('data/311_complaint_times.csv')
+df_complaints <- read.csv('data/311_complaint_times.csv', check.names = FALSE)
 complaint_options <- df_complaints$Complaint.Type
 
 df <- read.csv('data/311_filtered.csv')
@@ -25,7 +25,7 @@ shinyServer(function(input, output, session) {
    
   df <- reactive(read.csv('data/311_filtered.csv'))
   df_borough_bar_plot <- read.csv('data/311_borough_bar_plot.csv')
-  df_complaint_type <- read.csv('data/311_borough_pcp.csv')
+  df_complaint_type <- read.csv('data/311_borough_pcp.csv', check.names = FALSE)
   df_resolution_time <- read.csv('data/311_resolution_time.csv')
 
   my_theme <- theme(plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)), 
