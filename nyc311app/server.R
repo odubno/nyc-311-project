@@ -149,7 +149,7 @@ shinyServer(function(input, output, session) {
   output$complaintTimes <- renderPlot({
     
     my_titles <- labs(
-      title = "WHEN DO COMPLAINTS HAPPEN", 
+      title = "When Do Complaints Occur", 
       subtitle = "THE TIME COMPLAINTS HAPPEN OVER THE COURSE OF A DAY",
       x = "Hours", 
       y = "Complaint Type"
