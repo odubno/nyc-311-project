@@ -12,7 +12,7 @@ library(reshape2)
 library(ggplot2)
 
 
-df <- read.csv("data/311_feb.csv")
+df <- read.csv("../data/311_feb.csv")
 w = table(df$Complaint.Type)
 t = as.data.frame(w)
 names(t)[1] = 'Complaint.Type'
