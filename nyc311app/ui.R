@@ -12,11 +12,10 @@ library(dplyr)
 library(GGally)
 library(ggplot2)
 library(gridExtra)
-library(ggmap)
 
 df <- read.csv('data/311_filtered.csv')
-df_complaints <- read.csv('data/311_complaint_times.csv')
-complaint_options <- df_complaints$Complaint.Type
+df_complaints_when <- read.csv('data/311_complaints_when.csv')
+complaint_options <- df_complaints_when$Complaint.Type
 
 shinyUI(
   navbarPage("Do New Yorkers Like To Complain?",
@@ -37,21 +36,21 @@ shinyUI(
                    helpText("The data is filtered according to the top 15 most frequent complaints."),
                    hr(),
                    h4('See Code:'),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_bar_plot_borough.Rmd", "What"),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_what_bar_plot.Rmd", "What"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_pcp_borough.Rmd", "How"),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_how_bar_plot.Rmd", "How"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_created_time.Rmd", "When"),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_when_pcp.Rmd", "When"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_geo_plot.Rmd", "Where")
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_where_heat_map.Rmd", "Where")
                  ),
                  
                  mainPanel(
                    tabsetPanel(
-                     tabPanel("What", plotOutput("complaintType")), 
-                     tabPanel("How", plotOutput("resolutionTime")),
-                     tabPanel("When", plotOutput("boroughPlot2")), 
-                     tabPanel("Where", imageOutput("heatMap")),
+                     tabPanel("What", plotOutput("plot_boroughs_what")), 
+                     tabPanel("How", plotOutput("plot_boroughs_how")),
+                     tabPanel("When", plotOutput("plot_boroughs_when")), 
+                     tabPanel("Where", imageOutput("plot_boroughs_where")),
                      tabPanel("Main Analysis", htmlOutput("boroughs_analysis"))
                    )
                  )
@@ -85,7 +84,8 @@ shinyUI(
                  
                  mainPanel(
                    tabsetPanel(
-                     tabPanel("When", plotOutput("complaintTimes"))
+                     tabPanel("When", plotOutput("plot_complaints_when")),
+                     tabPanel("Main Analysis", htmlOutput("complaints_analysis"))
                    )
                  )
                )

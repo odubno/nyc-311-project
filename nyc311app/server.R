@@ -12,10 +12,9 @@ library(dplyr)
 library(GGally)
 library(ggplot2)
 library(gridExtra)
-library(ggmap)
 
-df_complaints <- read.csv('data/311_complaint_times.csv', check.names = FALSE)
-complaint_options <- df_complaints$Complaint.Type
+df_complaints_when <- read.csv('data/311_complaints_when.csv', check.names = FALSE)
+complaint_options <- df_complaints_when$Complaint.Type
 
 df <- read.csv('data/311_filtered.csv')
 borough_choices <- colnames(df[-1])
@@ -24,9 +23,9 @@ borough_choices <- colnames(df[-1])
 shinyServer(function(input, output, session) {
    
   df <- reactive(read.csv('data/311_filtered.csv'))
-  df_borough_bar_plot <- read.csv('data/311_borough_bar_plot.csv')
-  df_complaint_type <- read.csv('data/311_borough_pcp.csv', check.names = FALSE)
-  df_resolution_time <- read.csv('data/311_resolution_time.csv')
+  df_boroughs_what <- read.csv('data/311_boroughs_what.csv')
+  df_boroughs_when <- read.csv('data/311_boroughs_when.csv', check.names = FALSE)
+  df_boroughs_how <- read.csv('data/311_boroughs_how.csv')
 
   my_theme <- theme(plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)), 
                     axis.text.x = element_text(angle = 0, hjust = .5),
@@ -46,7 +45,7 @@ shinyServer(function(input, output, session) {
       session, 
       'complaint_type', 
       choices = complaint_options,
-      selected = if (input$bar_complaint) complaint_options,
+      selected = if (input$bar_complaint) complaint_options
     )
   })
   
@@ -55,17 +54,17 @@ shinyServer(function(input, output, session) {
       session, 
       'select_borough', 
       choices = borough_choices,
-      selected = if (input$bar_borough) borough_choices,
+      selected = if (input$bar_borough) borough_choices
     )
   })
   
-  output$complaintType <- renderPlot({
+  output$plot_boroughs_what <- renderPlot({
     
-    df_boroughs_2 <- reactive({ 
-      df_borough_bar_plot[df_borough_bar_plot$Borough %in% input$select_borough, ]
+    df_boroughs_what_reactive <- reactive({ 
+      df_boroughs_what[df_boroughs_what$Borough %in% input$select_borough, ]
     })
     
-    ggplot(df_boroughs_2(), aes(x=factor(Complaint.Type), y=n, fill=Borough)) +
+    ggplot(df_boroughs_what_reactive(), aes(x=factor(Complaint.Type), y=n, fill=Borough)) +
       geom_bar(stat='identity', position='dodge') +
       labs(
         title = "What Does Each Borough Complain About",
@@ -74,18 +73,17 @@ shinyServer(function(input, output, session) {
         y = "Number of Complaints"
       ) +
       my_theme +
-      # scale_y_continuous(limits=c(0,7000)) +
       coord_flip()
     
   })
   
-  output$resolutionTime <- renderPlot({
+  output$plot_boroughs_how <- renderPlot({
     
-    df_resolution_time_reactive <- reactive({ 
-      df_resolution_time[df_resolution_time$Borough %in% input$select_borough, ]
+    df_boroughs_how_reactive <- reactive({ 
+      df_boroughs_how[df_boroughs_how$Borough %in% input$select_borough, ]
     })
     
-    ggplot(df_resolution_time_reactive(), aes(x=factor(Complaint.Type), y=Resolution.Mean, fill=Borough)) +
+    ggplot(df_boroughs_how_reactive(), aes(x=factor(Complaint.Type), y=Resolution.Mean, fill=Borough)) +
       geom_bar(stat='identity', position='dodge') +
       my_theme + 
       labs(
@@ -94,12 +92,11 @@ shinyServer(function(input, output, session) {
         x = "Complaint Type", 
         y = "Minutes"
       ) + 
-      #scale_y_continuous(limits=c(0, 21000)) +
       coord_flip()
     
   })
   
-  output$boroughPlot2 <- renderPlot({
+  output$plot_boroughs_when <- renderPlot({
     
     my_titles <- labs(
       title = "When Does Each Borough Complain", 
@@ -110,11 +107,11 @@ shinyServer(function(input, output, session) {
     
     if(length(input$select_borough) > 0) {
       
-      df_complaint_type_reactive <- reactive({ 
-        df_complaint_type[df_complaint_type$Borough %in% input$select_borough, ]
+      df_boroughs_when_reactive <- reactive({ 
+        df_boroughs_when[df_boroughs_when$Borough %in% input$select_borough, ]
       })
       
-      ggparcoord(df_complaint_type_reactive(), columns = 2:25, groupColumn = "Borough", scale = "globalminmax") + 
+      ggparcoord(df_boroughs_when_reactive(), columns = 2:25, groupColumn = "Borough", scale = "globalminmax") + 
         my_theme + 
         my_titles
       
@@ -123,18 +120,22 @@ shinyServer(function(input, output, session) {
     }
   
   })
-  
+
   output$boroughs_analysis <- renderText({
     paste(readLines("templates/boroughs_analysis.html"), collapse = "\n")
   })
   
-  output$table <- renderTable({
-    df_borough_bar_plot()
+  output$complaints_analysis <- renderText({
+    paste(readLines("templates/complaints_analysis.html"), collapse = "\n")
   })
   
-  output$heatMap <- renderPlot({
+  output$table <- renderTable({
+    df_boroughs_what()
+  })
+  
+  output$plot_boroughs_where <- renderPlot({
        
-      output$heatMap <- renderImage({
+      output$plot_boroughs_where <- renderImage({
         
         list(
           src = "images/311_heat_map.png",
@@ -146,7 +147,7 @@ shinyServer(function(input, output, session) {
     
   })
   
-  output$complaintTimes <- renderPlot({
+  output$plot_complaints_when <- renderPlot({
     
     my_titles <- labs(
       title = "When Do Complaints Occur", 
@@ -158,7 +159,7 @@ shinyServer(function(input, output, session) {
     if(length(input$complaint_type) > 0) {
       
       df_complaints_pcp <- reactive({ 
-        df_complaints[df_complaints$Complaint.Type %in% input$complaint_type, ]
+        df_complaints_when[df_complaints_when$Complaint.Type %in% input$complaint_type, ]
       })
       
       ggparcoord(df_complaints_pcp(), columns = 2:25, groupColumn = "Complaint.Type", scale = "globalminmax") + 
@@ -166,7 +167,7 @@ shinyServer(function(input, output, session) {
         my_titles
       
     } else {
-      default_plot +my_titles
+      default_plot + my_titles
     }
     
   })
