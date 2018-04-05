@@ -72,7 +72,7 @@ shinyUI(
                    checkboxInput('bar_complaint', 'All/None'),
                    sliderInput(
                      "complaints_alpha",
-                     "Alpha (Used Within Where):",
+                     "Alpha (See The 'Where' Tab):",
                      min = 0,
                      max = 1,
                      value = .5
