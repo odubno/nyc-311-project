@@ -12,6 +12,7 @@ library(dplyr)
 library(GGally)
 library(ggplot2)
 library(gridExtra)
+library(ggmap)
 
 df <- read.csv('data/311_filtered.csv')
 df_complaints_when <- read.csv('data/311_complaints_when.csv')
@@ -73,19 +74,18 @@ shinyUI(
                    helpText("The data is filtered according to the top 15 most frequent complaints."),
                    hr(),
                    h4('See Code:'),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_bar_plot_borough.Rmd", "What"),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_how_bar_plot.Rmd.Rmd", "How"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_pcp_borough.Rmd", "How"),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_when_pcp.Rmd", "When"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_created_time.Rmd", "When"),
-                   p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/311_geo_plot.Rmd", "Where")
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_where_geo_map.Rmd", "Where")
                  ),
                  
                  mainPanel(
                    tabsetPanel(
                      tabPanel("How", plotOutput("plot_complaints_how")),
                      tabPanel("When", plotOutput("plot_complaints_when")),
+                     tabPanel("Where", imageOutput("plot_complaints_where")),
                      tabPanel("Main Analysis", htmlOutput("complaints_analysis"))
                    )
                  )
@@ -97,10 +97,12 @@ shinyUI(
             ),
             tabPanel(
                 "About", includeHTML("templates/about.html")
+            ),
+            tabPanel(
+              "Resources", includeHTML("templates/resources.html")
             )
   )
 )
 
-# TODO: update Boroughs to select multiple boroughs.
-# TODO: clean up the complaints selection options.
+
 # rsconnect::deployApp('/Users/olehdubno/Documents/columbia/NYC311Project/nyc311app')

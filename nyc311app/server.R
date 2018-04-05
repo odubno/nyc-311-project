@@ -12,9 +12,12 @@ library(dplyr)
 library(GGally)
 library(ggplot2)
 library(gridExtra)
+library(ggmap)
 
+
+nyc_map <- qmap('New York City', zoom = 11)
 df_complaints_when <- read.csv('data/311_complaints_when.csv', check.names = FALSE)
-complaint_options <- df_complaints_when$Complaint.Type
+complaint_choices <- df_complaints_when$Complaint.Type
 
 df <- read.csv('data/311_filtered.csv')
 borough_choices <- colnames(df[-1])
@@ -26,6 +29,7 @@ shinyServer(function(input, output, session) {
   df_boroughs_what <- read.csv('data/311_boroughs_what.csv')
   df_boroughs_when <- read.csv('data/311_boroughs_when.csv', check.names = FALSE)
   df_boroughs_complaints_how <- read.csv('data/311_boroughs_complaints_how.csv')
+  df_complaints_where <- read.csv('data/311_complaints_where.csv')
 
   my_theme <- theme(plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)), 
                     plot.subtitle=element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)),
@@ -45,8 +49,8 @@ shinyServer(function(input, output, session) {
     updateCheckboxGroupInput(
       session, 
       'complaint_type', 
-      choices = complaint_options,
-      selected = if (input$bar_complaint) complaint_options
+      choices = complaint_choices,
+      selected = if (input$bar_complaint) complaint_choices
     )
   })
   
@@ -188,5 +192,30 @@ shinyServer(function(input, output, session) {
     }
     
   })
+  
+  
+  output$plot_complaints_where <- renderPlot({
+    
+    
+    if(length(input$complaint_type) > 0) {
+      
+      df_complaints_where_reactive <- reactive({ 
+        df_complaints_where[df_complaints_where$Complaint.Type %in% input$complaint_type, ]
+      })
+    
+      nyc_map +
+        geom_point(data = df_complaints_where_reactive(), aes(x = Longitude, y = Latitude, colour = Complaint.Type, alpha=.5)) +
+        my_theme + 
+        ggtitle(
+          expression(
+            atop("Where Does Each Complaint Occur")
+          )
+        )
+      
+    } else {
+      return(NULL)
+    }
+    
+  }, height = 800, width = 800)
   
 })
