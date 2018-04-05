@@ -70,6 +70,13 @@ shinyUI(
                  sidebarPanel(
                    checkboxGroupInput('complaint_type', 'Select Complaint', complaint_options),
                    checkboxInput('bar_complaint', 'All/None'),
+                   sliderInput(
+                     "complaints_alpha",
+                     "Alpha (Used Within Where):",
+                     min = 0,
+                     max = 1,
+                     value = .5
+                   ),
                    hr(),
                    helpText("The data is filtered according to the top 15 most frequent complaints."),
                    hr(),

@@ -196,7 +196,6 @@ shinyServer(function(input, output, session) {
   
   output$plot_complaints_where <- renderPlot({
     
-    
     if(length(input$complaint_type) > 0) {
       
       df_complaints_where_reactive <- reactive({ 
@@ -204,7 +203,7 @@ shinyServer(function(input, output, session) {
       })
     
       nyc_map +
-        geom_point(data = df_complaints_where_reactive(), aes(x = Longitude, y = Latitude, colour = Complaint.Type, alpha=.5)) +
+        geom_point(data = df_complaints_where_reactive(), aes(x = Longitude, y = Latitude, colour = Complaint.Type), alpha=input$complaints_alpha) +
         my_theme + 
         ggtitle(
           expression(
