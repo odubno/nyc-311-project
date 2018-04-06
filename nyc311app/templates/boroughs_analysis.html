@@ -1,24 +1,46 @@
 
 <h3>Overview</h3>
 
-<p>Provide a detailed, well-organized description of your findings, including textual description, graphs, and code.  Your focus should be on both the results and the process. Include, as reasonable and relevant, approaches that didn't work, challenges, the data cleaning process, etc.</p>
+<!-- Provide a detailed, well-organized description of your findings, including textual description, graphs, and code.  Your focus should be on both the results and the process. Include, as reasonable and relevant, approaches that didn't work, challenges, the data cleaning process, etc. -->
+
+<p>
+	Here you'll read about our findings, process and challenges with exploring 311 data focused on boroughs.
+</p>
 
 <h4>Findings</h4>
-<p>Describe the findings. How does each borough compare to each other.</p>
-<p>by: Danny</p>
+<ul>
+	<p>Describe the findings. How does each borough compare to each other.</p>
+	<p>by: Danny</p>
+</ul>
 
 <h4>Process</h4>
-<p>Describe the process it took to organize the data and issues that you encountered.</p>
-<p>by: Oleh</p>
+
+<ul>
+	<p>
+		There are 191,314 complaints for the month of February. Our goal is to explore each borough and report on what New Yorkers like to complain about. The downside of exploring complaints is that <i>311 data</i> has 221 of them. 
+	</p>
+
+	<p>
+		In order to account for all complaint types we created our own categories. After doing so, we noticed that we might have over-categorized some complaints. Mapping <i>Street Light Condition</i> and <i>Traffic Signal Condition</i> to just <i>Street Condition</i>, seems like a good idea, until we realized that they both tell a different story and happen during different times. We chose to subset and filter our data by the top 15 most common complaints. This took the data down to 119,877 complaints or 63% of the original dataset.
+	</p>
+
+	<p>
+		This data set is pretty clean, but still has some missing fields. Of the remaining 119,877 complaints, 4,144 rows of the <b>Borough</b> column are classified as <i>Unspecified</i>. Our interpretation of what this means is that the person who called simply wanted some information rather than to complain and location wasn't necessary. We also noticed that the column <b>City</b>, at times, indicated Newark and the <b>Borough</b> for that complaint in <i>Unclassified</i>. We're assuming that some complaints our made from outside the city.
+	</p>
+</ul>
 
 <h4>Challenges</h4>
-<p>Describe the challenges faced with the data. What did we want to learn but couldn't because we just didn't know what something meant.</p>
-<p>by: Oleh</p>
+<ul>
+	<p>Describe the challenges faced with the data. What did we want to learn but couldn't because we just didn't know what something meant.</p>
+	<p>by: Oleh</p>
+</ul>
 
 <h4>Summary</h4>
-<p>Add a conclusion/ summary.</p>
-<p>eg. Either Staten Island and Queens are getting good "Heat/Hot Water" or people are not as vocal as the other three boroughs.</p>
-<p>by: Danny</p>
+<ul>
+	<p>Add a conclusion/ summary.</p>
+	<p>eg. Either Staten Island and Queens are getting good "Heat/Hot Water" or people are not as vocal as the other three boroughs.</p>
+	<p>by: Danny</p>
+</ul>
 
 
 <!-- 

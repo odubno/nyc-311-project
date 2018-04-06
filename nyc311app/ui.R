@@ -1,12 +1,3 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
 library(dplyr)
 library(GGally)
@@ -19,12 +10,14 @@ df_complaints_when <- read.csv('data/311_complaints_when.csv')
 complaint_options <- df_complaints_when$Complaint.Type
 
 shinyUI(
-  navbarPage("Do New Yorkers Like To Complain?",
+  navbarPage("Life In NYC During February",
              
              tabPanel(
                "Boroughs",
-               titlePanel("311 Borough Analysis Of February 2018"),
-               "Exploring each borough and what they like to complain about for only February 2018",
+               titlePanel("Borough Analysis"),
+               "We explore what each borough offers or lacks and what New Yorkers like to complain about.",
+               
+               hr(),
                
                # Generate a row with a sidebar
                sidebarLayout(      
@@ -37,13 +30,13 @@ shinyUI(
                    helpText("The data is filtered according to the top 15 most frequent complaints."),
                    hr(),
                    h4('See Code:'),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_what_bar_plot.Rmd", "What"),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_what_bar_plot.Rmd", "What (boroughs)"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_how_bar_plot.Rmd", "How"),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_how_bar_plot.Rmd", "How (boroughs)"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_when_pcp.Rmd", "When"),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_when_pcp.Rmd", "When (boroughs)"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_where_heat_map.Rmd", "Where")
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/borough_plots/311_boroughs_where_heat_map.Rmd", "Where (boroughs)")
                  ),
                  
                  mainPanel(
@@ -60,8 +53,11 @@ shinyUI(
              
              tabPanel(
                "Complaints",
-               titlePanel("311 Complaint Analysis Of February 2018"),
-               "Exploring each complaint and why they matter for only February 2018.",
+               titlePanel("Complaint Analysis"),
+               # "WE EXPLORE THE TOP 15 MOST FREQUENT COMPLAINTS AND WHAT THEY MEAN FOR EACH BOROUGH",
+               "We explore the top 15 most frequent complaints and what they mean for each borough.",
+               
+               hr(),
                
                # Generate a row with a sidebar
                sidebarLayout(      
@@ -81,15 +77,18 @@ shinyUI(
                    helpText("The data is filtered according to the top 15 most frequent complaints."),
                    hr(),
                    h4('See Code:'),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_how_bar_plot.Rmd.Rmd", "How"),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_what_bar_plot.Rmd", "What (complaints)"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_when_pcp.Rmd", "When"),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_how_bar_plot.Rmd.Rmd", "How (complaints)"),
                    p(),
-                   a(href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_where_geo_map.Rmd", "Where")
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_when_pcp.Rmd", "When (complaints)"),
+                   p(),
+                   a(href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_where_geo_map.Rmd", "Where (complaints)")
                  ),
                  
                  mainPanel(
                    tabsetPanel(
+                     tabPanel("What", plotOutput("plot_complaints_what")),
                      tabPanel("How", plotOutput("plot_complaints_how")),
                      tabPanel("When", plotOutput("plot_complaints_when")),
                      tabPanel("Where", imageOutput("plot_complaints_where")),
@@ -106,10 +105,11 @@ shinyUI(
                 "About", includeHTML("templates/about.html")
             ),
             tabPanel(
-              "Resources", includeHTML("templates/resources.html")
+                "Resources", includeHTML("templates/resources.html")
             )
   )
 )
 
 
+# TODO change minutes to hours for how long it takes to resolve a complaint
 # rsconnect::deployApp('/Users/olehdubno/Documents/columbia/NYC311Project/nyc311app')

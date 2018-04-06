@@ -5,6 +5,6 @@ account: odubno
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 312790
-bundleId: 1303751
+bundleId: 1305004
 url: https://odubno.shinyapps.io/nyc311app/
-when: 1522930563.15366
+when: 1522972315.05881

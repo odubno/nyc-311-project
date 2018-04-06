@@ -26,7 +26,7 @@ borough_choices <- colnames(df[-1])
 shinyServer(function(input, output, session) {
    
   df <- reactive(read.csv('data/311_filtered.csv'))
-  df_boroughs_what <- read.csv('data/311_boroughs_what.csv')
+  df_boroughs_complaints_what <- read.csv('data/311_boroughs_what.csv')
   df_boroughs_when <- read.csv('data/311_boroughs_when.csv', check.names = FALSE)
   df_boroughs_complaints_how <- read.csv('data/311_boroughs_complaints_how.csv')
   df_complaints_where <- read.csv('data/311_complaints_where.csv')
@@ -65,11 +65,11 @@ shinyServer(function(input, output, session) {
   
   output$plot_boroughs_what <- renderPlot({
     
-    df_boroughs_what_reactive <- reactive({ 
-      df_boroughs_what[df_boroughs_what$Borough %in% input$select_borough, ]
+    df_boroughs_complaints_what_reactive <- reactive({ 
+      df_boroughs_complaints_what[df_boroughs_complaints_what$Borough %in% input$select_borough, ]
     })
     
-    ggplot(df_boroughs_what_reactive(), aes(x=factor(Complaint.Type), y=n, fill=Borough)) +
+    ggplot(df_boroughs_complaints_what_reactive(), aes(x=factor(Complaint.Type), y=n, fill=Borough)) +
       geom_bar(stat='identity', position='dodge') +
       labs(
         title = "What Does Each Borough Complain About",
@@ -94,7 +94,7 @@ shinyServer(function(input, output, session) {
         title = "How Long Does It Take", 
         subtitle = "For A Complaint To Get Resolved",
         x = "Complaint Type", 
-        y = "Minutes"
+        y = "Complaint Resolution (Hours)"
       ) + 
       coord_flip()
     
@@ -132,9 +132,6 @@ shinyServer(function(input, output, session) {
     paste(readLines("templates/complaints_analysis.html"), collapse = "\n")
   })
   
-  output$table <- renderTable({
-    df_boroughs_what()
-  })
   
   output$plot_boroughs_where <- renderPlot({
        
@@ -150,6 +147,25 @@ shinyServer(function(input, output, session) {
     
   })
   
+  output$plot_complaints_what <- renderPlot({
+    
+    df_boroughs_complaints_what_reactive <- reactive({ 
+      df_boroughs_complaints_what[df_boroughs_complaints_what$Complaint.Type %in% input$complaint_type, ]
+    })
+    
+    ggplot(df_boroughs_complaints_what_reactive(), aes(x=factor(Borough), y=n, fill=Complaint.Type)) +
+      geom_bar(stat='identity', position='dodge') +
+      labs(
+        title = "What Does Each Borough Complain About",
+        x = "Borough", 
+        y = "Number of Complaints"
+      ) +
+      my_theme +
+      coord_flip()
+    
+  })
+  
+  
   output$plot_complaints_how <- renderPlot({
     
     df_boroughs_complaints_how_reactive <- reactive({ 
@@ -162,8 +178,8 @@ shinyServer(function(input, output, session) {
       labs(
         title = "How Long Does It Take", 
         subtitle = "Each Borough To Resolve A Complaint",
-        x = "Complaint Type", 
-        y = "Minutes"
+        x = "Borough", 
+        y = "Complaint Resolution (Hours)"
       ) + 
       coord_flip()
     
@@ -174,7 +190,7 @@ shinyServer(function(input, output, session) {
     my_titles <- labs(
       title = "When Do Complaints Occur", 
       x = "Hours (00=Midnight)", 
-      y = "Complaint Type"
+      y = "Number Of Complaints"
     )
     
     if(length(input$complaint_type) > 0) {
@@ -198,6 +214,13 @@ shinyServer(function(input, output, session) {
     
     if(length(input$complaint_type) > 0) {
       
+      my_titles <- labs(
+        title = "When Do Complaints Occur", 
+        subtitle = "",
+        x = "", 
+        y = ""
+      )
+      
       df_complaints_where_reactive <- reactive({ 
         df_complaints_where[df_complaints_where$Complaint.Type %in% input$complaint_type, ]
       })
@@ -205,11 +228,7 @@ shinyServer(function(input, output, session) {
       nyc_map +
         geom_point(data = df_complaints_where_reactive(), aes(x = Longitude, y = Latitude, colour = Complaint.Type), alpha=input$complaints_alpha) +
         my_theme + 
-        ggtitle(
-          expression(
-            atop("Where Does Each Complaint Occur")
-          )
-        )
+        my_titles
       
     } else {
       return(NULL)
