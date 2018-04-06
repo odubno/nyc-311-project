@@ -22,12 +22,12 @@ df_filtered <- df[df$Complaint.Type %in% ct,]
 # clean the date column
 df_filtered$Created.Date <- as.POSIXct(df_filtered$Created.Date, format="%m/%d/%Y %I:%M:%S %p")
 df_filtered$Closed.Date <- as.POSIXct(df_filtered$Closed.Date, format="%m/%d/%Y %I:%M:%S %p")
-df_filtered$Resolution.Minutes <- as.numeric(df_filtered$Closed.Date - df_filtered$Created.Date) / 60
-df_select <- df_filtered[,c("Borough","Complaint.Type", "Resolution.Minutes")]
+df_filtered$Resolution.Hours <- (as.numeric(df_filtered$Closed.Date - df_filtered$Created.Date) / 60) / 60
+df_select <- df_filtered[,c("Borough","Complaint.Type", "Resolution.Hours")]
 df_select$Borough <- chartr(" ", ".", df_select$Borough) # "Staten Island" should be "Staten.Island"
 
 # aggregate by the mean of resolution minutes
-df_borough_create_time <- aggregate(x=df_select$Resolution.Minutes,
+df_borough_create_time <- aggregate(x=df_select$Resolution.Hours,
           by=list(df_select$Borough,df_select$Complaint.Type),
           FUN=mean, na.rm=TRUE, na.action=NULL)
 names(df_borough_create_time) <- c("Borough", "Complaint.Type", "Resolution.Mean")
