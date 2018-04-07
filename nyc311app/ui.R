@@ -91,7 +91,7 @@ shinyUI(
                      tabPanel("What", plotOutput("plot_complaints_what")),
                      tabPanel("How", plotOutput("plot_complaints_how")),
                      tabPanel("When", plotOutput("plot_complaints_when")),
-                     tabPanel("Where", imageOutput("plot_complaints_where")),
+                     tabPanel("Where", plotOutput("plot_complaints_where")),
                      tabPanel("Main Analysis", htmlOutput("complaints_analysis"))
                    )
                  )
@@ -106,6 +106,44 @@ shinyUI(
             ),
             tabPanel(
                 "Resources", includeHTML("templates/resources.html")
+            ),
+            tabPanel(
+              "Extra",
+              titlePanel("Live 311 Complaints"),
+              "Depending on the day there may be between 4,000 and 10,000 complaints per day.",
+              
+              hr(),
+              
+              # Generate a row with a sidebar
+              sidebarLayout(      
+                
+                # Define the sidebar with one input
+                sidebarPanel(
+                  dateRangeInput('dateRange',
+                                 label = 'Date range input: yyyy-mm-dd',
+                                 start = Sys.Date() - 2, end = Sys.Date()
+                  ),
+                  column(6,
+                         verbatimTextOutput("dateRangeText")
+                  ),
+                  checkboxGroupInput('extra_live', 'Select Complaint', complaint_options),
+                  checkboxInput('bar_extra_live', 'All/None'),
+                  sliderInput(
+                    "extra_live_alpha",
+                    "Alpha",
+                    min = 0,
+                    max = 1,
+                    value = .5
+                  )
+                ),
+                
+                mainPanel(
+                  tabsetPanel(
+                    tabPanel("Where", plotOutput("plot_extra_live")),
+                    tabPanel("About Live", htmlOutput("live_analysis"))
+                  )
+                )
+              )
             )
   )
 )
