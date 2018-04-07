@@ -1,0 +1,42 @@
+---
+title: "R Notebook"
+# output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+
+
+# API Call
+path_1 <- 'https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%27'
+start_date <- '2018-04-05'
+path_2 <- 'T00%3A00%3A00%27+AND+%60created_date%60+%3C+%27'
+end_date <- '2018-04-07'
+path_3 <- 'T23%3A59%3A59%27'
+live_url <- paste(path_1, start_date, path_2, end_date, path_3, sep='')
+live_data = read.csv(live_url)
+
+# Filter by the top 15 most frequent complaints
+w = table(live_data$Complaint.Type)
+t = as.data.frame(w)
+names(t)[1] = 'Complaint.Type'
+ct <- head(t[order(t$Freq, decreasing = TRUE),c(1,2)], 15)$Complaint.Type
+df_complaints <- live_data[live_data$Complaint.Type %in% ct,]
+
+# Select desired columns and remove NAs
+df_live_select <- df_complaints[c('Complaint.Type','Longitude', 'Latitude')]
+df_live_select <- na.omit(df_live_select)
+
+# Plot
+my_titles <- labs(
+  title = "Where Do Complaints Occur", 
+  subtitle = '',
+  x = '', 
+  y = ''
+)
+nyc_map +
+  geom_point(data = df_live_select, aes(x = Longitude, y = Latitude, colour = Complaint.Type), alpha=.5) +
+  my_titles
+```
+
+
