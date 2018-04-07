@@ -6,4 +6,4 @@ We built an a Shiny App for all of our findings:
 [See our shiny app.](https://odubno.shinyapps.io/nyc311app/)
 
 
-![Optional Text](../master/images/nyc311_home_page.png "Shiny APP")
+[![Optional Text](../master/images/nyc311_home_page.png "Shiny APP")](https://odubno.shinyapps.io/nyc311app/)
