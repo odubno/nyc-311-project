@@ -149,5 +149,4 @@ shinyUI(
 )
 
 
-# TODO change minutes to hours for how long it takes to resolve a complaint
 # rsconnect::deployApp('/Users/olehdubno/Documents/columbia/NYC311Project/nyc311app')
