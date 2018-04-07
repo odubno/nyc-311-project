@@ -20,14 +20,20 @@
 		<p>Outside of it being a clean data set, we live in NYC and are curious to learn more about what New Yorkers like to complain about.</p>
 	</ul>
 
-<h3>Description of Data</h3>
+<h3>Layout of the APP</h3>
 
-	<ul>
-		<p>We got the data from NYC Open Data website. We're only working with the data from February 2018. Why February? Well it's a recent month and working with a full year is expensive both in time and cpu. New Yorkers report a lot of complaints. Specifically, just 200,000 complaints for February 2018. The data for February 2018 is 125 MB. You could download the csv below.</p>
-		<ul>
-			<a href="https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%272018-02-01T00%3A00%3A00%27+AND+%60created_date%60+%3C+%272018-02-28T23%3A59%3A59%27">DOWNLOAD 311 FEBRUARY DATA (125 MB)</a>
-		</ul>
-	</ul>
+	<h4>Boroughs</h4>
+	<ul>Anysis of each complaint, while filtering by borough.</ul>
+	<h4>Complaints</h4>
+	<ul>Analysis of each borough, while filtering by complaint.</ul>
+	<h4>Executive Summary</h4>
+	<ul>Taking the "Main Analysis" from <b>Boroughs</b> and <b>Complaints</b> tabs and bringing them together.</ul>
+	<h4>About</h4>
+	<ul>You're here</ul>
+	<h4>Resources</h4>
+	<ul>What we used to create this app</ul>
+	<h4>Extra</h4>
+	<ul>Using the 311 API to make to see where complaints are happening in real time.</ul>
 
 <h3>The Strugle Is Chill</h3>
 
@@ -46,26 +52,4 @@
 
 	<p>Below we'll go over some of the struggles that we faced with the tools we used. Most of the struggles funnel down to memory issues and expensive processes due to data size.</p>
 
-</ul>
-
-
-<ul>
-	<h4>GitGub</h4>
-
-		<ul>GitHub limits the size of files allowed on their server to 100 mb. Our file is ~125MB.</ul>
-		<br>
-		<ul>We learned about <b>git LFS</b>, an extension that allows large files to exist on the repo. The large file shows up in github with text pointers on how to retrieve the data from a remote server. Not very helpful, since we're working with publicly available. That is why we provided a link at the top of this page to download the ~125MB file.</ul>
-		<br>
-		<ul>We chose to clean the large csv file locally and upload the clean versions of data. They were much smaller.</ul>
-
-	<h4>Shiny</h4>
-
-		<ul>Shiny is great and we were quick to deploy the app that you're looking at now. Getting up to speed with Navigation Tabs, structing the UI and Server did take some time, but not as much as we thought.</ul>
-		<br>
-		<ul>We got kicked off of Shiny, several times with a "Disconnected from the server", when using up too much of their free resources. We we're attempting to plot a heat map using ggmap. Running it locally took 10 seconds but the public server couldn't handle it. We settled on saving the image plot we created and sourcing the image locally instead of continuously crashing the server.</ul>
-
-	<h4>R Studio</h4>
-		<ul>R Studio is the best way to edit R code. Just remember to manually save your work time to time before the computer dies or something crashes. Otherwise, you might lose 2 hours of good work.</ul>
-		<br>
-		<ul>Time to time we'd like to substitue new code for old without deleting old code. We're in the habit of highlting the code and pressing <b>Cmnd ?</b>, to comment out code. Well R doesn't seem to support that.</ul>
 </ul>

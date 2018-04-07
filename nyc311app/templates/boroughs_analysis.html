@@ -1,19 +1,15 @@
 
-<h3>Overview</h3>
+<h1>Overview</h1>
 
-<!-- Provide a detailed, well-organized description of your findings, including textual description, graphs, and code.  Your focus should be on both the results and the process. Include, as reasonable and relevant, approaches that didn't work, challenges, the data cleaning process, etc. -->
+<b>Here you'll find a detailed, well-organized description of our findings, including graphs and code. Use the tabs for different graphs and you could find the code in the panel on the left. The focus is on results and process. We'll discuess reasonable and relevant approaches that didn't work, challenges and the data cleaning process.</b>
 
-<p>
-	Here you'll read about our findings, process and challenges with exploring 311 data focused on boroughs.
-</p>
-
-<h4>Findings</h4>
+<h2>Findings</h2>
 <ul>
 	<p>Describe the findings. How does each borough compare to each other.</p>
 	<p>by: Danny</p>
 </ul>
 
-<h4>Process</h4>
+<h2>Data Cleaning Process</h2>
 
 <ul>
 	<p>
@@ -29,26 +25,38 @@
 	</p>
 </ul>
 
-<h4>Challenges</h4>
+<h2>Challenges With Tools</h2>
 <ul>
-	<p>Describe the challenges faced with the data. What did we want to learn but couldn't because we just didn't know what something meant.</p>
-	<p>by: Oleh</p>
+	<p>We'll describe the challenges we got past with the tools we used.</p>
+
+	<h2>GitGub</h2>
+
+		<ul>GitHub limits the size of files allowed on their server to 100 mb. Our file is ~125MB.</ul>
+		<br>
+		<ul>We learned about <b>git LFS</b>, an extension that allows large files to exist on the repo. The large file shows up in github with text pointers on how to retrieve the data from a remote server. Not very helpful, since we're working with publicly available data.</ul>
+		<br>
+		<ul>We chose to clean the large csv file locally and upload the clean versions of data. They were much smaller.</ul>
+		<br>
+		<ul>You could get the original file here: <a href="https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%272018-02-01T00%3A00%3A00%27+AND+%60created_date%60+%3C+%272018-02-28T23%3A59%3A59%27">DOWNLOAD 311 FEBRUARY DATA (125 MB)</a></ul>
+
+	<h2>Shiny</h2>
+
+		<ul>Shiny is great and we were quick to deploy the app that you're looking at now. Getting up to speed with Navigation Tabs, structing the UI and Server did take some time, but not as much as we thought.</ul>
+		<br>
+		<ul>We got kicked off of Shiny, several times with a "Disconnected from the server", when using up too much of their free resources. We we're attempting to plot a heat map using ggmap. Running it locally took 10 seconds but the public server couldn't handle it. We settled on saving the image plot we created and sourcing the image locally instead of continuously crashing the server.</ul>
+		<br>
+		<ul>In the midst of us creating the app, we got an email from Shiny indicating that we used up all of the allotted server time (24 hours). Well, $9 a month isn't bad, so we went for it. We plan to cancel the subscription after the class and settle for the 24 hours of server time for each month.</ul>
+
+	<h2>R Studio</h2>
+		<ul>R Studio is the best way to edit R code. Just remember to manually save your work time to time before the computer dies or something crashes. Otherwise, you might lose 2 hours of good work.</ul>
+		<br>
+		<ul>Time to time we'd like to substitue new code for old without deleting old code. We're in the habit of highlting the code and pressing <b>Cmnd ?</b>, to comment out code. R doesn't seem to support that. Other IDE's do.</ul>
+
 </ul>
 
-<h4>Summary</h4>
+<h2>Summary</h2>
 <ul>
 	<p>Add a conclusion/ summary.</p>
 	<p>eg. Either Staten Island and Queens are getting good "Heat/Hot Water" or people are not as vocal as the other three boroughs.</p>
 	<p>by: Danny</p>
 </ul>
-
-
-<!-- 
-<p>Given we're reviewing data from February, a pretty cold month, most complaints are about "Heat/Hot Water". Makes sense. Queens appears to be a bit of an outlier and does not have as many complaints about "Heat/Hot Water" as the other boroughs. Staten Island doesn't complain much period.</p>
-
- -->
-
-
-<!-- <img src="https://github.com/odubno/NYC311Project/blob/master/nyc311app/images/boroughs_what_all.png?raw=true" > -->
-<!-- 
-<img src="boroughs_what_all.png" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;" /> -->
