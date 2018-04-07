@@ -4,3 +4,6 @@ We'll be using [311 Data](https://nycopendata.socrata.com/Social-Services/311-Se
 
 We built an a Shiny App for all of our findings:
 [See our shiny app.](https://odubno.shinyapps.io/nyc311app/)
+
+
+![Optional Text](../master/images/nyc311_home_page.png "Shiny APP")
