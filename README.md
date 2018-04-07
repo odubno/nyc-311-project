@@ -12,8 +12,7 @@ Click the screenshot of the [Shiny APP](https://odubno.shinyapps.io/nyc311app/) 
 # Authors
 
 * **Oleh Dubno** - [github.odubno](http://odubno.github.io/)
-  - Code and images.
+  - Shiny App, R and analysis.
 * **Danny Argov** - [github.datargov](http://github.com/datargov/)
-  - Wording and logic of text. 
+  - R and analysis. 
 
- 
