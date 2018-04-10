@@ -1,23 +1,108 @@
-<h3>Overview</h3>
 
-<!-- Provide a detailed, well-organized description of your findings, including textual description, graphs, and code.  Your focus should be on both the results and the process. Include, as reasonable and relevant, approaches that didn't work, challenges, the data cleaning process, etc. -->
+<h1>Complaint Main Analysis</h1>
+<p>Oleh Dubno & Daniel Argov</p>
+<br>
+<h3>What can 311 data tell us about life in NYC?</h3>
+
+<hr>
+
+<h2>The Findings</h2>
+<br>
+<p>Here we'll address each of the graphs you'll find in the tabs above</p>
+
+<h3>The What (Number of Complaints)</h3>
+<img src="complaint_analysis_what_3.png" height="400" width="500" style="float: right; width: 800px; margin-right: 1%; margin-bottom: 0.5em;" /> 
 <p>
-	Here you'll read about our findings, process and challenges with exploring 311 data focused on complaint types.
+	If we simply select all of the Boroughs, we can easily discern that all of the boroughs outside of Staten Island have similar levels of complaint frequency, with some of the complaint types standing out as clusters, such as Heat/Hot Water (makes sense since it’s winter), Noise - Residential, and Street Condition. But Staten Island is showing as an outlier for all complaint types. This is due to the simple fact of the populations of each borough, where Staten Island has a population of 479k vs. Brooklyn which has around 2.6M population. 
 </p>
 
-<h4>Findings</h4>
-<p>Describe the findings. How does each complaint compare to each other any by borough.</p>
-<p>by: Danny</p>
 
-<h4>Process</h4>
-<p>Describe the process it took to organize the data and issues that you encountered.</p>
-<p>by: Oleh</p>
+<p>
+	Looking at the 3 boroughs with the highest populations, Manhattan, Queens and Brooklyn we can see something interesting which aligns with our basic understanding of the lifestyle differences. Whilst Brooklyn and Queens see frequent complaints for Blocked Driveways, Manhattan sees nearly zero. This matches our intuition of the dwelling types in Manhattan: largely skyrise apartments, with few driveways in the first place.
+</p>
+<center>
+<img src="complaint_analysis_what_1.png" height="400" width="750"/> 
+</center>
+<p>
+	Another interesting occurrence we had observed is the correlation between PLUMBING and Water System. If we zone in on only selecting these two complaint types, we see a bizarre incongruence between Boroughs. Why is it that Staten Island and Queens have a skewed towards Water System result whilst The Bronx is precisely in the opposing direction, heavily submitting complaints on PLUMBING over Water System. Is one borough more proactive than the other, is the vernacular of the demographics the reason for the differences in semantics? 
+</p>
 
-<h4>Challenges</h4>
-<p>Describe the challenges faced with the data. What did we want to learn but couldn't because we just didn't know what something meant.</p>
-<p>by: Oleh</p>
+<hr>
 
-<h4>Summary</h4>
-<p>Add a conclusion/ summary.</p>
-<p>eg. Either Staten Island and Queens are getting good "Heat/Hot Water" or people are not as vocal as the other three boroughs.</p>
-<p>by: Danny</p>
+<h3>The How (long until resolution)</h3>
+<center><img src="complaint_analysis_what_2.png" height="400" width="750"/> </center>
+
+<p>
+	If we select only Heat/Hot Water (if you recall, this is the most frequent complaint type in Brooklyn, Manhattan and The Bronx), with the top three time to resolution complaints, Paint/Plaster, Plumbing and Unsanitary Condition which if we bounce back to “The What” section in Complaints and compare this visually, we can clearly see are much less frequent, we can view a very interesting phenomena. 
+</p>
+
+<center><img src="complaint_analysis_how_1.png" height="400" width="750"/> </center>
+
+<p>
+	Heat/Hot Water has a dramatically lesser resolution time than plumbing by an overage of nearly 250 hours! Our intuition points to the fact that Heat/Hot Water has more agency visibility, so again it receives the most attention, ergo sees a quicker resolution time. However, further research may points to other more pointed reasons.
+</p>
+
+<hr>
+
+<h3>The When</h3>
+<img src="complaint_analysis_when_1.png" height="400" width="550" style="float: right; width: 800px; margin-right: 1%; margin-bottom: 0.5em;" /> 
+<p>
+	Let’s dive in to singling out our highest frequency complaint once again, Heat/Hot Water. We can now see a much more distinct storyline with this time-based line graph. Complaints ramp up starting at 4 am, stay steady at around 1000 complaints per hour from 7 am until dinner time at 5 and 6 pm, and then ramp to its highest level at 10 pm when New York is going to sleep (contrary to the idioms, New York does sleep). What’s interesting is when we compare to the top two peaks of complaint respective of hour.
+</p>
+<br>
+<p>
+	Noise - Residential (which is a noise complaint about other residential units) and Street Light Condition. As we can now see, Street Light Condition hits the highest peak of submissions within an hour spread more than any other complaint, with over 1750 complaints within one hour at 11 pm with over 1500 at midnight. Street Light Condition hits just slightly below that number at 11 am. So, while Heat/Hot Water is the most frequent complaint all-up, only by using an ordinal line graph we can see these peak calls by two other complaint types which gives a window of understanding in to the life of New Yorkers.
+</p>
+<center>
+<img src="complaint_analysis_when_2.png" height="400" width="750"/> </center>
+
+
+
+<hr>
+
+<h2>Data Cleaning Process</h2>
+<br>
+<center><b><i>Data Cleaning is the same for both Complaints and Boroughs</i></b></center>
+<br>
+<ul>
+	<p>
+		There are 191,314 complaints for the month of February. Our goal is to explore each borough and report on what New Yorkers like to complain about. The downside of exploring complaints is that <i>311 data</i> has 221 of them. 
+	</p>
+
+	<p>
+		In order to account for all complaint types we created our own categories. After doing so, we noticed that we might have over-categorized some complaints. Mapping <i>Street Light Condition</i> and <i>Traffic Signal Condition</i> to just <i>Street Condition</i>, seems like a good idea, until we realized that they both tell a different story and happen during different times. We chose to subset and filter our data by the top 15 most common complaints. This took the data down to 119,877 complaints or 63% of the original dataset.
+	</p>
+
+	<p>
+		This data set is pretty clean, but still has some missing fields. Of the remaining 119,877 complaints, 4,144 rows of the <b>Borough</b> column are classified as <i>Unspecified</i>. Our interpretation of what this means is that the person who called simply wanted some information rather than to complain and location wasn't necessary. We also noticed that the column <b>City</b>, at times, indicated Newark and the <b>Borough</b> for that complaint in <i>Unclassified</i>. We're assuming that some complaints our made from outside the city.
+	</p>
+</ul>
+
+<h2>Challenges With Tools</h2>
+<ul>
+	<p>We'll describe the challenges we got past with the tools we used.</p>
+
+	<h3>GitHub</h3>
+
+		<ul>GitHub limits the size of files allowed on their server to 100 mb. Our file is ~125MB.</ul>
+		<br>
+		<ul>We learned about <b>git LFS</b>, an extension that allows large files to exist on the repo. The large file shows up in github with text pointers on how to retrieve the data from a remote server. Not very helpful, since we're working with publicly available data.</ul>
+		<br>
+		<ul>We chose to clean the large csv file locally and upload the clean versions of data. They were much smaller.</ul>
+		<br>
+		<ul>You could get the original file here: <a href="https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%272018-02-01T00%3A00%3A00%27+AND+%60created_date%60+%3C+%272018-02-28T23%3A59%3A59%27">DOWNLOAD 311 FEBRUARY DATA (125 MB)</a></ul>
+
+	<h3>Shiny</h3>
+
+		<ul>Shiny is great and we were quick to deploy the app that you're looking at now. Getting up to speed with Navigation Tabs, structing the UI and Server did take some time, but not as much as we thought.</ul>
+		<br>
+		<ul>We got kicked off of Shiny, several times with a "Disconnected from the server", when using up too much of their free resources. We we're attempting to plot a heat map using ggmap. Running it locally took 10 seconds but the public server couldn't handle it. We settled on saving the image plot we created and sourcing the image locally instead of continuously crashing the server.</ul>
+		<br>
+		<ul>In the midst of us creating the app, we got an email from Shiny indicating that we used up all of the allotted server time (24 hours). Well, $9 a month isn't bad, so we went for it. We plan to cancel the subscription after the class and settle for the 24 hours of server time for each month.</ul>
+
+	<h3>R Studio</h3>
+		<ul>R Studio is the best way to edit R code. Just remember to manually save your work time to time before the computer dies or something crashes. Otherwise, you might lose 2 hours of good work.</ul>
+		<br>
+		<ul>Time to time we'd like to substitue new code for old without deleting old code. We're in the habit of highlting the code and pressing <b>Cmnd ?</b>, to comment out code. R doesn't seem to support that. Other IDE's do.</ul>
+
+</ul>

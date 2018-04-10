@@ -71,6 +71,7 @@ shinyServer(function(input, output, session) {
       selected = if (input$bar_extra_live) complaint_choices
     )
   })
+
   
   output$plot_boroughs_what <- renderPlot({
     
@@ -258,7 +259,7 @@ shinyServer(function(input, output, session) {
     live_data = read.csv(live_url)
     
     # Select Columns and remove NAs
-    df_live_select <- df_complaints[c('Complaint.Type','Longitude', 'Latitude')]
+    df_live_select <- live_data[c('Complaint.Type','Longitude', 'Latitude')]
     df_live_select <- na.omit(df_live_select)
   
     

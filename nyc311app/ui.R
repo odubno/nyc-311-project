@@ -102,10 +102,7 @@ shinyUI(
                 "Executive Summary", includeHTML("templates/executive_summary.html")
             ),
             tabPanel(
-                "About", includeHTML("templates/about.html")
-            ),
-            tabPanel(
-                "Resources", includeHTML("templates/resources.html")
+              "Resources", includeHTML("templates/resources.html")
             ),
             tabPanel(
               "Extra",
@@ -144,7 +141,11 @@ shinyUI(
                   )
                 )
               )
+            ),
+            tabPanel(
+                "About", includeHTML("templates/about.html")
             )
+            
   )
 )
 
