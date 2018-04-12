@@ -12,13 +12,13 @@
 <hr>
 
 <h3>The What (Number of Complaints)</h3>
-<img src="borough_analysis_what_1.png" height="400" width="500" style="float: right; width: 800px; margin-right: 1%; margin-bottom: 0.5em;" /> 
+<img src="borough_analysis_what_1.png" height="300" width="500" style="float: right; width: 600px; margin-right: 1%; margin-bottom: 0.5em;" /> 
 <p>
-	In the Borough section, we did not cover why a proportion of the complaints were submitted without a Borough specified, which were labeled Unspecified. There are two reasons for this: The first being that many of the complaints lacking a Borough did in fact have a city assigned, but the agent submitting the record must not have known which Borough the city aligns to. We had discussed ways of correcting this, and leveraging columns latitude and longitude to map to zip code would resolve this issue; this is a future endeavor we could pursue post this project. The second reason can be seen in the below bar chart. We can see that the Unspecified borough is almost entirely comprised of the complaint type DOF Literature (Department of Finance Literature). Very interestingly, the NYC 311 legal document has a clause within the 311-privacy-policy that personal information and location is collected only when “reasonably necessary) (4.1 Where personal information is reasonably necessary to provide ongoing assistance to a client, the 311 Contact Center shall retain that information that is reasonably sufficient to enable the provision of such service until it is determined that retention is no longer necessary). It is our hypothesis that this clause is the reason for the requests for information such as DOF Literature Request (which clocked in 95 thousand requests over a 5 year period) have no Borough specified. 
+	If we simply select all of the Boroughs, we can easily discern that all of the boroughs outside of Staten Island have similar levels of complaint frequency, with some of the complaint types standing out as clusters, such as Heat/Hot Water (makes sense since it’s winter), Noise - Residential, and Street Condition. But Staten Island is showing as an outlier for all complaint types. This is due to the simple fact of the populations of each borough, where Staten Island has a population of 479k vs. Brooklyn which has around 2.6M population. 
 </p>
 <center><img src="borough_analysis_what_2.png" height="400" width="750" /></center>
 
-<img src="borough_analysis_what_3.png" height="400" width="750" style="float: right; width: 800px; margin-right: 1%; margin-bottom: 0.5em;" /> 
+<img src="borough_analysis_what_3.png" height="300" width="750" style="float: right; width: 600px; margin-right: 1%; margin-bottom: 0.5em;" /> 
 <p>
 	Looking at the 3 boroughs with the highest populations, Manhattan, Queens and Brooklyn we can see something interesting which aligns with our basic understanding of the lifestyle differences. Whilst Brooklyn and Queens see frequent complaints for Blocked Driveways, Manhattan sees nearly zero. This matches our intuition of the dwelling types in Manhattan: largely skyrise apartments, with few driveways in the first place.
 </p>
@@ -31,7 +31,7 @@
 <hr>
 
 <h3>The How (long until resolution)</h3>
-<img src="borough_analysis_how_1.png" height="400" width="650" style="float: right; width: 800px; margin-right: 1%; margin-bottom: 0.5em;" /> 
+<img src="borough_analysis_how_1.png" height="300" width="650" style="float: right; width: 600px; margin-right: 1%; margin-bottom: 0.5em;" /> 
 <p>
 	To discern the complaint time it took for resolution, we simply subtracted the complaint opening date and time from the closing date and time. To start, let’s select all complaint types. By comparing to the highest frequency complaint type from “The What” section, Heat/Hot Water, we see that the time to resolution at around 100 hrs is proportionally quite efficient. However, complaints such as Unsanitary Condition, Plumbing and Paint/Plaster ,whilst not in the interquartile range of all complaint types during the month, have a mean time to resolution of 300 hours. This begs the question for follow-up to discern if these types of complaints are more difficult to resolve because of their nature, or because fewer complaints of those type occur as compared to the most frequently submitted complaints such as Heat/Hot Water, Request bulky Item Collection, and Noise - Residential, so less effort is invested in to the resolution by the 
 	respected agency.
@@ -41,7 +41,7 @@
 
 <h3>The When</h3>
 <center>
-<img src="borough_analysis_when_1.png" height="400" width="650"/> 
+<img src="borough_analysis_when_1.png" height="300" width="650"/> 
 </center>
 <p>
 	This line graph shows some interesting information on general life habits of the people of New York City. We can see that starting at around midnight complaint submissions sharpy decrease until the trough at 4am. We then see a sharp rise in submissions while New Yorkers are starting their day until the peak at 11 am. This is also another view in addition to “The What” bar chart to show the scaled differences between the concentration of complaints by Borough.

@@ -11,9 +11,13 @@ complaint_options <- df_complaints_when$Complaint.Type
 
 shinyUI(
   navbarPage("Life In NYC During February",
+             position="fixed-top",
+             collapsible=TRUE,
              
              tabPanel(
                "Boroughs",
+               tags$style(type="text/css", "body {padding-top: 70px;}"),
+               
                titlePanel("Borough Analysis"),
                "We explore what each borough offers or lacks and what New Yorkers like to complain about.",
                
