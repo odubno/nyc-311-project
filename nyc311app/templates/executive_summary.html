@@ -51,6 +51,7 @@
 
 			<div class="sidenav">
 				<a href="#introduction">Introduction</a>
+				<a href="#data">Data</a>
 				<a href="#what">The What</a>
 				<a href="#how">The How</a>
 				<a href="#when">Thew When</a>
@@ -65,6 +66,45 @@
 						<p>
 							With over 8M complaints per year, NYC’s 311 data is one of the richest and most accurate views in to the socioeconomic features and urban context of New York City’s boroughs. The original data set, provided by 311 Services, contains one record for each customer’s call including information such as: service request type, service request open/close time and date and location(longitude and latitude). With that information, we are able to build interactive views in to the What, How, When and Where in regards to these complaints, anchoring on Borough. It’s also important to note that we focused on the month of February only, due to data size complexities (will be explained further in the “challenges” section). Something to note is that all data is nominal, such as borough and even complaint type; we are 
 						</p>
+				</div>
+				<br>
+				<br>
+				<div id="data" class="div_pad">
+					<h3>Data</h3>
+					<ul>
+						<p>
+							Here, we'll explore the journey of an idea for a project to having the data cleaned and plotted. 
+						</p>
+						<p>
+							The initial ambition was for us to analyze one year worth of NYC complaints. The single file took 2 minutes to download and 5 minutes to load in R. The file had 2.5 million rows and was ~2gb in size. We settled for using the last month, February 2018, for the analysis.
+						</p>
+						<p>
+							The February file is 125MB and consists of 191,314 complaints. The next obstacle was uploading the file to GitHub. GitHub limits uploads to 100MB. Given the data is public, please use this <a href="https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%272018-02-01T00%3A00%3A00%27+AND+%60created_date%60+%3C+%272018-02-28T23%3A59%3A59%27">link</a> to download 331 data for Feburary 2018. We did attempt to use <b>git LFS</b>, an extension that allows large files to exist on the repo, but it simply provided a text token that you have to use to download the data. Seemed like a waste of time to us given this data is so easily accessible.
+						</p>
+						<p>
+							Now that the data became available to play with, it's  smooth sailing from here. There are 221 different complaint types. We chose to filter the data by the 15 most frequent complaints. The size of the data went from 191,314 to 119,877 complaints. Why did we chose to filter by the top 15 most frequent complaints? We felt that this would encompass most of the important complaints and 
+						</p>
+						<p>
+							 The data has some missing (Unspecified) locations (Boroughs) and that's explained by "Complaint Type". Some complaints deal with documentation and information requests that don't require a location.
+						</p>
+						<img src="executive_summary_boroughs_what_unspecified.png" height="300" width="500" style="float: right; width: 600px; margin-right: 1%; margin-bottom: 0.5em;" /> 
+						<p>
+							In addition to "DOF Literature Request" being mainly responsible for "Unspecified", other complaints do have a missing "Borough" and we do not have a good explanation for why. This data is entered by people who receive phone calls from other people. It just takes one person to forget to ask or mention the location. We're not too worried about the missing data. It's a miniscule amount compared to what we have. If we specifically ignore "DOF Literature Request", there's only .22% of the data that is actually missing. See code to get that <a href="https://www.w3schools.com" target="_blank">here</a>.
+						</p>
+						<p>
+							
+						</p>
+					</ul>
+				</div>
+				<br>
+				<br>
+				<div id="tools" class="div_pad">
+					<h3>Tools</h3>
+					<ul>
+						<p>
+
+						</p>
+					</ul>
 				</div>
 				<br>
 				<br>

@@ -10,7 +10,7 @@ df_complaints_when <- read.csv('data/311_complaints_when.csv')
 complaint_options <- df_complaints_when$Complaint.Type
 
 shinyUI(
-  navbarPage("Life In NYC During February",
+  navbarPage("What can 311 data tell us about life in NYC?",
              position="fixed-top",
              collapsible=TRUE,
              
@@ -19,7 +19,7 @@ shinyUI(
                tags$style(type="text/css", "body {padding-top: 70px;}"),
                
                titlePanel("Borough Analysis"),
-               "We explore what each borough offers or lacks and what New Yorkers like to complain about.",
+               'SEE "BOROUGHS" AND "COMPLAINTS". EACH HAVE THEIR OWN MAIN ANALYSIS.',
                
                hr(),
                
@@ -58,8 +58,7 @@ shinyUI(
              tabPanel(
                "Complaints",
                titlePanel("Complaint Analysis"),
-               # "WE EXPLORE THE TOP 15 MOST FREQUENT COMPLAINTS AND WHAT THEY MEAN FOR EACH BOROUGH",
-               "We explore the top 15 most frequent complaints and what they mean for each borough.",
+               'SEE "BOROUGHS" AND "COMPLAINTS". EACH HAVE THEIR OWN MAIN ANALYSIS.',
                
                hr(),
                
