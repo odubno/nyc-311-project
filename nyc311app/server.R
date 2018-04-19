@@ -15,7 +15,10 @@ library(gridExtra)
 library(ggmap)
 
 df_live_select <- NULL
+
 nyc_map <- qmap('New York City', zoom = 11)
+# nyc_map <- tryCatch(qmap('New York City', zoom = 11), finally=function(e) return(qmap('New York City', zoom = 11)))
+
 df_complaints_when <- read.csv('data/311_complaints_when.csv', check.names = FALSE)
 complaint_choices <- df_complaints_when$Complaint.Type
 

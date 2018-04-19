@@ -10,7 +10,7 @@ df_complaints_when <- read.csv('data/311_complaints_when.csv')
 complaint_options <- df_complaints_when$Complaint.Type
 
 shinyUI(
-  navbarPage("What can 311 data tell us about life in NYC?",
+  navbarPage("311 Data & Life in NYC",
              position="fixed-top",
              collapsible=TRUE,
              

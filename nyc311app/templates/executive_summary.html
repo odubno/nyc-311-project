@@ -5,8 +5,18 @@
 			<style>
 				body {
 				    font-family: "Lato", sans-serif;
+				    padding-bottom: 200px;
 				}
 
+				p {
+					padding: 10px 0px 10px 0px;
+				}
+
+				figcaption { 
+				    font-size: 14px;
+				    color: #838383;
+				    display: block;
+				}
 				.sidenav {
 				    width: 160px;
 				    position: fixed;
@@ -33,11 +43,12 @@
 				.main {
 				    margin-left: 170px; /* Same width as the sidebar + left position in px */
 				    font-size: 18px; /* Increased text to enable scrolling */
-				    padding: 0px 10px;
+				    padding: 0px 20px;
 				}
 
 				.div_pad {
-					padding-top: 70px;
+					padding-top: 30px;
+					padding-bottom: 20px;
 				}
 
 				@media screen and (max-height: 450px) {
@@ -52,10 +63,12 @@
 			<div class="sidenav">
 				<a href="#introduction">Introduction</a>
 				<a href="#data">Data</a>
-				<a href="#what">The What</a>
-				<a href="#how">The How</a>
-				<a href="#when">Thew When</a>
-				<a href="#where">Thew Where</a>
+				<a href="#tools">Tools</a>
+				<a href="#body1">Body 1</a>
+				<a href="#body2">Body 2</a>
+				<a href="#body3">Body 3</a>
+				<a href="#body4">Body 4</a>
+				<a href="#next_steps">Next Steps</a>
 			</div>
 
 			<div class="main">
@@ -67,114 +80,115 @@
 							With over 8M complaints per year, NYC’s 311 data is one of the richest and most accurate views in to the socioeconomic features and urban context of New York City’s boroughs. The original data set, provided by 311 Services, contains one record for each customer’s call including information such as: service request type, service request open/close time and date and location(longitude and latitude). With that information, we are able to build interactive views in to the What, How, When and Where in regards to these complaints, anchoring on Borough. It’s also important to note that we focused on the month of February only, due to data size complexities (will be explained further in the “challenges” section). Something to note is that all data is nominal, such as borough and even complaint type; we are 
 						</p>
 				</div>
-				<br>
-				<br>
+				
+				
 				<div id="data" class="div_pad">
-					<h3>Data</h3>
-					<ul>
-						<p>
-							Here, we'll explore the journey of an idea for a project to having the data cleaned and plotted. 
-						</p>
-						<p>
-							The initial ambition was for us to analyze one year worth of NYC complaints. The single file took 2 minutes to download and 5 minutes to load in R. The file had 2.5 million rows and was ~2gb in size. We settled for using the last month, February 2018, for the analysis.
-						</p>
-						<p>
-							The February file is 125MB and consists of 191,314 complaints. The next obstacle was uploading the file to GitHub. GitHub limits uploads to 100MB. Given the data is public, please use this <a href="https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%272018-02-01T00%3A00%3A00%27+AND+%60created_date%60+%3C+%272018-02-28T23%3A59%3A59%27">link</a> to download 331 data for Feburary 2018. We did attempt to use <b>git LFS</b>, an extension that allows large files to exist on the repo, but it simply provided a text token that you have to use to download the data. Seemed like a waste of time to us given this data is so easily accessible.
-						</p>
-						<p>
-							Now that the data became available to play with, it's  smooth sailing from here. There are 221 different complaint types. We chose to filter the data by the 15 most frequent complaints. The size of the data went from 191,314 to 119,877 complaints. Why did we chose to filter by the top 15 most frequent complaints? We felt that this would encompass most of the important complaints and 
-						</p>
-						<p>
-							 The data has some missing (Unspecified) locations (Boroughs) and that's explained by "Complaint Type". Some complaints deal with documentation and information requests that don't require a location.
-						</p>
-						<img src="executive_summary_boroughs_what_unspecified.png" height="300" width="500" style="float: right; width: 600px; margin-right: 1%; margin-bottom: 0.5em;" /> 
-						<p>
-							In addition to "DOF Literature Request" being mainly responsible for "Unspecified", other complaints do have a missing "Borough" and we do not have a good explanation for why. This data is entered by people who receive phone calls from other people. It just takes one person to forget to ask or mention the location. We're not too worried about the missing data. It's a miniscule amount compared to what we have. If we specifically ignore "DOF Literature Request", there's only .22% of the data that is actually missing. See code to get that <a href="https://www.w3schools.com" target="_blank">here</a>.
-						</p>
-						<p>
-							
-						</p>
-					</ul>
+					<h2>Data</h2>
+					<p>
+						Here, we'll explore the journey of an idea for a project to having the data cleaned and plotted. 
+					</p>
+					<p>
+						The initial ambition was for us to analyze one year worth of NYC complaints. The single file took 2 minutes to download and 5 minutes to load in R. The file had 2.5 million rows and was ~2gb in size. We settled for using the last month, February 2018, for the analysis.
+					</p>
+					<p>
+						The February file is 125MB and consists of 191,314 complaints. The next obstacle was uploading the file to GitHub. GitHub limits uploads to 100MB. Given the data is public, please use this <a href="https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%272018-02-01T00%3A00%3A00%27+AND+%60created_date%60+%3C+%272018-02-28T23%3A59%3A59%27">link</a> to download 311 data for Feburary 2018. We did attempt to use <b>git LFS</b>, an extension that allows large files to exist on the repo, but it simply provided a text token that you have to use to download the data. Seemed like a waste of time to us given this data is so easily accessible.
+					</p>
+					<p>
+						Now that the data became available to play with, it's  smooth sailing from here. There are 221 different complaint types. We chose to filter the data by the 15 most frequent complaints. The size of the data went from 191,314 to 119,877 complaints. Why did we chose to filter by the top 15 most frequent complaints? We felt that this would encompass most of the important complaints and 
+					</p>
+					<p>
+						 The data has some missing (Unspecified) locations (Boroughs) and that's explained by "Complaint Type". Some complaints deal with documentation and information requests that don't require a location.
+					</p>
+					<figure style="float: right; margin-right: 1%; margin-bottom: 0.5em;" >
+						<img src="executive_summary_boroughs_what_unspecified.png" height="350" width="700"/> 
+						<figcaption>
+							Fig1. - Complaint Types filted by "Unspecified" Borough.
+						</figcaption>
+					</figure>
+
+					<p>
+						In addition to "DOF Literature Request" being mainly responsible for "Unspecified", other complaints do have a missing "Borough" and we do not have a good explanation for why (See fig 1). This data is entered by people who receive phone calls from other people. It just takes one person to forget to ask or mention the location. We're not too worried about the missing data. It's a miniscule amount compared to what we have. If we specifically ignore "DOF Literature Request", there's only .22% of the data that is actually missing. See the code that we used to calculate that <a href="https://github.com/odubno/NYC311Project/blob/master/executive_plots/get_missing_borough_percentage.Rmd" target="_blank">here</a>.
+					</p>
+					<p>
+						Now that the data has been filtered and clean, we jumped into plotting and analyzing. Enjoy the rest of our analysis! 
+					</p>
 				</div>
-				<br>
-				<br>
+				
+				
 				<div id="tools" class="div_pad">
-					<h3>Tools</h3>
+					<h2>Tools</h2>
 					<ul>
 						<p>
-
+							<b>GitHub</b> and <b>R</b> are the main tools here. We used <b>Google Docs</b> to edit the summaries before moving the final versions to HTML.
+						</p>
+						<p>
+							<b>GitHub</b> helped manage our files and make our work public.
+						</p>
+						<p>
+							This app was built using an <b>R</b> package called <b>Shiny</b>. <b>Shiny</b> is well documented and makes it really easy to spin up an app within 5 minutes. Our app took a full days work to get it working properly. 
+						</p>
+						<p>
+							<b>GGPlot2</b>, also an R package helped make all of our plots. Well, most <b>GGMap</b> helped with making our maps. You could see all of our resources in the <i>Resources</i> tab above.
 						</p>
 					</ul>
 				</div>
-				<br>
-				<br>
-				<div id="what" class="div_pad">
-					<h3>The What</h3>
+				
+				
+				<div id="body1" class="div_pad">
+					<h2>Body 1</h2>
 					<ul>
 						<p>
-							If we simply select all of the Boroughs, we can easily discern that all of the boroughs outside of Staten Island have similar levels of complaint frequency. This is due to the simple fact of the populations of each borough, where Staten Island has a population of 479k vs. Brooklyn which has around 2.6M population.
-						</p>
-						<img src="boroughs_what_all.png" height="300" width="350"/> 
-						<p>
-							 If we dive in to what Staten Islanders complain about, we can see that the top two are Street Condition, and Request Large Bulky Items. Interestingly, If we look at just Staten Island and Queens side by side, we see a common trend in that the two top complaints are similar. Some initial thoughts as to why this may be can be attributed to the fact that the both boroughs are reliant on cars for the bulk of travel means. Also, many of the properties are larger.
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec.
 						</p>
 					</ul>
 				</div>
-				<br>
-				<br>
-				<div id="how" class="div_pad">
-					<h3>The How</h3>
+				
+				
+				<div id="body2" class="div_pad">
+					<h2>Body 2</h2>
 					<ul>
 						<p>
-							If we simply select all of the Boroughs, we can easily discern that all of the boroughs outside of Staten Island have similar levels of complaint frequency. This is due to the simple fact of the populations of each borough, where Staten Island has a population of 479k vs. Brooklyn which has around 2.6M population.
-						</p>
-						<img src="boroughs_what_all.png" height="300" width="350"/> 
-						<p>
-							 If we dive in to what Staten Islanders complain about, we can see that the top two are Street Condition, and Request Large Bulky Items. Interestingly, If we look at just Staten Island and Queens side by side, we see a common trend in that the two top complaints are similar. Some initial thoughts as to why this may be can be attributed to the fact that the both boroughs are reliant on cars for the bulk of travel means. Also, many of the properties are larger.
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec.
 						</p>
 					</ul>
 				</div>
-				<br>
-				<br>
-				<div id="when" class="div_pad">
-					<h3>The When</h3>
+
+				<div id="body3" class="div_pad">
+					<h2>Body 3</h2>
 					<ul>
 						<p>
-							If we simply select all of the Boroughs, we can easily discern that all of the boroughs outside of Staten Island have similar levels of complaint frequency. This is due to the simple fact of the populations of each borough, where Staten Island has a population of 479k vs. Brooklyn which has around 2.6M population.
-						</p>
-						<img src="boroughs_what_all.png" height="300" width="350"/> 
-						<p>
-							 If we dive in to what Staten Islanders complain about, we can see that the top two are Street Condition, and Request Large Bulky Items. Interestingly, If we look at just Staten Island and Queens side by side, we see a common trend in that the two top complaints are similar. Some initial thoughts as to why this may be can be attributed to the fact that the both boroughs are reliant on cars for the bulk of travel means. Also, many of the properties are larger.
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec.
 						</p>
 					</ul>
 				</div>
-				<br>
-				<br>
-				<div id="where" class="div_pad">
-					<h3>The Where</h3>
+
+				<div id="body4" class="div_pad">
+					<h2>Body 4</h2>
 					<ul>
 						<p>
-							If we simply select all of the Boroughs, we can easily discern that all of the boroughs outside of Staten Island have similar levels of complaint frequency. This is due to the simple fact of the populations of each borough, where Staten Island has a population of 479k vs. Brooklyn which has around 2.6M population.
-						</p>
-						<img src="boroughs_what_all.png" height="300" width="350"/> 
-						<p>
-							 If we dive in to what Staten Islanders complain about, we can see that the top two are Street Condition, and Request Large Bulky Items. Interestingly, If we look at just Staten Island and Queens side by side, we see a common trend in that the two top complaints are similar. Some initial thoughts as to why this may be can be attributed to the fact that the both boroughs are reliant on cars for the bulk of travel means. Also, many of the properties are larger.
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec.
 						</p>
 					</ul>
 				</div>
-			</div>    
 
-
-
-
+				<div id="next_steps" class="div_pad">
+					<h2>Next Steps</h2>
+					<ul>
+						<p>
+							We would have loved to use 311 data for the full year of 2017. Our next step would be to run our current analysis on 2017.
+						</p>
+					</ul>
+				</div>  
+				
+			</div>  
 
 		</body>
 	</html> 
 
-<!-- <h3>Explain why you chose this topic, and the questions you are interested in studying.</h3>
+<!-- <h2>Explain why you chose this topic, and the questions you are interested in studying.</h2>
 
-<h3>Describe how the data was collected, how you accessed it, and any other noteworthy features.</h3>
+<h2>Describe how the data was collected, how you accessed it, and any other noteworthy features.</h2>
 
-<h3>Provide a detailed, well-organized description of data quality, including textual description, graphs, and code.</h3>
+<h2>Provide a detailed, well-organized description of data quality, including textual description, graphs, and code.</h2>
 
  -->

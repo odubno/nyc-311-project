@@ -8,12 +8,53 @@
 				    padding-bottom: 200px;
 				}
 
-
-				.main {
-				    font-size: 18px;
+				p {
+					padding: 10px 0px 10px 0px;
 				}
 
+				figcaption { 
+				    font-size: 14px;
+				    color: #838383;
+				    display: block;
+				}
+				.sidenav {
+				    width: 160px;
+				    position: fixed;
+				    z-index: 1;
+				    top: 100px;
+				    left: 10px;
+				    background: #eee;
+				    overflow-x: hidden;
+				    padding: 8px 0;
+				}
 
+				.sidenav a {
+				    padding: 6px 8px 6px 16px;
+				    text-decoration: none;
+				    font-size: 20px;
+				    color: #2196F3;
+				    display: block;
+				}
+
+				.sidenav a:hover {
+				    color: #064579;
+				}
+
+				.main {
+				    margin-left: 170px; /* Same width as the sidebar + left position in px */
+				    font-size: 18px; /* Increased text to enable scrolling */
+				    padding: 0px 20px;
+				}
+
+				.div_pad {
+					padding-top: 30px;
+					padding-bottom: 20px;
+				}
+
+				@media screen and (max-height: 450px) {
+				    .sidenav {padding-top: 15px;}
+				    .sidenav a {font-size: 18px;}
+				}
 			</style>
 		</head>
 
@@ -23,7 +64,7 @@
 
 				<h1>About</h1>
 
-				<b>This is the Final Project for STAT 5702, an Exploratory Data Analysis class at Columbia.</b>
+				<b><h4>This is the Final Project for STAT 5702, an Exploratory Data Analysis class at Columbia Spring 2018.</h4></b>
 
 				<br>
 
@@ -55,7 +96,7 @@
 						<i><h4>Resources</h4></i>
 						<ul>What we used to create this app</ul>
 						<i><h4>Extra</h4></i>
-						<ul>Using the 311 API to make to see where complaints are happening in real time.</ul>
+						<ul>Using the 311 API to see where complaints are happening in real time.</ul>
 						<i><h4>About</h4></i>
 						<ul>You're here</ul>
 					</ul>
@@ -63,19 +104,19 @@
 				<h3>The Strugle Is Chill</h3>
 
 				<ul>
-					<p>We began with an ambitious idea of scraping real estate data and predicting where it's best to live within NYC. We quickly came to a realization that we wouldn't have enough enough time for exploratory data analysis or even the idea to use shiny to showcase our work.</p>
+					<p>We began with an ambitious idea of scraping real estate data and predicting where it's best to live within NYC. We quickly came to a realization that we wouldn't have enough enough time for exploratory data analysis or even the idea to use <b>Shiny</b> to showcase our work.</p>
 
-					<p>After we got that out of our system and realized that we didn't have a lot of time, we settled on using clean data provided by NYC Open Data. We spent a good chunk of our time getting up to speed with shiny, fighting github to get data uploaded, cleaning our data and displaying the exploratory results.</p>
+					<p>After we got that out of our system and realized that we didn't have a lot of time, we settled on using clean data provided by NYC Open Data. We spent a good chunk of our time getting up to speed with <b>shiny</b>, fighting <b>GitHub</b> to get data uploaded, cleaning our data and displaying the exploratory results.</p>
 
-					<p>New Yorkers complain a lot. Just last Februrary 2018, there were ~200,000 comlaints filed. Initially, we wanted to do an anual analysis of the complaints. After downloading the 2GB file for 2017 and waiting ~10 minutes for R to load the data, we realized that we value our time and we need to focus on the analysis and not waiting for our data to load.</p>
+					<p>New Yorkers complain a lot. Just last Februrary 2018, there were ~200,000 comlaints filed. Initially, we wanted to do an anual analysis of the complaints. After downloading the 2GB file for 2017 and waiting ~10 minutes for <b>R</b> to load the data, we realized that we value our time and we need to focus on the analysis and not waiting for our data to load.</p>
 
-					<p>Our analysis is centered around complaints filed during February 2018. It takes R approximately ~30 seconds to load the 200,000 complaints. It's ok and it's better than ~10 minutes.</p>
+					<p>Our analysis is centered around complaints filed during February 2018. It takes <b>R</b> approximately ~30 seconds to load the 200,000 complaints. It's ok and it's better than ~10 minutes.</p>
 
-					<p>Cleaning the data wasn't much of an isses. "dcast" became our favorite tool in the beggining. Formatting date time took unecessarily long and we learned a lot about dealing with date and time in R using as.Date() and POSIXct().</p>
+					<p>Cleaning the data wasn't much of an isses. "dcast" became our favorite tool in the beggining. Formatting date time took unecessarily long and we learned a lot about dealing with date and time in <b>R</b> using as.Date() and POSIXct().</p>
 
 					<p>We also learned that not everything needs to be interactive, especially when making the first plot.</p>
 
-					<p>Below we'll go over some of the struggles that we faced with the tools we used. Most of the struggles funnel down to memory issues and expensive processes due to data size.</p>
+					<p>The Main Analysis for "Boroughs" and "Complaints" in the tab above goes over some of the struggles that we faced with the tools we used. Most of the struggles funnel down to memory issues and expensive processes due to data size.</p>
 
 				</ul>
 
