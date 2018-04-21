@@ -3,6 +3,7 @@ title: "R Notebook"
 # output: html_notebook
 ---
 
+# Laod
 ```{r}
 library(dplyr)
 library(lubridate)
@@ -11,7 +12,10 @@ library(reshape2)
 
 # load data
 df <- read.csv("../data/311_feb.csv")
+```
 
+# Clean
+```{r}
 # get top 15 complaints
 w = table(df$Complaint.Type)
 t = as.data.frame(w)
@@ -24,9 +28,27 @@ df_complaints$Complaint.Hour <- hour(as.POSIXct(df_complaints$Created.Date, form
 df_complaints_when <- df_complaints[,c("Complaint.Hour","Complaint.Type")]
 df_complaints_when <- dcast(df_complaints_when, Complaint.Type~Complaint.Hour)
 names(df_complaints_when) <- c("Complaint.Type", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23") 
-write.csv(df_complaints_when, row.names=F, file = "311_complaints_when.csv")
-
-ggparcoord(df_complaints_when, columns = 2:25, groupColumn = "Complaint.Type", scale = "globalminmax")
+# Save csv 
+# write.csv(df_complaints_when, row.names=F, file = "311_complaints_when.csv")
 ```
 
+```{r}
+my_theme <- theme(plot.title = element_text(family = "Helvetica", face = "bold", size = (25)), 
+                    plot.subtitle=element_text(family = "Helvetica", face = "bold", size = (25)),
+                    axis.text.x = element_text(angle = 0, hjust = .5),
+                    legend.title = element_text(face = "bold.italic", family = "Helvetica", size=20), 
+                    legend.text = element_text(face = "italic", family = "Helvetica", size=13), 
+                    axis.title = element_text(family = "Helvetica", size = (20)),
+                    axis.text = element_text(family = "Courier", size = (13)))
+
+ggparcoord(df_complaints_when, columns = 2:25, groupColumn = "Complaint.Type", scale = "globalminmax") +
+  labs(
+      title = "When Do Complaints Occur", 
+      x = "Hours (00=Midnight)", 
+      y = "Number Of Complaints"
+    )
+  scale_fill_viridis() + 
+  theme_bw() + 
+  my_theme
+```
 

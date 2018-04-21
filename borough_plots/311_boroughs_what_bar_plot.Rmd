@@ -3,13 +3,17 @@ title: "R Notebook"
 # output: html_notebook
 ---
 
-```{r, fig.width=16}
+# Load
+```{r}
 library(dplyr)
 library(ggplot2)
 
 # load data
 df <- read.csv("../data/311_feb.csv")
+```
 
+# Clean
+```{r}
 # get top 15 complaints
 w = table(df$Complaint.Type)
 t = as.data.frame(w)
@@ -22,13 +26,28 @@ df_complaints <- df[df$Complaint.Type %in% ct,]
 df_select <- select(df_complaints, Borough, Complaint.Type)
 df_tally <- df_select %>% group_by(Borough, Complaint.Type) %>% tally()
 df_tally$Borough <- chartr(" ", ".", df_tally$Borough) # "Staten Island" should be "Staten.Island"
+```
 
+# Plot
+```{r}
+my_theme <- theme(plot.title = element_text(family = "Helvetica", face = "bold", size = (25)), 
+                    plot.subtitle=element_text(family = "Helvetica", face = "bold", size = (25)),
+                    axis.text.x = element_text(angle = 0, hjust = .5),
+                    legend.title = element_text(face = "bold.italic", family = "Helvetica", size=20), 
+                    legend.text = element_text(face = "italic", family = "Helvetica", size=13), 
+                    axis.title = element_text(family = "Helvetica", size = (20)),
+                    axis.text = element_text(family = "Courier", size = (13)))
 # plot
 ggplot(df_tally, aes(x=factor(Complaint.Type), y=n, fill=Borough)) +
   geom_bar(stat='identity', position='dodge') +
+  labs(
+        title = "What Does Each Borough Complain About",
+        x = "Complaint Type", 
+        y = "Number of Complaints"
+      ) +
+  scale_fill_viridis(discrete=TRUE) + 
+  theme_bw() + 
+  my_theme +
   coord_flip()
 ```
-
-
-
 

@@ -4,7 +4,7 @@ title: "R Notebook"
 ---
 
 
-
+# Load
 ```{r}
 library(ggplot2)
 library(zipcode)
@@ -12,7 +12,10 @@ library(ggmap)
 
 # load data
 df <- read.csv("../data/311_feb.csv")
+```
 
+# Clean
+```{r}
 # get top 15 complaints
 w = table(df$Complaint.Type)
 t = as.data.frame(w)
@@ -29,15 +32,26 @@ df_select <- na.omit(df_select)
 
 # create map
 nyc_map <- qmap('New York City', zoom = 11)
+```
 
+# Plot
+```{r}
+my_theme <- theme(plot.title = element_text(family = "Helvetica", face = "bold", size = (25)), 
+                    plot.subtitle=element_text(family = "Helvetica", face = "bold", size = (25)),
+                    axis.text.x = element_text(angle = 0, hjust = .5),
+                    legend.title = element_text(face = "bold.italic", family = "Helvetica", size=20), 
+                    legend.text = element_text(face = "italic", family = "Helvetica", size=13), 
+                    axis.title = element_text(family = "Helvetica", size = (20)),
+                    axis.text = element_text(family = "Courier", size = (13)))
 # plot
 nyc_map +
       geom_point(data = df_select, aes(x = Longitude, y = Latitude, colour = Complaint.Type, alpha=.5)) +
+      scale_fill_viridis(discrete=TRUE) + 
+      theme_bw() + 
       ggtitle(
         expression(
           atop("Where Does Each Complaint Occur")
           )
         )
 ```
-
 
