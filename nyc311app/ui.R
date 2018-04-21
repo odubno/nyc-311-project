@@ -4,6 +4,8 @@ library(GGally)
 library(ggplot2)
 library(gridExtra)
 library(ggmap)
+library(scales)
+library(viridis)
 
 df <- read.csv('data/311_filtered.csv')
 df_complaints_when <- read.csv('data/311_complaints_when.csv')

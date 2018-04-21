@@ -1,10 +1,6 @@
 #
-# This is the server logic of a Shiny web application. You can run the 
+# This is the server logic of the NYC 311 Shiny web app. You can run the 
 # application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
 #
 
 library(shiny)
@@ -13,6 +9,8 @@ library(GGally)
 library(ggplot2)
 library(gridExtra)
 library(ggmap)
+library(scales)
+library(viridis)
 
 df_live_select <- NULL
 
@@ -34,13 +32,13 @@ shinyServer(function(input, output, session) {
   df_boroughs_complaints_how <- read.csv('data/311_boroughs_complaints_how.csv')
   df_complaints_where <- read.csv('data/311_complaints_where.csv')
 
-  my_theme <- theme(plot.title = element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)), 
-                    plot.subtitle=element_text(colour = "grey28", family = "Helvetica", face = "bold", size = (25)),
+  my_theme <- theme(plot.title = element_text(family = "Helvetica", face = "bold", size = (25)), 
+                    plot.subtitle=element_text(family = "Helvetica", face = "bold", size = (25)),
                     axis.text.x = element_text(angle = 0, hjust = .5),
-                    legend.title = element_text(colour = "midnightblue",  face = "bold.italic", family = "Helvetica", size=20), 
-                    legend.text = element_text(face = "italic", colour="mediumpurple4",family = "Helvetica", size=13), 
-                    axis.title = element_text(family = "Helvetica", size = (20), colour = "purple4"),
-                    axis.text = element_text(family = "Courier", colour = "mediumpurple2", size = (13)))
+                    legend.title = element_text(face = "bold.italic", family = "Helvetica", size=20), 
+                    legend.text = element_text(face = "italic", family = "Helvetica", size=13), 
+                    axis.title = element_text(family = "Helvetica", size = (20)),
+                    axis.text = element_text(family = "Courier", size = (13)))
   
   default_plot <- ggplot(data.frame()) +
     geom_point() + 
@@ -89,6 +87,8 @@ shinyServer(function(input, output, session) {
         x = "Complaint Type", 
         y = "Number of Complaints"
       ) +
+      scale_fill_viridis(discrete=TRUE) + 
+      theme_bw() + 
       my_theme +
       coord_flip()
     
@@ -103,6 +103,8 @@ shinyServer(function(input, output, session) {
     ggplot(df_boroughs_complaints_how_reactive(), aes(x=factor(Complaint.Type), y=Resolution.Mean, fill=Borough)) +
       geom_bar(stat='identity', position='dodge') +
       my_theme + 
+      scale_fill_viridis(discrete=TRUE) + 
+      theme_bw() + 
       labs(
         title = "How Long Does It Take", 
         subtitle = "For A Complaint To Get Resolved",
@@ -128,6 +130,8 @@ shinyServer(function(input, output, session) {
       })
       
       ggparcoord(df_boroughs_when_reactive(), columns = 2:25, groupColumn = "Borough", scale = "globalminmax") + 
+        scale_fill_viridis(discrete=TRUE) + 
+        theme_bw() + 
         my_theme + 
         my_titles
       
@@ -168,6 +172,8 @@ shinyServer(function(input, output, session) {
     
     ggplot(df_boroughs_complaints_what_reactive(), aes(x=factor(Borough), y=n, fill=Complaint.Type)) +
       geom_bar(stat='identity', position='dodge') +
+      scale_fill_viridis(discrete=TRUE) + 
+      theme_bw() + 
       labs(
         title = "What Does Each Borough Complain About",
         x = "Borough", 
@@ -187,6 +193,8 @@ shinyServer(function(input, output, session) {
     
     ggplot(df_boroughs_complaints_how_reactive(), aes(x=factor(Borough), y=Resolution.Mean, fill=Complaint.Type)) +
       geom_bar(stat='identity', position='dodge') +
+      scale_fill_viridis(discrete=TRUE) + 
+      theme_bw() + 
       my_theme + 
       labs(
         title = "How Long Does It Take", 
@@ -213,6 +221,8 @@ shinyServer(function(input, output, session) {
       })
       
       ggparcoord(df_complaints_pcp(), columns = 2:25, groupColumn = "Complaint.Type", scale = "globalminmax") + 
+        scale_fill_viridis() + 
+        theme_bw() + 
         my_theme + 
         my_titles
       
@@ -240,6 +250,8 @@ shinyServer(function(input, output, session) {
     
       nyc_map +
         geom_point(data = df_complaints_where_reactive(), aes(x = Longitude, y = Latitude, colour = Complaint.Type), alpha=input$complaints_alpha) +
+        scale_fill_viridis(discrete=TRUE) + 
+        theme_bw() + 
         my_theme + 
         my_titles
       
@@ -282,6 +294,8 @@ shinyServer(function(input, output, session) {
       
       nyc_map +
         geom_point(data = df_live_select_reactive(), aes(x = Longitude, y = Latitude, colour = Complaint.Type), alpha=input$extra_live_alpha) +
+        scale_fill_viridis(discrete=TRUE) + 
+        theme_bw() + 
         my_theme + 
         my_titles
       
