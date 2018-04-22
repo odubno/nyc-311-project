@@ -14,7 +14,8 @@ library(viridis)
 
 df_live_select <- NULL
 
-nyc_map <- qmap('New York City', zoom = 11)
+# nyc_map <- ggmap(ggmap::get_map("New York City", zoom = 14))
+nyc_map <- ggmap(get_map("New York City",zoom = "auto", maptype='terrain', source="google"))
 # nyc_map <- tryCatch(qmap('New York City', zoom = 11), finally=function(e) return(qmap('New York City', zoom = 11)))
 
 df_complaints_when <- read.csv('data/311_complaints_when.csv', check.names = FALSE)
@@ -151,16 +152,41 @@ shinyServer(function(input, output, session) {
   
   
   output$plot_boroughs_where <- renderPlot({
-       
-      output$plot_boroughs_where <- renderImage({
-        
-        list(
-          src = "images/311_heat_map.png",
-          contentType = "image/png",
-          alt = "Borough Heat Map"
+    h <- 700
+    w <- 700
+    output$plot_boroughs_where <- renderImage({ 
+      if(length(input$select_borough) == 1){
+          if(input$select_borough == "BROOKLYN"){            
+            list(src = "www/boroughs_where_brooklyn.png", contentType = "image/png", height = h, width = w)
+          }                                        
+          else if(input$select_borough == "BRONX"){
+            list(src = "www/boroughs_where_bronx.png", contentType = "image/png", height = h, width = w)
+          }
+          else if(input$select_borough == "QUEENS"){
+            
+            list(src = "www/boroughs_where_queens.png", contentType = "image/png", height = h, width = w)
+          }
+          else if(input$select_borough == "STATEN.ISLAND"){
+            list(src = "www/boroughs_where_staten_island.png", contentType = "image/png", height = h, width = w)
+          }
+          else if(input$select_borough == "MANHATTAN"){
+            list(src = "www/boroughs_where_manhattan.png", contentType = "image/png", height = h, width = w)
+          }else if(input$select_borough == "Unspecified"){
+            validate(
+              need(FALSE, "'Unspecified' refers to information requests and does not require a location."
+              )
+            )
+          }
+      } else if(length(input$select_borough) == 6){
+        list(src = "www/boroughs_where_nyc.png", contentType = "image/png", height = h, width = w)
+      }
+      else {
+        validate(
+          need(FALSE, label="It's a lot of data! Please select only one check box at a time."
+          )
         )
-        
-      }, deleteFile = FALSE)
+      }
+    }, deleteFile = FALSE)
     
   })
   
@@ -238,7 +264,7 @@ shinyServer(function(input, output, session) {
     if(length(input$complaint_type) > 0) {
       
       my_titles <- labs(
-        title = "When Do Complaints Occur", 
+        title = "Where Do Complaints Occur", 
         subtitle = "",
         x = "", 
         y = ""
