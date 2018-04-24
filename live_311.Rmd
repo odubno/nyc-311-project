@@ -4,6 +4,11 @@ title: "R Notebook"
 ---
 
 ```{r}
+library(dplyr)
+library(lubridate)
+```
+
+```{r}
 library(ggplot2)
 
 
@@ -16,6 +21,25 @@ path_3 <- 'T23%3A59%3A59%27'
 live_url <- paste(path_1, start_date, path_2, end_date, path_3, sep='')
 live_data = read.csv(live_url)
 
+
+```
+
+```{r}
+live_data$Complaint.Date <- as.Date(as.POSIXct(live_data$Created.Date, format="%m/%d/%Y"))
+live_data$Complaint.Hour <- hour(as.POSIXct(live_data$Created.Date, format="%m/%d/%Y %I:%M:%S %p"))
+```
+
+```{r}
+unique(live_data$Complaint.Hour)
+```
+```{r}
+r <- c(0:9)
+live_data[live_data$Complaint.Hour %in% r, ]
+```
+
+
+
+```{r}
 # Filter by the top 15 most frequent complaints
 w = table(live_data$Complaint.Type)
 t = as.data.frame(w)
@@ -39,4 +63,7 @@ nyc_map +
   my_titles
 ```
 
+```{r}
+
+```
 
