@@ -9,6 +9,7 @@
 				}
 
 				p {
+					font-size: 20px;
 					padding: 10px 0px 10px 0px;
 				}
 
@@ -17,6 +18,15 @@
 				    color: #838383;
 				    display: block;
 				}
+
+				figure { 
+				    display: block;
+				    margin-top: 1em;
+				    margin-bottom: 1em;
+				    margin-left: 5px;
+				    margin-right: 5px;
+				}
+
 				.sidenav {
 				    width: 160px;
 				    position: fixed;
@@ -62,10 +72,10 @@
 
 			<div class="sidenav">
 				<a href="#introduction">Introduction</a>
+				<a href="#life_in_nyc">Life in NYC</a>
 				<a href="#data">Data</a>
 				<a href="#tools">Tools</a>
 				<a href="#plotscolor">Plots/Color</a>
-				<a href="#body1">Body 1</a>
 				<a href="#body2">Body 2</a>
 				<a href="#body3">Body 3</a>
 				<a href="#body4">Body 4</a>
@@ -74,15 +84,28 @@
 
 			<div class="main">
 
-		
+				<h1>What we learned about life in New York City</h1>
+
 				<div id="introduction" class="div_pad">
 					<h2>Introduction</h2>
 						<p>
 							With over 8M complaints per year, NYC’s 311 data is one of the richest and most accurate views in to the socioeconomic features and urban context of New York City’s boroughs. The original data set, provided by 311 Services, contains one record for each customer’s call including information such as: service request type, service request open/close time and date and location(longitude and latitude). With that information, we are able to build interactive views in to the What, How, When and Where in regards to these complaints, anchoring on Borough. It’s also important to note that we focused on the month of February only, due to data size complexities (will be explained further in the “challenges” section). Something to note is that all data is nominal, such as borough and even complaint type; we are 
 						</p>
 				</div>
-				
-				
+
+				<div id="life_in_nyc" class="div_pad">
+					<h2>Life in NYC</h2>
+					<p>
+						New York City’s publically available 311 Service Complaints dataset provides an intimate and insightful view in to the life of the city’s pain points. With an understanding of these complaints and pain-points, we can discern certain life norms. Since we can coordinate the data to show time, location and type of complaint, we can answer questions such as: “Which Borough and area has the most difficult winter?” and “When does the work day start and wind down?” and even “Which areas have the largest bar scenes and noise pollution?” Our goal is to leverage the complaints in this data set to understand what life is truly like in New York City, as told, albeit, indirectly from the people themselves.
+					</p>
+					<p>
+						We focused on the month of February of 2018, as this is generally the coldest month, to view in to the most ancient of complaints: the cold. We took the top 15 complaint types and saw that, by far, Heat/Hot Water complaints presented a slight asymmetry. The Bronx and Brooklyn saw more than half of the Interquartile range, even though the population is less than half of the total population. And to further dissect this, The Bronx, with a population of 1.4 million, submitted nearly 7000 complaints of this type in the month of February, while Brooklyn, with a population of 2.6 million people, submitted just over 6000 complaints. Manhattan, with a 1.6 million population only submitted 4000 complaints, as a comparison. This is our first revelation, that for reasons we could postulate, such as building standards or gas pipe repairs needed, The Bronx has the most difficult winters. And on top of this, most complaints of this type occur at 10pm, so these calls are simply people too cold to fall asleep.
+					</p>
+					<p>
+						One of the most accurate pieces of data in the dataset is the Time stamp, via complaint.hour. This information shows gives us a view in the routine of New Yorkers’ day and the obstacles they come across. View these timestamps by borough and frequency, we can see that New Yorkers take their mornings very seriously, with the peak of complaints occurring between 9am and 10am, perfectly following the hierarchy of population density to number of calls submitted. But viewing these timestamps and querying on complaint type, we can see a much clearer view on daily life. New Yorkers are very keen to complain about their neighbors making noise and preventing them from going to bed, since we can see that over 1500 complaints of Noise - Residential is submitted between 10pm and 1 am. So, contrary to popular belief, New York City is not the city that never sleeps; in fact, New Yorkers take their sleep time very seriously.
+					</p>
+				</div>
+
 				<div id="data" class="div_pad">
 					<h2>Data</h2>
 					<p>
@@ -97,15 +120,15 @@
 					<p>
 						Now that the data became available to play with, it's  smooth sailing from here. There are 221 different complaint types. We chose to filter the data by the 15 most frequent complaints. The size of the data went from 191,314 to 119,877 complaints. Why did we chose to filter by the top 15 most frequent complaints? We felt that this would encompass most of the important complaints and 
 					</p>
-					<p>
-						 The data has some missing (Unspecified) locations (Boroughs) and that's explained by "Complaint Type". Some complaints deal with documentation and information requests that don't require a location.
-					</p>
-					<figure style="float: right; margin-right: 1%; margin-bottom: 0.5em;" >
-						<img src="executive_summary_boroughs_what_unspecified.png" height="350" width="700"/> 
+					<figure>
+						<img src="executive_summary_boroughs_what_unspecified.png" height="400" width="750"/> 
 						<figcaption>
 							Fig1. - Complaint Types filted by "Unspecified" Borough.
 						</figcaption>
 					</figure>
+					<p>
+						 The data has some missing (Unspecified) locations (Boroughs) and that's explained by "Complaint Type". Some complaints deal with documentation and information requests that don't require a location.
+					</p>
 
 					<p>
 						In addition to "DOF Literature Request" being mainly responsible for "Unspecified", other complaints do have a missing "Borough" and we do not have a good explanation for why (See fig 1). This data is entered by people who receive phone calls from other people. It just takes one person to forget to ask or mention the location. We're not too worried about the missing data. It's a miniscule amount compared to what we have. If we specifically ignore "DOF Literature Request", there's only .22% of the data that is actually missing. See the code that we used to calculate that <a href="https://github.com/odubno/NYC311Project/blob/master/executive_plots/get_missing_borough_percentage.Rmd" target="_blank">here</a>.
@@ -156,16 +179,6 @@
 					</ul>
 				</div>
 				
-				<div id="body1" class="div_pad">
-					<h2>Body 1</h2>
-					<ul>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec.
-						</p>
-					</ul>
-				</div>
-				
-				
 				<div id="body2" class="div_pad">
 					<h2>Body 2</h2>
 					<ul>
@@ -197,7 +210,7 @@
 					<h2>Next Steps</h2>
 					<ul>
 						<p>
-							We would have loved to use 311 data for the full year of 2017. Our next step would be to run our current analysis on 2017.
+							We would have loved to use 311 data for the full year of 2018. Our next step would be to run our current analysis on 2018.
 						</p>
 					</ul>
 				</div>  

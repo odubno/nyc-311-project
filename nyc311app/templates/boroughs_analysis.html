@@ -1,107 +1,119 @@
 
 <h1>Boroughs Main Analysis</h1>
 <p>Oleh Dubno & Daniel Argov</p>
-<br>
-<h3>What can 311 data tell us about life in NYC?</h3>
+<p>What can 311 data tell us about life in NYC?</p>
 
-
-<h2>The Findings</h2>
-<br>
-<p>Here we'll address each of the graphs you'll find in the tabs above.</p>
 
 <hr>
 
-<h3>The What (Number of Complaints)</h3>
-<img src="borough_analysis_what_1.png" height="300" width="500" style="float: right; width: 600px; margin-right: 1%; margin-bottom: 0.5em;" /> 
-<p>
-	If we simply select all of the Boroughs, we can easily discern that all of the boroughs outside of Staten Island have similar levels of complaint frequency, with some of the complaint types standing out as clusters, such as Heat/Hot Water (makes sense since it’s winter), Noise - Residential, and Street Condition. But Staten Island is showing as an outlier for all complaint types. This is due to the simple fact of the populations of each borough, where Staten Island has a population of 479k vs. Brooklyn which has around 2.6M population. 
+<p style="font-size: 18px">Here we'll address each of the graphs you'll find in the tabs above.</p>
+
+<hr>
+
+
+<p style="font-size: 18px">
+	Let’s first establish a foundational view of the population numbers of people living in NYC with the population sizes per the table below:
 </p>
+
+<center><img src="population_table.png" height="350" width="650" /></center>
+
+<h3>The What (Number of Complaints)</h3>
+<p style="font-size: 18px">
+	If we simply select all of the Boroughs, we can easily discern that all of the boroughs outside of Staten Island have similar levels of complaint frequency, with some of the complaint types standing out as clusters, such as Heat/Hot Water (makes sense since it’s winter), Noise - Residential, and Street Condition. But Staten Island is showing as an outlier for all complaint types. This is due to the simple fact of the populations of each borough, where Staten Island has a population of 479k vs. Brooklyn which has around 2.6M population.  
+</p>
+
+<center><img src="borough_analysis_what.png" height="400" width="750" /></center>
+
+<p style="font-size: 18px">
+	Looking at the 3 boroughs with the highest populations - Manhattan, Queens and Brooklyn - we can see something interesting which aligns with our basic understanding of the lifestyle differences. Whilst Brooklyn and Queens see frequent complaints for Blocked Driveways, Manhattan sees nearly zero. This matches our intuition of the dwelling types in Manhattan: largely skyrise apartments, with few driveways in to be blocked.
+</p>
+
 <center><img src="borough_analysis_what_2.png" height="400" width="750" /></center>
 
-<img src="borough_analysis_what_3.png" height="300" width="750" style="float: right; width: 600px; margin-right: 1%; margin-bottom: 0.5em;" /> 
-<p>
-	Looking at the 3 boroughs with the highest populations, Manhattan, Queens and Brooklyn we can see something interesting which aligns with our basic understanding of the lifestyle differences. Whilst Brooklyn and Queens see frequent complaints for Blocked Driveways, Manhattan sees nearly zero. This matches our intuition of the dwelling types in Manhattan: largely skyrise apartments, with few driveways in the first place.
+<p style="font-size: 18px">
+	  Another interesting point gleaned from this chart is viewable when adding The Bronx in to the query, where once it appeared that Brooklyn saw the most Heat/Hot Water complaints, The Bronx, with its population at 1.2M people less than Brooklyn, sees nearly 1000 more complaints of this type! This begs one to consider if the living conditions in The Bronx are more more difficult, at least in the winter time. 
 </p>
-
-<p>
-	 Another interesting point gleaned from this chart is viewable when adding The Bronx in to the query, where once it appeared that Brooklyn saw the most Heat/Hot Water complaints, The Bronx, with its population 1.2M people less than Brooklyn, sees nearly 1000 more complaints of this type! This begs one to consider if the living conditions in The Bronx are truly more difficult. 
-</p>
-
+<center><img src="borough_analysis_what_3.png" height="400" width="800" /></center>
 
 <hr>
 
 <h3>The How (long until resolution)</h3>
-<img src="borough_analysis_how_1.png" height="300" width="650" style="float: right; width: 600px; margin-right: 1%; margin-bottom: 0.5em;" /> 
-<p>
-	To discern the complaint time it took for resolution, we simply subtracted the complaint opening date and time from the closing date and time. To start, let’s select all complaint types. By comparing to the highest frequency complaint type from “The What” section, Heat/Hot Water, we see that the time to resolution at around 100 hrs is proportionally quite efficient. However, complaints such as Unsanitary Condition, Plumbing and Paint/Plaster ,whilst not in the interquartile range of all complaint types during the month, have a mean time to resolution of 300 hours. This begs the question for follow-up to discern if these types of complaints are more difficult to resolve because of their nature, or because fewer complaints of those type occur as compared to the most frequently submitted complaints such as Heat/Hot Water, Request bulky Item Collection, and Noise - Residential, so less effort is invested in to the resolution by the 
-	respected agency.
+<img src="borough_analysis_how_1.png" height="400" width="750" style="float: right; margin-right: 1%; margin-bottom: 0.5em;" /> 
+<p style="font-size: 18px">
+	To discern the complaint time it took for resolution, we simply subtracted the complaint opening date and time from the closing date and time. To start, let’s select all complaint types. By comparing to the highest frequency complaint type from “The What” section, Heat/Hot Water, we see that the time to resolution at around 100 hrs is proportionally quite efficient. However, complaints such as Unsanitary Condition, Plumbing and Paint/Plaster ,whilst not in the interquartile range of all complaint types during the month, have a mean time to resolution of 300 hours. This begs the question for follow-up to discern if these types of complaints are more difficult to resolve because of their nature, or because fewer complaints of those type occur as compared to the most frequently submitted complaints such as Heat/Hot Water, Request bulky Item Collection, and Noise - Residential. Which would imply that less effort is invested in to the resolution strategy by the aligned agency.
 </p>
 
 <hr>
 
 <h3>The When</h3>
 <center>
-<img src="borough_analysis_when_1.png" height="300" width="650"/> 
+<img src="borough_analysis_when_1.png" height="400" width="850"/> 
 </center>
-<p>
-	This line graph shows some interesting information on general life habits of the people of New York City. We can see that starting at around midnight complaint submissions sharpy decrease until the trough at 4am. We then see a sharp rise in submissions while New Yorkers are starting their day until the peak at 11 am. This is also another view in addition to “The What” bar chart to show the scaled differences between the concentration of complaints by Borough.
+<p style="font-size: 18px">
+	This line graph shows some interesting information on general life habits of the people of New York City. We can see that starting at around midnight complaint submissions sharply decrease until the trough at 4am. We then see a sharp rise in submissions while New Yorkers are starting their day until the peak, which occurs at 11 am. This is also another view in addition to “The What” bar chart to show the scaled differences between the concentration of complaints by Borough.
 </p>
 
 <hr>
 
 <h3>The Where</h3>
-<center><img src="borough_analysis_where_1.png" height="450" width="600"/>
+<center><img src="borough_analysis_where_1.png" height="600" width="700"/>
 </center> 
-<p>
-	Now we can finally visualize where the complaints are originating. This static heat map shows the alpha bended nodes of where complaints are most common. We can see that many of the complaints in Brooklyn are from the Flatbush/Bedstuy area, Manhattan shows a heavy concentration in the East Village and Soho neighborhoods along with the Harlem and Washington Heights area, while the Bronx is simply less geographically spaced for such a high volume of calls. And as expected, Staten Island shows miniscule concentration. 
+<p style="font-size: 18px">
+	Now we can finally visualize where the complaints are originating. This static heat map shows the alpha bended nodes of where complaints are most common. We can see that many of the complaints in Brooklyn are from the Flatbush/BedStuy area, Manhattan shows a heavy concentration in the East Village and Soho neighborhoods along with the Harlem and Washington Heights area, while the Bronx is simply less geographically spaced for such a high volume of calls. And as expected, Staten Island shows miniscule concentration. 
 </p>
 
 <hr>
 
 <h2>Data Cleaning Process</h2>
 <br>
-<center><b><i>Data Cleaning is the same for both Complaints and Boroughs</i></b></center>
+<center><b><i style="font-size: 18px">Data Cleaning is the same for both Complaints and Boroughs</i></b></center>
 <br>
 
 <ul>
-	<p>
+	<p style="font-size: 18px">
 		There are 191,314 complaints for the month of February. Our goal is to explore each borough and report on what New Yorkers like to complain about. The downside of exploring complaints is that <i>311 data</i> has 221 of them. 
 	</p>
 
-	<p>
+	<p style="font-size: 18px">
 		In order to account for all complaint types we created our own categories. After doing so, we noticed that we might have over-categorized some complaints. Mapping <i>Street Light Condition</i> and <i>Traffic Signal Condition</i> to just <i>Street Condition</i>, seems like a good idea, until we realized that they both tell a different story and happen during different times. We chose to subset and filter our data by the top 15 most common complaints. This took the data down to 119,877 complaints or 63% of the original dataset.
 	</p>
 
-	<p>
+	<p style="font-size: 18px">
 		This data set is pretty clean, but still has some missing fields. Of the remaining 119,877 complaints, 4,144 rows of the <b>Borough</b> column are classified as <i>Unspecified</i>. Our interpretation of what this means is that the person who called simply wanted some information rather than to complain and location wasn't necessary. We also noticed that the column <b>City</b>, at times, indicated Newark and the <b>Borough</b> for that complaint in <i>Unclassified</i>. We're assuming that some complaints our made from outside the city.
 	</p>
 </ul>
 
 <h2>Challenges With Tools</h2>
 <ul>
-	<p>We'll describe the challenges we got past with the tools we used.</p>
+	<p style="font-size: 18px">Here we'll address the challenges that we faced with the tools we chose to use.</p>
 
 	<h3>GitHub</h3>
 
-		<ul>GitHub limits the size of files allowed on their server to 100 mb. Our file is ~125MB.</ul>
+		<ul style="font-size: 18px">GitHub limits the size of files allowed on their server to 100 mb. Our file is ~125MB.</ul>
 		<br>
-		<ul>We learned about <b>git LFS</b>, an extension that allows large files to exist on the repo. The large file shows up in github with text pointers on how to retrieve the data from a remote server. Not very helpful, since we're working with publicly available data.</ul>
+		<ul style="font-size: 18px">We learned about <b>git LFS</b>, an extension that allows large files to exist on the repo. The large file shows up in github with text pointers on how to retrieve the data from a remote server. Not very helpful, since we're working with publicly available data.</ul>
 		<br>
-		<ul>We chose to clean the large csv file locally and upload the clean versions of data. They were much smaller.</ul>
+		<ul style="font-size: 18px">We chose to clean the large csv file locally and upload the clean versions of data. They were much smaller.</ul>
 		<br>
 		<ul>You could get the original file here: <a href="https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%272018-02-01T00%3A00%3A00%27+AND+%60created_date%60+%3C+%272018-02-28T23%3A59%3A59%27">DOWNLOAD 311 FEBRUARY DATA (125 MB)</a></ul>
 
 	<h3>Shiny</h3>
 
-		<ul>Shiny is great and we were quick to deploy the app that you're looking at now. Getting up to speed with Navigation Tabs, structing the UI and Server did take some time, but not as much as we thought.</ul>
+		<ul style="font-size: 18px">Shiny is great and we were quick to deploy the app that you're looking at now. Getting up to speed with Navigation Tabs, structing the UI and Server did take some time, but not as much as we thought.</ul>
 		<br>
-		<ul>We got kicked off of Shiny, several times with a "Disconnected from the server", when using up too much of their free resources. We we're attempting to plot a heat map using ggmap. Running it locally took 10 seconds but the public server couldn't handle it. We settled on saving the image plot we created and sourcing the image locally instead of continuously crashing the server.</ul>
+		<ul style="font-size: 18px">We got kicked off of Shiny, several times with a "Disconnected from the server", when using up too much of their free resources. We we're attempting to plot a heat map using ggmap. Running it locally took 10 seconds but the public server couldn't handle it. We settled on saving the image plot we created and sourcing the image locally instead of continuously crashing the server.</ul>
 		<br>
-		<ul>In the midst of us creating the app, we got an email from Shiny indicating that we used up all of the allotted server time (24 hours). Well, $9 a month isn't bad, so we went for it. We plan to cancel the subscription after the class and settle for the 24 hours of server time for each month.</ul>
+		<ul style="font-size: 18px">In the midst of us creating the app, we got an email from Shiny indicating that we used up all of the allotted server time (24 hours). Well, $9 a month isn't bad, so we went for it. We plan to cancel the subscription after the class and settle for the 24 hours of server time for each month.</ul>
+		<br>
+		<ul style="font-size: 18px">Shiny limits the upload size of apps, as they should. Their limit for a standard app is 1GB. Luckily, our app is ~130MB. Large enough to take 8 minutes to update. The larger the app, the slower it is. Not much we could do to go around this if you want to build a large app.</ul>
+		
 
-	<h3>R Studio</h3>
-		<ul>R Studio is the best way to edit R code. Just remember to manually save your work time to time before the computer dies or something crashes. Otherwise, you might lose 2 hours of good work.</ul>
+	<h3>R</h3>
+		<ul style="font-size: 18px">R Studio is the best way to edit R code. Just remember to manually save your work time to time before the computer dies or something crashes. Otherwise, you might lose 2 hours of good work.</ul>
 		<br>
-		<ul>Time to time we'd like to substitue new code for old without deleting old code. We're in the habit of highlting the code and pressing <b>Cmnd ?</b>, to comment out code. R doesn't seem to support that. Other IDE's do.</ul>
+		<ul style="font-size: 18px">Time to time we'd like to substitue new code for old without deleting old code. We're in the habit of highlting the code and pressing <b>Cmnd ?</b>, to comment out code. R doesn't seem to support that. Other IDE's do.</ul>
+		<br>
+		<ul style="font-size: 18px">R has a package called <b>ggmap</b>. We're using it to retrieve the map of NYC in order to plot complaints. It's an API call to GoogleMaps with specific coordinates of the area. This online query requires a good connection and even when the connection is good you might get Rate Limited. This could happen if you make a lot of back to back requests or if there are a lot of other queries hitting GoogleMaps. This was super frusturating as our app continuously crashed due to being Rate Limited. We finally settled on storing the map image locally using <i>saveRDS</i> and loading it back up using <i>loadRDS</i>. We only did this towards the end of the project, because we didn't feel that this was important. We think doing this early on would have saved us a lot of unecessary frusturation.</ul>
 
 </ul>
+<br>

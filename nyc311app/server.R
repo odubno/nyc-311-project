@@ -11,16 +11,12 @@ library(gridExtra)
 library(ggmap)
 library(scales)
 library(viridis)
+library(lubridate)
 
 df_live_select <- NULL
-
-# nyc_map <- ggmap(ggmap::get_map("New York City", zoom = 14))
-nyc_map <- ggmap(get_map("New York City",zoom = "auto", maptype='terrain', source="google"))
-# nyc_map <- tryCatch(qmap('New York City', zoom = 11), finally=function(e) return(qmap('New York City', zoom = 11)))
-
+nyc_map <- ggmap(readRDS('data/nyc_map.rds'))
 df_complaints_when <- read.csv('data/311_complaints_when.csv', check.names = FALSE)
 complaint_choices <- df_complaints_when$Complaint.Type
-
 df <- read.csv('data/311_filtered.csv')
 borough_choices <- colnames(df[-1])
 
@@ -259,6 +255,7 @@ shinyServer(function(input, output, session) {
   })
   
   
+
   output$plot_complaints_where <- renderPlot({
     
     if(length(input$complaint_type) > 0) {
@@ -287,22 +284,43 @@ shinyServer(function(input, output, session) {
     
   }, height = 800, width = 800)
   
+  
+  # initializing variables to use later
+  start_date <- ""
+  end_date <- ""
+  
   output$plot_extra_live <- renderPlot({
 
     # API Call
-    date_input <- paste(as.character(input$dateRange), collapse = " to ")
-    path_1 <- 'https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%27'
-    start_date <- sapply(strsplit(date_input, " to "), `[`, 1)
-    path_2 <- 'T00%3A00%3A00%27+AND+%60created_date%60+%3C+%27'
-    end_date <- sapply(strsplit(date_input, " to "), `[`, 2)
-    path_3 <- 'T23%3A59%3A59%27'
-    live_url <- paste(path_1, start_date, path_2, end_date, path_3, sep='')
-    live_data = read.csv(live_url)
+    get_311_data <- function(start_date, end_date){
+      withProgress(message="thinking",
+                   detail="this will take a while...", value=0, {
+                    setProgress(.2)
+                    path_1 <- 'https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%27'
+                    path_2 <- 'T00%3A00%3A00%27+AND+%60created_date%60+%3C+%27'
+                    path_3 <- 'T23%3A59%3A59%27'
+                    setProgress(.4)
+                    live_url <- paste(path_1, start_date, path_2, end_date, path_3, sep='')
+                    setProgress(.8)
+                    live_data = read.csv(live_url)
+                    setProgress(1)
+                   })
+      return(live_data)
+    }
+    
+    input_start_date <- input$dateRange[1]
+    input_end_date <- input$dateRange[2] # as.character(
+    different_range <- start_date != as.character(input_start_date) | end_date != as.character(input_end_date)
+    if (different_range){
+      # only if the date range is different will we get 311 data again.
+      live_data = get_311_data(input_start_date, input_end_date)
+      start_date <<- as.character(input_start_date)
+      end_date <<- as.character(input_end_date)
+    }
     
     # Select Columns and remove NAs
-    df_live_select <- live_data[c('Complaint.Type','Longitude', 'Latitude')]
+    df_live_select <- live_data[c('Complaint.Type','Created.Date', 'Longitude', 'Latitude')]
     df_live_select <- na.omit(df_live_select)
-  
     
     # Render Plot
     if(length(input$extra_live) > 0) {
@@ -314,8 +332,16 @@ shinyServer(function(input, output, session) {
         y = ''
       )
       
+      df_complaint_select <- df_live_select[df_live_select$Complaint.Type %in% input$extra_live, ]
+      df_complaint_select$Complaint.Date <- as.Date(as.POSIXct(df_complaint_select$Created.Date, format="%m/%d/%Y"))
+      df_complaint_select$Complaint.Hour <- hour(as.POSIXct(df_complaint_select$Created.Date, format="%m/%d/%Y %I:%M:%S %p"))
+      hour_range <- c(input$extra_live_hour_range[1]:input$extra_live_hour_range[2])
+      df_hour_select <- df_complaint_select[df_complaint_select$Complaint.Hour %in% hour_range, ]
+      print(hour_range)
+      print(unique(df_hour_select$Complaint.Hour))
+      
       df_live_select_reactive <- reactive({ 
-        df_live_select[df_live_select$Complaint.Type %in% input$extra_live, ]
+        df_hour_select
       })
       
       nyc_map +

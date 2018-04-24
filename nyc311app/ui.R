@@ -6,6 +6,7 @@ library(gridExtra)
 library(ggmap)
 library(scales)
 library(viridis)
+library(lubridate)
 
 df <- read.csv('data/311_filtered.csv')
 df_complaints_when <- read.csv('data/311_complaints_when.csv')
@@ -41,8 +42,8 @@ shinyUI(
                ),
                titlePanel("Borough Analysis"),
                HTML(paste('<b style="font-size:22px">Instructions:</b>', 
-                          '1. In the main panel at the top, click on the "Boroughs" and "Complaints" tab to view graphs and the their "Main Analysis".', 
-                          '2. In the main panel at the top, click on the "Executive Summary" tab to read the summary of the research.',
+                          '1. In the main panel at the top, click the "Boroughs" and "Complaints" tab to view graphs and the their "Main Analysis".', 
+                          '2. In the main panel at the top, click the "Executive Summary" tab to read the summary of the research.',
                           '3. In the side panel at the bottom, click the links to view the respective code.',
                           sep="<br/>")),
                
@@ -82,8 +83,8 @@ shinyUI(
                "Complaints",
                titlePanel("Complaint Analysis"),
                HTML(paste('<b style="font-size:22px">Instructions:</b>', 
-                          '1. In the main panel at the top, click on the "Boroughs" and "Complaints" tab to view graphs and the their "Main Analysis".', 
-                          '2. In the main panel at the top, click on the "Executive Summary" tab to read the summary of the research.',
+                          '1. In the main panel at the top, click the "Boroughs" and "Complaints" tab to view graphs and the their "Main Analysis".', 
+                          '2. In the main panel at the top, click the "Executive Summary" tab to read the summary of the research.',
                           '3. In the side panel at the bottom, click the links to view the respective code.',
                           sep="<br/>")),
                
@@ -104,13 +105,13 @@ shinyUI(
                      value = .5
                    ),
                    hr(),
-                   helpText("The data is filtered according to the top 15 most frequent complaints."),
+                   tags$b("The data is only for the month of February 2018 and is filtered by the top 15 most frequent complaints."),
                    hr(),
                    h4('See Code:'),
-                   HTML(paste('<a href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_what_bar_plot.Rmd" target="_blank">What (complaints)</a>', 
-                              '<a href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_how_bar_plot.Rmd.Rmd" target="_blank">How (complaints)</a>', 
-                              '<a href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_when_pcp.Rmd" target="_blank">When (complaints)</a>', 
-                              '<a href="https://github.com/odubno/NYC311Project/blob/master/complaints/311_complaints_where_geo_map.Rmd" target="_blank">Where (complaints)</a>', 
+                   HTML(paste('<a href="https://github.com/odubno/NYC311Project/blob/master/complaint_plots/311_complaints_what_bar_plot.Rmd" target="_blank">What (complaints)</a>', 
+                              '<a href="https://github.com/odubno/NYC311Project/blob/master/complaint_plots/311_complaints_how_bar_plot.Rmd" target="_blank">How (complaints)</a>', 
+                              '<a href="https://github.com/odubno/NYC311Project/blob/master/complaint_plots/311_complaints_when_pcp.Rmd" target="_blank">When (complaints)</a>', 
+                              '<a href="https://github.com/odubno/NYC311Project/blob/master/complaint_plots/311_complaints_where_geo_map.Rmd" target="_blank">Where (complaints)</a>', 
                               sep="<br/>"))
                  ),
                  
@@ -136,9 +137,10 @@ shinyUI(
               "Open Data API",
               titlePanel("NYC Open Data API"),
               HTML(paste('<b style="font-size:22px">Instructions:</b>', 
-                         '1. Select a date range to query data.', 
-                         "2. If the date range is greater than a month, the query will take some time; there's an average of 5,000 complaints per day.",
-                         '3. Use the alpha widget to control the opacity of dots.',
+                         '1. Select the date range to query data.', 
+                         '2. Select the alpha (opacity) level.',
+                         '3. Select the range of hours.',
+                         "4. If the date range is greater than 30 days, the query will take some time.",
                          sep="<br/>")),
               hr(),
               
@@ -149,21 +151,25 @@ shinyUI(
                 sidebarPanel(
                   dateRangeInput('dateRange',
                                  label = 'Date range input: yyyy-mm-dd',
-                                 start = Sys.Date() - 2, end = Sys.Date()
+                                 start = Sys.Date() - 7, end = Sys.Date()
                   ),
                   helpText("The data is filtered according to the top 15 most frequent complaints."),
                   column(6,
                          verbatimTextOutput("dateRangeText")
                   ),
-                  checkboxGroupInput('extra_live', 'Select Complaint', complaint_options),
+                  checkboxGroupInput('extra_live', 'Select Complaint:', complaint_options),
                   checkboxInput('bar_extra_live', 'All/None'),
+                  helpText("Use alpha to control the opacity of points."),
                   sliderInput(
                     "extra_live_alpha",
                     "Alpha",
                     min = 0,
                     max = 1,
                     value = .5
-                  )
+                  ),
+                  helpText("Select the range of hours for when complaints occur."),
+                  sliderInput("extra_live_hour_range", "Select hour range:", min = 0, 
+                              max = 23, value = c(0, 23))
                 ),
                 
                 mainPanel(
