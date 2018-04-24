@@ -5,20 +5,36 @@ title: "R Notebook"
 
 # Load
 ```{r}
+library(dplyr)
 library(ggplot2)
 library(ggmap)
+library(scales)
+library(viridis)
 
 df <- read.csv("../data/311_feb.csv")
 ```
 
-# Generate Map
+# Clean
 ```{r}
-ny_plot <- ggmap(get_map('New York City', zoom=11, maptype='terrain'))
-ny_stat_density <- stat_density2d(data=df, aes(x = df$Longitude, y = df$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
+# get top 15 complaints
+w = table(df$Complaint.Type)
+t = as.data.frame(w)
+names(t)[1] = 'Complaint.Type'
+ct <- head(t[order(t$Freq, decreasing = TRUE),c(1,2)], 15)$Complaint.Type
+df_complaints <- df[df$Complaint.Type %in% ct,]
+
+# Select only Borough and Complaint.Type columns 
+# Reorganzie the data frame and make Borough into indvidual columns.
+df_select <- select(df_complaints, Borough, Longitude, Latitude)
+df_select$Borough <- chartr(" ", ".", df_select$Borough) # "Staten Island" should be "Staten.Island"
+# save the csv
+# write.csv(df_select, row.names=F, file = "311_boroughs_where.csv")
 ```
 
-# Plot
-```{r, fig.height=10, fig.width=10}
+
+# Create Theme
+```{r}
+ny_plot <- ggmap(get_map('New York City', zoom=11, maptype='terrain'))
 my_theme <- theme(plot.title = element_text(family = "Helvetica", face = "bold", size = (20), hjust = 0.5), 
                     plot.subtitle=element_text(family = "Helvetica", face = "bold", size = (25)),
                     axis.text.x = element_text(angle = 0, hjust = .5),
@@ -26,6 +42,14 @@ my_theme <- theme(plot.title = element_text(family = "Helvetica", face = "bold",
                     legend.text = element_text(face = "italic", family = "Helvetica", size=13), 
                     axis.title = element_text(family = "Helvetica", size = (20)),
                     axis.text = element_text(family = "Courier", size = (13)))
+
+```
+
+
+# Plot (Brooklyn Heat Map)
+```{r, fig.height=10, fig.width=10}
+brooklyn <- df[df$Borough == 'BROOKLYN',]
+ny_stat_density <- stat_density2d(data=brooklyn, aes(x = brooklyn$Longitude, y = brooklyn$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
 
 ny_plot +
  ny_stat_density + 
@@ -37,10 +61,177 @@ ny_plot +
   theme_bw() + 
   ggtitle(
     expression(
-      atop("Where Do Complaints Occur", 
+      atop("Where Do Complaints Occur (Brooklyn)", 
            atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
       )
     ) + 
   my_theme
+```
+# Plot (Bronx Heat Map)
+```{r, fig.height=10, fig.width=10}
+bronx <- df[df$Borough == 'BRONX',]
+ny_stat_density <- stat_density2d(data=bronx, aes(x = bronx$Longitude, y = bronx$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
+
+ny_plot +
+ ny_stat_density + 
+  guides(fill = guide_colorbar(barwidth = 2, barheight = 12)) +
+  scale_alpha(range = c(0, 0.5), guide = FALSE) + 
+  xlab('') +
+  ylab('') +
+  scale_fill_viridis(begin=1, end=0) + 
+  theme_bw() + 
+  ggtitle(
+    expression(
+      atop("Where Do Complaints Occur (Bronx)", 
+           atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
+      )
+    ) + 
+  my_theme
+```
+
+# Plot (Manhattan Heat Map)
+```{r, fig.height=10, fig.width=10}
+manhattan <- df[df$Borough == 'MANHATTAN',]
+ny_stat_density <- stat_density2d(data=manhattan, aes(x = manhattan$Longitude, y = manhattan$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
+
+ny_plot +
+ ny_stat_density + 
+  guides(fill = guide_colorbar(barwidth = 2, barheight = 12)) +
+  scale_alpha(range = c(0, 0.5), guide = FALSE) + 
+  xlab('') +
+  ylab('') +
+  scale_fill_viridis(begin=1, end=0) + 
+  theme_bw() + 
+  ggtitle(
+    expression(
+      atop("Where Do Complaints Occur (Manhattan)", 
+           atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
+      )
+    ) + 
+  my_theme
+```
+
+# Plot (Staten Island Heat Map)
+```{r, fig.height=10, fig.width=10}
+staten_island <- df[df$Borough == 'STATEN ISLAND',]
+ny_stat_density <- stat_density2d(data=staten_island, aes(x = staten_island$Longitude, y = staten_island$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
+
+ny_plot +
+ ny_stat_density + 
+  guides(fill = guide_colorbar(barwidth = 2, barheight = 12)) +
+  scale_alpha(range = c(0, 0.5), guide = FALSE) + 
+  xlab('') +
+  ylab('') +
+  scale_fill_viridis(begin=1, end=0) + 
+  theme_bw() + 
+  ggtitle(
+    expression(
+      atop("Where Do Complaints Occur (Staten Island)", 
+           atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
+      )
+    ) + 
+  my_theme
+```
+
+# Plot (Queens Heat Map)
+```{r, fig.height=10, fig.width=10}
+queens <- df[df$Borough == 'QUEENS',]
+ny_stat_density <- stat_density2d(data=queens, aes(x = queens$Longitude, y = queens$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
+
+ny_plot +
+ ny_stat_density + 
+  guides(fill = guide_colorbar(barwidth = 2, barheight = 12)) +
+  scale_alpha(range = c(0, 0.5), guide = FALSE) + 
+  xlab('') +
+  ylab('') +
+  scale_fill_viridis(begin=1, end=0) + 
+  theme_bw() + 
+  ggtitle(
+    expression(
+      atop("Where Do Complaints Occur (Queens)", 
+           atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
+      )
+    ) + 
+  my_theme
+```
+# Plot (NYC Heat Map)
+```{r, fig.height=10, fig.width=10}
+ny_stat_density <- stat_density2d(data=df, aes(x = df$Longitude, y = df$Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
+
+ny_plot +
+ ny_stat_density + 
+  guides(fill = guide_colorbar(barwidth = 2, barheight = 12)) +
+  scale_alpha(range = c(0, 0.5), guide = FALSE) + 
+  xlab('') +
+  ylab('') +
+  scale_fill_viridis(begin=1, end=0) + 
+  theme_bw() + 
+  ggtitle(
+    expression(
+      atop("Where Do Complaints Occur (NYC)", 
+           atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
+      )
+    ) + 
+  my_theme
+```
+
+
+# Render Plot code that was too expensive for Shiny to run
+```{r}
+output$plot_boroughs_where <- renderPlot({
+    
+    
+    
+    if (length(input$select_borough) == 1) {
+
+        withProgress(message="thinking",
+                     detail="this will take a while...", value=0, {
+            setProgress(.2)
+            df_boroughs_where_reactive <- reactive({ 
+               df_boroughs_where[df_boroughs_where$Borough %in% input$select_borough, ]
+             })
+            setProgress(.3)
+            ny_stat_density <- stat_density2d(data=df_boroughs_where_reactive(), aes(x = Longitude, y = Latitude, alpha=.6, fill=..level..), bins = 10, geom = 'polygon', na.rm=TRUE)
+            setProgress(.4)
+            heat_map <- ny_plot +
+              ny_stat_density + 
+              guides(fill = guide_colorbar(barwidth = 2, barheight = 12)) +
+              scale_alpha(range = c(0, 0.5), guide = FALSE) + 
+              xlab('') +
+              ylab('') +
+              scale_fill_viridis(begin=1, end=0) + 
+              theme_bw() + 
+              ggtitle(
+                expression(
+                  atop("Where Do Complaints Occur (Brooklyn)", 
+                       atop("EXPLORING THE FREQUENCY OF COMPLAINTS GEOGRAPHICALLY", ""))
+                )
+              ) + 
+              my_theme
+            setProgress(.8)
+            Sys.sleep(2)
+            setProgress(1)
+        })
+      withProgress(message="thinking",
+                   detail="this will take a while...", value=0, {
+                     setProgress(.2)
+                     Sys.sleep(1)
+                     setProgress(.4)
+                     Sys.sleep(2)
+                     setProgress(1)
+                   })
+      heat_map
+      
+    } else {
+      validate(
+        need(FALSE, 
+            "Could only render one Borough at a time.
+             It's a lot of data. 
+             Please be patient"
+             )
+      )
+    }
+    
+  }, height = 800, width = 800)
 ```
 
