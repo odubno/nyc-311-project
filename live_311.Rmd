@@ -28,6 +28,13 @@ hour_range <- c(0:23)
 live_data <- live_data[live_data$Complaint.Hour %in% hour_range, ]
 ```
 
+# Save the map object locally
+```{r}
+# nyc_map <- qmap('New York City', zoom = 11)
+# saveRDS(nyc_map, 'nyc_map.rds')
+# nyc_map <- ggmap(readRDS('data/nyc_map.rds'))
+```
+
 # Filter by the top 15 most frequent complaints
 ```{r}
 w = table(live_data$Complaint.Type)

@@ -330,3 +330,20 @@ citation('viridis')
 ```
 
 
+```{r}
+library(httr)
+```
+
+```{r}
+login <- JSON.stringify(
+  email = "login",
+  password = "password",
+  submit = "Login!"
+)
+res <- POST("https://nycopendata.socrata.com/api/views/INLINE/rows.csv?accessType=DOWNLOAD", body = login, encode = "form", verbose())
+```
+```{r}
+res
+
+```
+
