@@ -27,6 +27,9 @@ nav_bar_html = '.navbar { background-color: #2D708EFF }
                 .navbar-default .navbar-nav > .active > a:hover {
                     color: #2D708EFF;
                     background-color: #f4f142;
+                }
+                .nav-tabs li a:hover, .nav-tabs > .active > a {
+                  background-color: #f4f142 !important;
                 }'
 
 shinyUI(
@@ -40,11 +43,15 @@ shinyUI(
                           'body {padding-top: 70px;}',
                           HTML(nav_bar_html)
                ),
-               titlePanel("Borough Analysis"),
+
+               titlePanel("Plots by Borough"),
+               p("Analysis of 311 complaint calls for New York City during the month of February 2018."),
+               helpText("In this tab we have provided the ability for experimentation on the data by anchoring on the complaint type and filtering on boroughs. The value here is to be able to understand commonalities and differences between the different boroughs."),
                HTML(paste('<b style="font-size:22px">Instructions:</b>', 
-                          '1. In the main panel at the top, click the "Boroughs" and "Complaints" tab to view graphs and the their "Main Analysis".', 
-                          '2. In the main panel at the top, click the "Executive Summary" tab to read the summary of the research.',
-                          '3. In the side panel at the bottom, click the links to view the respective code.',
+                          '1. In the main panel at the top, the "Boroughs" tab and the "Complaints" tab each contain exploratory plots.', 
+                          '2. In the panel below, click "What", "How", "When" and "Where" to view different type of plots.',
+                          '3. In the main panel at the top, click the "Summary" tab to read the summary of the research.',
+                          '4. In the side panel at the bottom, click the links to view the respective code.',
                           sep="<br/>")),
                
                hr(),
@@ -54,7 +61,7 @@ shinyUI(
                  
                  # Define the sidebar with one input
                  sidebarPanel(
-                   checkboxGroupInput('select_borough', 'Select Borough:', colnames(df[-1])),
+                   checkboxGroupInput(inputId='select_borough', label='Select Borough:', selected="BROOKLYN", choices=colnames(df[-1])),
                    checkboxInput('bar_borough', 'All/None'),
                    hr(),
                    tags$b("The data is only for the month of February 2018 and is filtered by the top 15 most frequent complaints."),
@@ -72,8 +79,7 @@ shinyUI(
                      tabPanel("What", plotOutput("plot_boroughs_what")), 
                      tabPanel("How", plotOutput("plot_boroughs_how")),
                      tabPanel("When", plotOutput("plot_boroughs_when")), 
-                     tabPanel("Where", imageOutput("plot_boroughs_where")),
-                     tabPanel("Main Analysis", htmlOutput("boroughs_analysis"))
+                     tabPanel("Where", imageOutput("plot_boroughs_where"))
                    )
                  )
                )
@@ -81,11 +87,14 @@ shinyUI(
              
              tabPanel(
                "Complaints",
-               titlePanel("Complaint Analysis"),
+               titlePanel("Plots by Analysis"),
+               p("Analysis of 311 complaint calls for New York City during the month of February 2018."),
+               helpText("In this tab we have provided the ability for experimentation on the data by anchoring on the borough and filtering on complaint type. The value here is to be able to understand commonalities and differences between the different complaints submitted."),
                HTML(paste('<b style="font-size:22px">Instructions:</b>', 
-                          '1. In the main panel at the top, click the "Boroughs" and "Complaints" tab to view graphs and the their "Main Analysis".', 
-                          '2. In the main panel at the top, click the "Executive Summary" tab to read the summary of the research.',
-                          '3. In the side panel at the bottom, click the links to view the respective code.',
+                          '1. In the main panel at the top, the "Boroughs" tab and the "Complaints" tab each contain exploratory plots.', 
+                          '2. In the panel below, click "What", "How", "When" and "Where" to view different type of plots.',
+                          '3. In the main panel at the top, click the "Summary" tab to read the summary of the research.',
+                          '4. In the side panel at the bottom, click the links to view the respective code.',
                           sep="<br/>")),
                
                hr(),
@@ -95,7 +104,7 @@ shinyUI(
                  
                  # Define the sidebar with one input
                  sidebarPanel(
-                   checkboxGroupInput('complaint_type', 'Select Complaint', complaint_options),
+                   checkboxGroupInput('complaint_type', 'Select Complaint', complaint_options, selected="BROOKLYN"),
                    checkboxInput('bar_complaint', 'All/None'),
                    sliderInput(
                      "complaints_alpha",
@@ -120,27 +129,25 @@ shinyUI(
                      tabPanel("What", plotOutput("plot_complaints_what")),
                      tabPanel("How", plotOutput("plot_complaints_how")),
                      tabPanel("When", plotOutput("plot_complaints_when")),
-                     tabPanel("Where", plotOutput("plot_complaints_where")),
-                     tabPanel("Main Analysis", htmlOutput("complaints_analysis"))
+                     tabPanel("Where", plotOutput("plot_complaints_where"))
                    )
                  )
                )
              ),
              
             tabPanel(
-                "Executive Summary", includeHTML("templates/executive_summary.html")
+                "Summary", includeHTML("templates/executive_summary.html")
             ),
             tabPanel(
-              "Resources", includeHTML("templates/resources.html")
-            ),
-            tabPanel(
-              "Open Data API",
+              "Interactive Map",
               titlePanel("NYC Open Data API"),
               HTML(paste('<b style="font-size:22px">Instructions:</b>', 
                          '1. Select the date range to query data.', 
-                         '2. Select the alpha (opacity) level.',
-                         '3. Select the range of hours.',
-                         "4. If the date range is greater than 30 days, the query will take some time.",
+                         '2. If the date range is greater than 30 days, then the query will take some time.',
+                         '3. Always select the end date first before selecting the start date.',
+                         '4. Select the alpha (opacity) level.',
+                         '5. Animate The Date: Choose between "Double Handle" and "Single Handle" hour range.',
+                         '5. See "About Open Data API" to get more info.',
                          sep="<br/>")),
               hr(),
               
@@ -154,12 +161,9 @@ shinyUI(
                                  start = Sys.Date() - 7, end = Sys.Date()
                   ),
                   helpText("The data is filtered according to the top 15 most frequent complaints."),
-                  column(6,
-                         verbatimTextOutput("dateRangeText")
-                  ),
+                  column(6, verbatimTextOutput("dateRangeText")),
                   checkboxGroupInput('extra_live', 'Select Complaint:', complaint_options),
                   checkboxInput('bar_extra_live', 'All/None'),
-                  helpText("Use alpha to control the opacity of points."),
                   sliderInput(
                     "extra_live_alpha",
                     "Alpha",
@@ -167,18 +171,47 @@ shinyUI(
                     max = 1,
                     value = .5
                   ),
-                  helpText("Select the range of hours for when complaints occur."),
-                  sliderInput("extra_live_hour_range", "Select hour range:", min = 0, 
-                              max = 23, value = c(0, 23))
+                  helpText("Control the opacity of points."),
+                  hr(),
+                  h3("Animate The Day"),
+                  checkboxInput("single_handle", "Single Handle/Double Handle", FALSE),
+                  helpText('Default is "Double Handle".'),
+                  helpText('"Double Handle" controls a window of time while "Single Handle" only controls the right handle.'),
+                  helpText('Use the above checkbox to go between the "Double Handle" and the "Single Handle".'),
+                  hr(),
+                  sliderInput("extra_live_hour_range", 
+                              "Double Handle. Select hour range:",
+                              min = 0, 
+                              max = 23, 
+                              value = c(0, 23),
+                              animate = animationOptions(interval = 3000, playButton = icon("play", "fa-3x"), pauseButton = icon("pause", "fa-3x"))
+                              ),
+                  helpText("Select an hour range and press the play button to animate the range."),
+                  hr(),
+                  sliderInput("extra_live_hour_range_single_handle", 
+                              "Single Handle. Select hour:",
+                              min = 0, 
+                              max = 23, 
+                              value = 12,
+                              animate = animationOptions(interval = 3000, playButton = icon("play", "fa-3x"), pauseButton = icon("pause", "fa-3x"))
+                  ),
+                  helpText("Select a single hour and press the play button to animate the rest of the day."),
+                  hr(),
+                  
+                  h4('See Code:'),
+                  HTML(paste('<a href="https://github.com/odubno/NYC311Project/blob/master/live_311.Rmd" target="_blank">NYC Open Data API</a>'))
                 ),
                 
                 mainPanel(
                   tabsetPanel(
                     tabPanel("Where", plotOutput("plot_extra_live")),
-                    tabPanel("About Live", htmlOutput("live_analysis"))
+                    tabPanel("About Open Data API", htmlOutput("live_analysis"))
                   )
                 )
               )
+            ),
+            tabPanel(
+              "Resources", includeHTML("templates/resources.html")
             ),
             tabPanel(
                 "About", includeHTML("templates/about.html")

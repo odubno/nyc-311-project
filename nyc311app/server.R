@@ -99,9 +99,9 @@ shinyServer(function(input, output, session) {
     
     ggplot(df_boroughs_complaints_how_reactive(), aes(x=factor(Complaint.Type), y=Resolution.Mean, fill=Borough)) +
       geom_bar(stat='identity', position='dodge') +
-      my_theme + 
       scale_fill_viridis(discrete=TRUE) + 
       theme_bw() + 
+      my_theme + 
       labs(
         title = "How Long Does It Take", 
         subtitle = "For A Complaint To Get Resolved",
@@ -322,6 +322,7 @@ shinyServer(function(input, output, session) {
     df_live_select <- live_data[c('Complaint.Type','Created.Date', 'Longitude', 'Latitude')]
     df_live_select <- na.omit(df_live_select)
     
+    
     # Render Plot
     if(length(input$extra_live) > 0) {
       
@@ -332,13 +333,17 @@ shinyServer(function(input, output, session) {
         y = ''
       )
       
+      if (input$single_handle == FALSE){
+        hour_range <- c(input$extra_live_hour_range[1]:input$extra_live_hour_range[2])
+      } else {
+        hour_range <- c(0:input$extra_live_hour_range_single_handle)
+      }
+      
+      # cleaning and prepping data
       df_complaint_select <- df_live_select[df_live_select$Complaint.Type %in% input$extra_live, ]
       df_complaint_select$Complaint.Date <- as.Date(as.POSIXct(df_complaint_select$Created.Date, format="%m/%d/%Y"))
       df_complaint_select$Complaint.Hour <- hour(as.POSIXct(df_complaint_select$Created.Date, format="%m/%d/%Y %I:%M:%S %p"))
-      hour_range <- c(input$extra_live_hour_range[1]:input$extra_live_hour_range[2])
       df_hour_select <- df_complaint_select[df_complaint_select$Complaint.Hour %in% hour_range, ]
-      print(hour_range)
-      print(unique(df_hour_select$Complaint.Hour))
       
       df_live_select_reactive <- reactive({ 
         df_hour_select

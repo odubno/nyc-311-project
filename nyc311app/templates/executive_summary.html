@@ -9,9 +9,11 @@
 				}
 
 				p {
-					font-size: 20px;
+					font-size: 21px;
 					padding: 10px 0px 10px 0px;
 				}
+
+				
 
 				figcaption { 
 				    font-size: 14px;
@@ -60,7 +62,7 @@
 					padding-top: 30px;
 					padding-bottom: 20px;
 				}
-
+				.dropdown-submenu:hover>.dropdown-menu{display:block;}
 				@media screen and (max-height: 450px) {
 				    .sidenav {padding-top: 15px;}
 				    .sidenav a {font-size: 18px;}
@@ -72,53 +74,39 @@
 
 			<div class="sidenav">
 				<a href="#introduction">Introduction</a>
-				<a href="#life_in_nyc">Life in NYC</a>
-				<a href="#data">Data</a>
-				<a href="#tools">Tools</a>
-				<a href="#plotscolor">Plots/Color</a>
-				<a href="#body2">Body 2</a>
-				<a href="#body3">Body 3</a>
-				<a href="#body4">Body 4</a>
-				<a href="#next_steps">Next Steps</a>
+				<a href="#description_of_data">Description of Data</a>
+				<a href="#analysis_of_data_quality">Analysis of Data Quality</a>
+				<a href="#main_analysis">Main Analysis</a>
+				<a href="#executive_summary">Executive Summary</a>
+				<a href="#interactive_component">Interactive Component</a>
+				<a href="#conclusion">Conclusion</a>
 			</div>
 
 			<div class="main">
 
 				<h1>What we learned about life in New York City</h1>
 
+				<h5>Oleh Dubno & Daniel Argov</h5> 
+				<h5>STATGR5702_001_2018_1</h5>
+
+
 				<div id="introduction" class="div_pad">
 					<h2>Introduction</h2>
 						<p>
-							With over 8M complaints per year, NYC’s 311 data is one of the richest and most accurate views in to the socioeconomic features and urban context of New York City’s boroughs. The original data set, provided by 311 Services, contains one record for each customer’s call including information such as: service request type, service request open/close time and date and location(longitude and latitude). With that information, we are able to build interactive views in to the What, How, When and Where in regards to these complaints, anchoring on Borough. It’s also important to note that we focused on the month of February only, due to data size complexities (will be explained further in the “challenges” section). Something to note is that all data is nominal, such as borough and even complaint type; we are 
+							With over 8 million complaints per year, NYC’s 311 data is one of the richest and most accurate views in to the socioeconomic features and urban context of New York City’s boroughs. The original data set, provided by 311 Services, contains one record for each customer’s call including information such as: service request type, date opened and closed, and location (longitude and latitude). With that information, we are able to build interactive views in to the What, How, When and Where in regards to these complaints, anchoring on Borough. It’s also important to note that we focused on the month of February only, due to data size complexities (will be explained further in the "Description of Data" section). Something to note is that all data provided is nominal, such as borough and even complaint type; however we created ordinal data by aligning frequency of complaint type with the time signatures.
 						</p>
 				</div>
-
-				<div id="life_in_nyc" class="div_pad">
-					<h2>Life in NYC</h2>
+				<hr>
+				<div id="description_of_data" class="div_pad">
+					<h2>Description of Data</h2>
 					<p>
-						New York City’s publically available 311 Service Complaints dataset provides an intimate and insightful view in to the life of the city’s pain points. With an understanding of these complaints and pain-points, we can discern certain life norms. Since we can coordinate the data to show time, location and type of complaint, we can answer questions such as: “Which Borough and area has the most difficult winter?” and “When does the work day start and wind down?” and even “Which areas have the largest bar scenes and noise pollution?” Our goal is to leverage the complaints in this data set to understand what life is truly like in New York City, as told, albeit, indirectly from the people themselves.
-					</p>
-					<p>
-						We focused on the month of February of 2018, as this is generally the coldest month, to view in to the most ancient of complaints: the cold. We took the top 15 complaint types and saw that, by far, Heat/Hot Water complaints presented a slight asymmetry. The Bronx and Brooklyn saw more than half of the Interquartile range, even though the population is less than half of the total population. And to further dissect this, The Bronx, with a population of 1.4 million, submitted nearly 7000 complaints of this type in the month of February, while Brooklyn, with a population of 2.6 million people, submitted just over 6000 complaints. Manhattan, with a 1.6 million population only submitted 4000 complaints, as a comparison. This is our first revelation, that for reasons we could postulate, such as building standards or gas pipe repairs needed, The Bronx has the most difficult winters. And on top of this, most complaints of this type occur at 10pm, so these calls are simply people too cold to fall asleep.
-					</p>
-					<p>
-						One of the most accurate pieces of data in the dataset is the Time stamp, via complaint.hour. This information shows gives us a view in the routine of New Yorkers’ day and the obstacles they come across. View these timestamps by borough and frequency, we can see that New Yorkers take their mornings very seriously, with the peak of complaints occurring between 9am and 10am, perfectly following the hierarchy of population density to number of calls submitted. But viewing these timestamps and querying on complaint type, we can see a much clearer view on daily life. New Yorkers are very keen to complain about their neighbors making noise and preventing them from going to bed, since we can see that over 1500 complaints of Noise - Residential is submitted between 10pm and 1 am. So, contrary to popular belief, New York City is not the city that never sleeps; in fact, New Yorkers take their sleep time very seriously.
-					</p>
-				</div>
-
-				<div id="data" class="div_pad">
-					<h2>Data</h2>
-					<p>
-						Here, we'll explore the journey of an idea for a project to having the data cleaned and plotted. 
-					</p>
-					<p>
-						The initial ambition was for us to analyze one year worth of NYC complaints. The single file took 2 minutes to download and 5 minutes to load in R. The file had 2.5 million rows and was ~2gb in size. We settled for using the last month, February 2018, for the analysis.
+						The initial ambition was for us to analyze one year worth of NYC complaints. The single file took 2 minutes to download and 5 minutes to load in <b>R.</b> The file had 2.5 million rows and was ~2gb in size. We settled on using the last month, February 2018, for the analysis.
 					</p>
 					<p>
 						The February file is 125MB and consists of 191,314 complaints. The next obstacle was uploading the file to GitHub. GitHub limits uploads to 100MB. Given the data is public, please use this <a href="https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%272018-02-01T00%3A00%3A00%27+AND+%60created_date%60+%3C+%272018-02-28T23%3A59%3A59%27">link</a> to download 311 data for Feburary 2018. We did attempt to use <b>git LFS</b>, an extension that allows large files to exist on the repo, but it simply provided a text token that you have to use to download the data. Seemed like a waste of time to us given this data is so easily accessible.
 					</p>
 					<p>
-						Now that the data became available to play with, it's  smooth sailing from here. There are 221 different complaint types. We chose to filter the data by the 15 most frequent complaints. The size of the data went from 191,314 to 119,877 complaints. Why did we chose to filter by the top 15 most frequent complaints? We felt that this would encompass most of the important complaints and 
+						Now that the data became available to play with, it's  smooth sailing from here. There are 221 different complaint types. We chose to filter the data by the 15 most frequent complaints. The size of the data went from 191,314 to 119,877 complaints, and is 65% of all complaints. Why did we chose to filter by the top 15 most frequent complaints? We felt that this would encompass most of the important complaints. 
 					</p>
 					<figure>
 						<img src="executive_summary_boroughs_what_unspecified.png" height="400" width="750"/> 
@@ -127,38 +115,255 @@
 						</figcaption>
 					</figure>
 					<p>
-						 The data has some missing (Unspecified) locations (Boroughs) and that's explained by "Complaint Type". Some complaints deal with documentation and information requests that don't require a location.
+						 The data has some missing (<b>Unspecified</b>) locations (<b>Boroughs</b>) and that's explained by <b>Complaint Type</b>. Some complaints deal with documentation and information requests that don't require a location.
 					</p>
 
 					<p>
 						In addition to "DOF Literature Request" being mainly responsible for "Unspecified", other complaints do have a missing "Borough" and we do not have a good explanation for why (See fig 1). This data is entered by people who receive phone calls from other people. It just takes one person to forget to ask or mention the location. We're not too worried about the missing data. It's a miniscule amount compared to what we have. If we specifically ignore "DOF Literature Request", there's only .22% of the data that is actually missing. See the code that we used to calculate that <a href="https://github.com/odubno/NYC311Project/blob/master/executive_plots/get_missing_borough_percentage.Rmd" target="_blank">here</a>.
 					</p>
 					<p>
-						Now that the data has been filtered and clean, we jumped into plotting and analyzing. Enjoy the rest of our analysis! 
+						Now that the data has been filtered and cleaned, we jumped into plotting and analyzing. 
 					</p>
 				</div>
+
+				<hr>
 				
-				
-				<div id="tools" class="div_pad">
-					<h2>Tools</h2>
-					<ul>
-						<p>
-							<b>GitHub</b> and <b>R</b> are the main tools here. We used <b>Google Docs</b> to edit the summaries before moving the final versions to HTML.
-						</p>
-						<p>
-							<b>GitHub</b> helped manage our files and make our work public.
-						</p>
-						<p>
-							This app was built using an <b>R</b> package called <b>Shiny</b>. <b>Shiny</b> is well documented and makes it really easy to spin up an app within 5 minutes. Our app took a full days work to get it working properly. 
-						</p>
-						<p>
-							<b>GGPlot2</b>, also an R package helped make all of our plots. Well, most <b>GGMap</b> helped with making our maps. You could see all of our resources in the <i>Resources</i> tab above.
-						</p>
-					</ul>
+				<div id="analysis_of_data_quality" class="div_pad">
+					<h2>Analysis of Data Quality</h2>
+					<p>
+						There are 191,314 complaints for the month of February. Our goal is to explore each borough and report on what New Yorkers like to complain about. The downside of exploring complaints is that 311 data has 221 different types of complaints.
+
+						In order to account for all complaint types we created our own categories. After doing so, we noticed that we might have over-categorized some complaints. Mapping <i>Street Light Condition</i> and <i>Traffic Signal Condition</i> to just <i>Street Condition</i>, seemed like a good idea, until we realized that they both tell a different story and happen during different times of the day. We chose to subset and filter our data by the top 15 most common complaints. This took the data down to 119,877 complaints or 63% of the original dataset.
+
+						This data set is pretty clean, but still has some missing fields. Of the remaining 119,877 complaints, 4,144 rows of the Borough column are classified as <b>Unspecified</b>. Our interpretation of what this means is that the person who called simply wanted some information rather than to complain and the location wasn't necessary. We also noticed that the column <i>City</i>, at times, indicated Newark and the Borough for that complaint was <b>Unclassified</b>. We're assuming that some complaints were made from outside the city.
+					</p>
+					<p>
+						The dataset has 40 columns and much of it was not used. We focused on "Borough", "Complaint Type", "Latitude", "Longitude" and "Create Time". We cared about where  and when complaints happen, who complains and how long it takes to resolve complaints. 
+					</p>
+					<p>
+						The variables we focused on appear to be the more important ones, because they didn't have many NA fields. The fields that had <b>NAs</b> were easily explained by complaint type. Some complaint types are requests for information or documents and didn't require a location.
+					</p>
+					<p>
+						A small number of 311 calls do register location as <b>Unspecified</b>. Those are mainly information requests. However, at times "Noise" or "Street Lights" did get an <b>Unspecified</b> location. Those could be explained by user error and are also a very small percentage of the data; just a measly .22 percent.
+					</p>
+					<p></p>
 				</div>
-				
-				<div id="plotscolor" class="div_pad">
-					<h2>Plots/Color</h2>
+				<hr>
+				<div id="main_analysis" class="div_pad">
+					<h2>Main Analysis</h2>
+					<p>
+						Let’s first establish a foundational view of the population numbers of people living in NYC with the population sizes per the table below:
+					</p>
+
+					<center><img src="population_table.png" height="350" width="650" />
+						<figcaption>
+							Fig2. - Source: US Census Bureau (https://www.citypopulation.de/php/usa-newyorkcity.php).
+						</figcaption>
+					</center>
+					<p>
+						Here we explore what <b>Boroughs</b> complain most, how long it takes to resolve complaints by borough and where complaints happen. Later on in our <i>Main Analysis</i>, we explore what <b>Complaints</b> are most frequent, how long it takes to resolve each complaint and where complaints are located.
+						We begin by focusing on <b>Boroughs</b> first and then <b>Complaints</b>.
+					</p>
+					<h2>Focus on Boroughs</h2>
+					<h3>The What (Number of Complaints)</h3>
+					<p>
+						If we simply select all of the Boroughs, we can easily discern that all of the boroughs outside of Staten Island have similar levels of complaint frequency, with some of the complaint types standing out as clusters, such as Heat/Hot Water (makes sense since it’s winter), Noise - Residential, and Street Condition. But Staten Island is showing as an outlier for all complaint types. This is due to the simple fact of the populations of each borough, where Staten Island has a population of 479k vs. Brooklyn which has around 2.6M population.  
+					</p>
+
+					<center><img src="borough_analysis_what.png" height="400" width="750" /></center>
+
+					<p>
+						Looking at the 3 boroughs with the highest populations - Manhattan, Queens and Brooklyn - we can see something interesting which aligns with our basic understanding of the lifestyle differences. Whilst Brooklyn and Queens see frequent complaints for Blocked Driveways, Manhattan sees nearly zero. This matches our intuition of the dwelling types in Manhattan: largely skyrise apartments, with few driveways in to be blocked.
+					</p>
+
+					<center><img src="borough_analysis_what_2.png" height="400" width="750" /></center>
+
+					<p>
+						  Another interesting point gleaned from this chart is viewable when adding The Bronx into the query, where once it appeared that Brooklyn saw the most Heat/Hot Water complaints, The Bronx, with its population at 1.2M people less than Brooklyn, sees nearly 1000 more complaints of this type! This begs one to consider if the living conditions in The Bronx are more difficult, at least in the winter time. 
+					</p>
+					<center><img src="borough_analysis_what_3.png" height="400" width="800" /></center>
+
+					
+
+					<h3>The How (long until resolution)</h3>
+					<center>
+						<img src="borough_analysis_how_1.png" height="400" width="750"/> 
+					</center>
+					<p>
+						To discern the complaint time it took for resolution, we simply subtracted the complaint opening date and time from the closing date and time. To start, let’s select all complaint types. By comparing to the highest frequency complaint type from “The What” section, Heat/Hot Water, we see that the time to resolution at around 100 hrs is proportionally quite efficient. However, complaints such as Unsanitary Condition, Plumbing and Paint/Plaster ,whilst not in the interquartile range of all complaint types during the month, have a mean time to resolution of 300 hours. This begs the question for follow-up to discern if these types of complaints are more difficult to resolve because of their nature, or because fewer complaints of those type occur as compared to the most frequently submitted complaints such as Heat/Hot Water, Request bulky Item Collection, and Noise - Residential. Which would imply that less effort is invested in to the resolution strategy by the aligned agency.
+					</p>
+
+					
+
+					<h3>The When</h3>
+					<center>
+					<img src="borough_analysis_when_1.png" height="400" width="850"/> 
+					</center>
+					<p>
+						This line graph shows some interesting information on general life habits of the people of New York City. We can see that starting at around midnight complaint submissions sharply decrease until the trough at 4am. We then see a sharp rise in submissions while New Yorkers are starting their day until the peak, which occurs at 11 am. This is also another view in addition to “The What” bar chart to show the scaled differences between the concentration of complaints by Borough.
+					</p>
+
+					
+
+					<h3>The Where</h3>
+					<center><img src="borough_analysis_where_1.png" height="600" width="700"/>
+					</center> 
+					<p>
+						Now we can finally visualize where the complaints are originating. This static heat map shows the alpha bended nodes of where complaints are most common. We can see that many of the complaints in Brooklyn are from the Flatbush/BedStuy area, Manhattan shows a heavy concentration in the East Village and Soho neighborhoods along with the Harlem and Washington Heights area, while the Bronx is simply less geographically spaced for such a high volume of calls. And as expected, Staten Island shows miniscule concentration. 
+					</p>
+					<hr>					
+					<h2>Focus on Complaints</h2>
+					<h3>The What (Number of Complaints)</h3>
+					<img src="complaint_analysis_what_3.png" height="400" width="750" style="float: right; margin-right: 1%; margin-bottom: 0.5em;" /> 
+					<p>
+						In the Borough section, we did not cover why a proportion of the complaints were submitted without a Borough specified, which were labeled Unspecified. There are two possible reasons for this: The first being that many of the complaints lacking a Borough did in fact have a city assigned, but the agent submitting the record must not have known which Borough the city aligns to. We had discussed ways of correcting this, and leveraging the columns latitude and longitude to map to zip code would resolve this issue; this is a future endeavor we could pursue post this project. The second reason can be seen in the below bar chart. We can see that the Unspecified borough is almost entirely comprised of the complaint type DOF Literature (Department of Finance Literature). Very interestingly, the NYC 311 legal document has a clause within the <a href="http://www1.nyc.gov/assets/doitt/downloads/pdf/311-privacy-policy.pdf" target="_blank">311-privacy-policy</a> that personal information and location is collected only when “reasonably necessary”) (4.1 Where personal information is reasonably necessary to provide ongoing assistance to a client, the 311 Contact Center shall retain that information that is reasonably sufficient to enable the provision of such service until it is determined that retention is no longer necessary). It is our hypothesis that this clause is the reason for the requests for information such as DOF Literature Request (which clocked in 95 thousand requests over a 5 year period) have no Borough specified. 
+					</p>
+
+					<!-- <center>
+					<img src="complaint_analysis_what_1.png" height="300" width="600"/> 
+					</center> -->
+					<center><img src="complaint_analysis_what_1.png" height="400" width="750"/> </center>
+					<p>
+						Another interesting occurrence we had observed is the correlation between PLUMBING and Water System. If we select only these two complaint types, we see a bizarre incongruence between Boroughs. Why is it that Staten Island and Queens are skewed towards Water System result whilst The Bronx is precisely in the opposing direction, heavily submitting complaints on PLUMBING over Water System. Is one borough more proactive than the other, is the vernacular of the demographics the reason for the differences in semantics?
+					</p>
+
+					
+
+					<h3>The How (long until resolution)</h3>
+					<center><img src="complaint_analysis_what_2.png" height="400" width="750"/> </center>
+
+					<p>
+						If we select only Heat/Hot Water (if you recall from the “Borough Main Analysis,” this is the most frequent complaint type in Brooklyn, Manhattan and The Bronx), and compare this with the top three time-to-resolution complaints: Paint/Plaster, Plumbing and Unsanitary Condition, and then bounce back to “The What” section in Complaints and compare this visually, we can view a very interesting phenomena. 
+					</p>
+
+					<center><img src="complaint_analysis_how_1.png" height="400" width="750"/> </center>
+
+					<p>
+						Heat/Hot Water has a dramatically quicker resolution time than plumbing by an overage of nearly 250 hours! Our intuition points to the fact that Heat/Hot Water has more agency visibility, so again it receives the most attention, ergo sees a quicker resolution time. However, further research may point to other more specific reasons for this multimodality scenario.
+					</p>
+
+					
+
+					<h3>The When</h3>
+					<img src="complaint_analysis_when_1.png" height="400" width="800" style="float: right; margin-right: 1%; margin-bottom: 0.5em;" /> 
+					<p>
+						Let’s dive in to singling out our highest frequency complaint once again, Heat/Hot Water. We can now see a much more distinct storyline with this time-based line graph. Complaints ramp up starting at 4 am, stay steady at around 1000 complaints per hour from 7 am until dinner time at 5 and 6 pm, and then ramp to its highest level at 10 pm when New York is heading off to sleep (contrary to the idiom, New York City is the city that does sleep). What’s interesting is when we compare to the top two peaks of complaint, respective of hour.
+					</p>
+					
+					<p>
+						Noise - Residential (which is a noise complaint about other residential units) and Street Light Condition. As we can now see, Noise - Residential hits the highest peak of submissions within an hour spread more than any other complaint, with over 1750 complaints within one hour at 11 pm with over 1500 at midnight. Street Light Condition hits just slightly below that number at 11 am, which is interesting, since the sun is up, so complaints about street lights it somewhat puzzling. One explanation may be that people are submitting to 311 to alert them that street lights are remaining on unnecessarily, as good samaritans. So, while Heat/Hot Water is the most frequent complaint all-up, only by using an ordinal line graph we can see these peak calls by two other complaint types which gives a window of understanding in to the life of New Yorkers.
+					</p>
+					<center>
+					<img src="complaint_analysis_when_2.png" height="400" width="800"/> </center>
+
+					<h3>The Where</h3>
+
+					<p>
+						Let’s kick off with a previous revelation from the “Borough Analysis,” where we viewed that Blocked Driveway was a complaint rarely submitted within the Boroughs of Manhattan and Staten Island, but common throughout the other three Boroughs. Here on the below map we can see this geographically. 
+					</p>
+
+					<center><img src="complaints_where_1.png" height="600" width="700"/> </center>
+
+					<center><img src="complaints_where_2.png" height="600" width="700"/> </center>
+
+					<p>
+						Now if we look again at Heat/Hot Water, and alter the Alpha blending to see frequency nodes, we can see that per our previous observations, The Bronx very heavily submits this complaint, however now we can see that it’s not only the most frequent, but also the most densely submitted in a small geographic region/neighborhood.
+					</p>
+
+					<center><img src="complaints_where_3.png" height="600" width="700"/> </center>
+
+					<p>
+						Looking at Noise (which consists of generally construction and street noise), and Noise - Commercial (complaints about businesses), we can build on our understanding from the “When” section, where we observed that Noise - Commercial was concentrated in the late night, while Noise was submitted during work hours. This makes us believe that Noise - Commercial is likely related to Bars/Pubs. In looking at the below map, we see that the neighborhoods with the largest bar scenes, such as Manhattan’s East Village/Lower East Side and Brooklyn’s Williamsburg, have the heaviest concentration of this complaint, while Manhattan, the most densely populated borough per square mile, sees the most of this complaint.
+					</p>
+
+					<center><img src="complaints_where_4.png" height="600" width="700"/> </center>
+
+					<p>
+						This insight is truly fascinating. By drilling in to Traffic Signal Condition back in “The What” tab, Manhattan has just under 750 complaints of this type, making it the third most frequent Borough, but when we look at this geographically here in “The Where” section, we can see that almost the entirety of Manhattan’s submissions come from lower Manhattan! Nearly all of Midtown, all of the both the Upper East and West Sides and Harlem have nearly zero complaints of this type. One explanation for this, provided that “The When” tab shows us that the median is at 1pm, is commercial vehicle traffic moving between Manhattan to either Brooklyn over the Williamsburg, Manhattan or Brooklyn bridge or to New Jersey through the Holland Tunnel causes deep congestion. These vehicles are marching against a strict timeline, so frustration at the traffic signal system is high.
+					</p>				
+					
+				</div>
+				<hr>
+				<div id="executive_summary" class="div_pad">
+					<h2>Executive Summary</h2>
+					<p>
+						New York City’s publically available 311 Service Complaints dataset provides an intimate and insightful view in to the life of the city’s pain points. With an understanding of these complaints and pain-points, we can discern certain life norms. Since we can coordinate the data to show time, location and type of complaint, we can answer questions such as: “Which Borough and area has the most difficult winter?” and “When does the work day start and wind down?” and even “Which areas have the largest bar scenes and noise pollution?” Our goal is to leverage the complaints in this data set to understand what life is truly like in New York City, as told, albeit, indirectly from the people themselves.
+					</p>
+					<p>
+						 We focused on the month of February of 2018, as this is generally the coldest month, to view in to the most ancient of complaints: the cold. We took the top 15 complaint types and saw that, by far, Heat/Hot Water complaints presented a stark asymmetry. The Bronx and Brooklyn saw more than half of the Interquartile range, even though the population is less than half of the total population. And to further dissect this, The Bronx, with a population of 1.4 million, submitted nearly 7000 complaints of this type in the month of February, while Brooklyn, with a population of 2.6 million people, submitted just over 6000 complaints. Manhattan, with a 1.6 million population only submitted 4000 complaints, as a comparison. This is our first revelation - for reasons we could postulate, such as building standards or gas pipe repairs needed -The Bronx experiences the most difficult winters of all five boroughs. And on top of this, most complaints of this type occur at 10pm, so these calls are simply people too cold to fall asleep.
+					</p>
+					<p>
+						One of the most accurate pieces of data in the dataset is the time stamp, via the dataframe query, complaint.hour. This information gives us a view in the routine of New Yorkers’ day and the obstacles they come across. If we view these timestamps by borough and frequency, and we can see that New Yorkers take their mornings very seriously, with the peak of complaints occurring between 9am and 10am, perfectly following the hierarchy of population density in respect to borough, to number of calls submitted. But viewing these timestamps and querying on complaint type, we can see an even clearer view on daily life. New Yorkers are very keen to complain about their neighbors making noise and preventing them from going to bed, since we can see that over 1500 complaints of Noise - Residential is submitted between 10pm and 1 am. So, contrary to popular belief, New York City is not the city that never sleeps; in fact, New Yorkers take their sleep time very seriously.
+					</p>
+					<p>
+						Similar to Noise - Residential, Noise - Commercial, which are complaints submitted towards businesses, occur in the late hours of the night. With this knowledge and viewpoint of geographic location, along with leveraging the dataset’s latitudinal and longitudinal attributes, we can see precisely where the complaints originate from and then easily create a heat map to see where it is concentrated. We quickly see that areas known for their bar scenes have a clear association to this type of Noise - Commercial complaint, confirming the tribal knowledge of the infamous neighborhoods of the Lower East Side, East Village, Williamsburg, Bushwick and areas of Astoria showing the highest concentration of this type of complaint.
+					</p>
+					<p>
+						Concluding, the 311 dataset can surface what life is like in New York City when matched, dissected and geographically represented in logical ways. If being cold in the winter, not being able to sleep at night, and get awoken by drunkards in the night has no inherent value in predicting daily life, then the data can be used to answer other intriguing questions, such as the correlation between police arrests and complaints, voting patterns based off complaint type, etc. Some lessons we had learned pertain to the cleansing of the data. Initially, since there were two hundred types of complaints, we had thought to consolidate the complaint type, but quickly we learned that muddying the data in this way loses much of the insight. As an example, we had initially merged all noise complaints in to one bucket, but we had then gleaned later that Noise - Residential and Noise - Commercial have very specific scenarios they apply to, and this color is how we can understand and “listen” to what the pain points are for New Yorkers. Another lesson learned was on the color palette used for the graphs. Originally there was no gradient in color, so it was very difficult to coordinate which complaint or borough aligned with which bar. We were able to quickly resolve our color issues by introducing filter options via Shiny’s widgets. This allowed us to better discern between multiple boroughs and different types of complaints. We had focused on the answer of “painting” a picture of life in New York City, an ever changing and richly diverse city of people simply trying their best to get some sleep and get to work.  
+					</p>
+				</div>
+				<hr>
+				<div id="interactive_component" class="div_pad">
+					<h2>Interactive Component</h2>
+					<p>
+						Please see the main panel and click on <b>Interactive Map</b>. There you'll have the ability for experimentation on data outside of the month February 2018. We're using the NYC Open Data API to query live data. We’ve once more anchored on borough and enabled filtering by complaint type, but now the time period to pull from can be altered to any month or year. This provides much further analysis to compare findings in different time periods. An example would be comparing what the time complaint type is from different seasons, such as winter and summer. Also, looking at years with different mayors, or other large events, such as 9/11. Now the door is wide open to continue exploring this data
+					</p>
+					<p>
+						Beware, the larger the date range, the more data is being downloaded. During our testing we found that if the date range is greater than a month the app may crash.
+					</p>
+				</div>
+				<hr>
+				<div id="conclusion" class="div_pad">
+					<h2>Conclusion</h2>
+					<p>
+						Our conclusion addresses the tools we used, the bugs we encountered when using the tools, the data issues we resolved, ways in which we wanted to make the app color blind friendly and the next steps we want to take.
+					</p>
+					<h3>Tools</h3>
+					<ul>
+						<p>Here we'll address the challenges that we faced with the tools we chose to use.</p>
+
+						<h4>GitHub</h4>
+
+							<ul>GitHub limits the size of files allowed on their server to 100 mb. Our file is ~125MB.</ul>
+							
+							<ul>We learned about <b>git LFS</b>, an extension that allows large files to exist on the repo. The large file shows up in <b>GitHub</b> with text pointers on how to retrieve the data from a remote server. Not very helpful, since we're working with publicly available data.</ul>
+							
+							<ul>We chose to clean the large csv file locally and upload the clean versions of data. They were much smaller.</ul>
+							
+							<ul>You could get the original file here: <a href="https://nycopendata.socrata.com/api/views/fhrw-4uyv/rows.csv?accessType=DOWNLOAD&query=select+*+where+%60created_date%60+%3E%3D+%272018-02-01T00%3A00%3A00%27+AND+%60created_date%60+%3C+%272018-02-28T23%3A59%3A59%27">DOWNLOAD 311 FEBRUARY DATA (125 MB)</a></ul>
+
+						<h4>Shiny</h4>
+
+							<ul><b>Shiny</b> is great and we were quick to deploy the app that you're looking at now. Getting up to speed with Navigation Tabs, structing the UI and Server did take some time, but not as much as we thought.</ul>
+							
+							<ul>We got kicked off of Shiny, several times with a "Disconnected from the server", when using up too much of their free resources. We were attempting to plot a heat map using ggmap. Running it locally took 10 seconds but the public server couldn't handle it. We settled on saving the image plot we created and sourcing the image locally instead of continuously crashing the server.</ul>
+							
+							<ul>In the midst of us creating the app, we got an email from Shiny indicating that we used up all of the allotted server time (24 hours). Well, $9 a month isn't bad, so we went for it. We plan to cancel the subscription after the class and settle for the 24 hour server time for each month.</ul>
+
+							<ul>The main interactive map uses <b>Shiny</b> <i>sliderInput</i> widget to create a 24 hour range. The user has the option to use the left or the right handle to indicate a window of hours for when complaints occur. We added an animation to the slider, but the animation only animates the fixed window of hours. We struggled to figure out how to lock the left handle so that only the right handle increments. We gave up our search when it became evident that Shiny does not support this feature when using two handles. The animation feature over time only worked for us when we chose to use a single handle. What did we do? We added both slider options.</ul>
+
+						<h4>R Studio</h4>
+							<ul><b>R Studio</b> is the best way to edit R code. Just remember to manually save your work time to time before the computer dies or something crashes. Otherwise, you might lose 2 hours of good work.</ul>
+							
+							<ul>Time to time we'd like to substitue new code for old without deleting old code. We're in the habit of highlighting the code and pressing <b>Cmnd ?</b>, to comment out code. R doesn't seem to support that. Other IDE's do.</ul>
+
+						<h4>APIs</h4>
+							<ul>
+								The performance and success of our app is slightly dependent on two APIs. The Google Maps API and the Open Data NYC API. Below is our frusturation with both.
+							</ul>
+							<ul>
+								Early on in our project we began to use the <i>ggmap</i>, an <b>R</b> library that queries the Goggle Maps API and returns a map object. Success of that query dependent on the internet connection, other people in the world running the same query and the frequency at which the query was executed. Basically, with a weak internet connection, the query failed. If a lot of people around the world were running the same query. it failed. Finally, if we ran the query a handlful of times, Google rate limited us and the query failed.
+							</ul>
+							<ul>
+								We should have done this sooner then later and due to our frusturation we eventually figured out a way to download the map object and load it locally. Phew. Our app drastically improved. We used <i>saveRDS</i>, an internal <b>R</b> library that serializes data, in our case a map object.
+							</ul>
+							<ul>
+								Our API issues continued when we chose to make a single API call to Open Data NYC. We used their API for our Interactive Map. Everything worked great until their API began to crash. We got worried, because there goes the "shiny" part of our project. After two hours of trying to trouble shoot it, we emailed them and the service came back up within 30 minutes. It was a relieve that our app was back to normal. 
+							</ul>
+
+					</ul>
+
+					<h3>Plots/Color</h3>
 					<ul>
 						<figure style="float: right; margin-right: 1%; margin-bottom: 0.5em;" >
 							<img src="viridis_color_scales.png" height="300" width="550"/> 
@@ -167,7 +372,7 @@
 							</figcaption>
 						</figure>	
 						<p>
-							We took color blindness into consideration when making our plots. We use a lot of color in our plots and in order to properly discern which color represents what, we chose <b>viridis</b>, an R package, to create perceptually uniform plots.
+							We took color blindness into consideration when making our plots and app. We use a lot of color in our plots and in order to properly discern which color represents what, we chose <b>viridis</b>, an R package, to create perceptually uniform plots. To keep everything uniform, we decided to update the colors of the navigation bar to reflect the colors of the plots. uses colors from the <b>viridis</b> package as well.
 						</p>
 
 						<p>
@@ -177,43 +382,19 @@
 							To make our plots easier to read, we created our own theme. It subtly increases text and changes the font. We were careful not to interfere with properties that apply to people with common forms of color blindness
 						</p>
 					</ul>
-				</div>
-				
-				<div id="body2" class="div_pad">
-					<h2>Body 2</h2>
-					<ul>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec.
-						</p>
-					</ul>
-				</div>
-
-				<div id="body3" class="div_pad">
-					<h2>Body 3</h2>
-					<ul>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec.
-						</p>
-					</ul>
-				</div>
-
-				<div id="body4" class="div_pad">
-					<h2>Body 4</h2>
-					<ul>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec.
-						</p>
-					</ul>
-				</div>
-
-				<div id="next_steps" class="div_pad">
-					<h2>Next Steps</h2>
+					<h3>Next Steps</h3>
 					<ul>
 						<p>
 							We would have loved to use 311 data for the full year of 2018. Our next step would be to run our current analysis on 2018.
 						</p>
+						<p>
+							For the interactive plot, we would like to add an option to filter by "Borough". In addition to filtering by hour and using alpha to control opacity. A nice touch would be to create a visual of complaints being played back.
+						</p>
+						<p>
+							We attempted to add default display options to our plots using shiny checkbox widget. The default options were not rendering properly. Since, this was only adding little value to our app, we put it on the back burner. One step is to add default plots.
+						</p>
 					</ul>
-				</div>  
+				</div>
 				
 			</div>  
 
