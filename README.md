@@ -1,9 +1,6 @@
 # What Do New Yorkers Like to Complain About?
 
-              **featured on NYC Open Data**
-  
-https://opendata.cityofnewyork.us/projects/311-data-life-in-nyc/
-
+##### Featured on [NYC Open Data](https://opendata.cityofnewyork.us/projects/311-data-life-in-nyc/)
 
 311 is popular and widely used. Being residents of NYC we were curious to find out what New Yorkers like to complain about, when they complain and where it happens most. 
 
@@ -20,4 +17,3 @@ Click the screenshot of the [Shiny APP](https://odubno.shinyapps.io/nyc311app/) 
   - Shiny App, R and analysis.
 * **Danny Argov** - [github.datargov](http://github.com/datargov/)
   - R and analysis. 
-
